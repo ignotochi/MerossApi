@@ -1,9 +1,13 @@
 from abc import ABC, abstractmethod
 
-class IDevices(ABC):
+class IDeviceRepository(ABC):
 
     @abstractmethod
     def LoadMerossDevices(user, passwd):
+        pass
+    
+    @abstractmethod
+    def ToggleMerossDevice(user, passwd):
         pass
     
     

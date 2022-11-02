@@ -1,11 +1,11 @@
-from ...abstractions.Device import Device
+from ..abstractions.Device import Device
 
 class LoadDeviceHelper:
-    
+
     @staticmethod
     def MapDevice(item):
         outcome: Device = Device()
-        
+
         outcome.deviceName = item.name
         outcome.deviceType = item.type
         outcome.hardwareVersion = item.hardware_version
@@ -14,4 +14,3 @@ class LoadDeviceHelper:
         outcome.status = item.online_status.name
 
         return outcome
-
