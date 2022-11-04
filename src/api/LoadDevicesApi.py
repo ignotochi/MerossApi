@@ -1,20 +1,23 @@
 from flask import Flask, request
 from ..services.LoadDevicesService import SearchDevices
 from ..tools.WebApiOutcome import WebApiOutcome
+from ..abstractions.DevicesFilter import DevicesFilter
 
 app = Flask(__name__)
 
 @app.route("/loaddevices", methods=['GET'])
-def WebSearchDevices():
+def WebSearchDevices() ->  WebApiOutcome :
     if (request.method == 'GET'):
 
-        user = request.args.get('user')
-        passwd = request.args.get('passwd')
+        user: str = request.args.get('user')
+        passwd: str = request.args.get('passwd')
+        filters: str = request.args.get('devicesFilter')
 
-        outcome = WebApiOutcome(None)
+        outcome = WebApiOutcome()
+        devicesFilter = DevicesFilter(filters)
 
         try:
-            outcome = WebApiOutcome(SearchDevices(user, passwd)).result
+            outcome = WebApiOutcome(SearchDevices(user, passwd, devicesFilter)).result
         except Exception as e:
             print (f'Error on search Devices: {e}')
 

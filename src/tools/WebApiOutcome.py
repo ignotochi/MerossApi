@@ -5,7 +5,7 @@ from ..abstractions.OutcomeJsonEncoder import OutcomeJsonEncoder
 
 class WebApiOutcome(IWebApiOutcome):
 
-    def __init__(self, item):
+    def __init__(self, item = None):
         self.result = self.ToJson(item)
 
     def ToJson(self, item):

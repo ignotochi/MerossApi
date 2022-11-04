@@ -1,18 +1,19 @@
 import asyncio
 from ..resource.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
+from ..abstractions.DevicesFilter import DevicesFilter
 from ..resource.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
 
-def SearchDevices(user, passwd):
-    result: Device = []
+def SearchDevices(user: str, passwd: str, filters: DevicesFilter) -> [Device]:
+    result: [Device] = []
 
     try:
-        items = asyncio.run(DeviceRepository.LoadMerossDevices(user, passwd))
+        devices = asyncio.run(DeviceRepository.LoadMerossDevices(user, passwd, filters))
 
-        if (len(items) > 0):
-            for item in items:
-                outcome = LoadDeviceHelper.MapDevice(item)
+        if (len(devices) > 0):
+            for device in devices:
+                outcome = LoadDeviceHelper.MapDevice(device)
                 result.append(outcome)
                 
     except Exception as e:
