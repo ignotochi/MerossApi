@@ -1,5 +1,5 @@
 from flask import Flask, request
-from ..services.LoadDevicesService import SearchDevices
+from ..services.SwitchDeviceService import ToggleDevice
 from ..tools.WebApiOutcome import WebApiOutcome
 
 # app = Flask(__name__)
@@ -10,10 +10,12 @@ def WebToggleDevice():
 
         user = request.args.get('user')
         passwd = request.args.get('passwd')
+        
+        outcome: WebApiOutcome
 
         try:
-            outcome = WebApiOutcome(SearchDevices(user, passwd))
+            outcome = WebApiOutcome(ToggleDevice(user, passwd)).result
         except:
             print("Error on toggle device")
 
-    return outcome.result
+    return outcome

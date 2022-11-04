@@ -10,12 +10,12 @@ def WebSearchDevices():
 
         user = request.args.get('user')
         passwd = request.args.get('passwd')
-        
-        outcome: WebApiOutcome
+
+        outcome = WebApiOutcome(None)
 
         try:
             outcome = WebApiOutcome(SearchDevices(user, passwd)).result
-        except:
-            print("Error on search Devices")
+        except Exception as e:
+            print (f'Error on search Devices: {e}')
 
     return outcome

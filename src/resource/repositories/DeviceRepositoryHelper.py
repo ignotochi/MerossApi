@@ -1,4 +1,4 @@
-from ..abstractions.Device import Device
+from ...abstractions.Device import Device
 
 class LoadDeviceHelper:
 
