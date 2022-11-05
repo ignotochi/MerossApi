@@ -11,10 +11,9 @@ def WebSearchDevices() ->  WebApiOutcome :
 
         user: str = request.args.get('user')
         passwd: str = request.args.get('passwd')
-        filters: str = request.args.get('devicesFilter')
-
+        
         outcome = WebApiOutcome()
-        devicesFilter = DevicesFilter(filters)
+        devicesFilter = DevicesFilter(request.data)
 
         try:
             outcome = WebApiOutcome(SearchDevices(user, passwd, devicesFilter)).result

@@ -1,16 +1,21 @@
+import json
+from typing import Optional
+
 class BaseFilter():
+    
+    __parsedData = object()
+    
+    def __init__(self, data: str) -> None:
+        if (data): self.ParseData(data)
 
-    @staticmethod
-    def NormalizeArrayFilters(item: str) -> []:
-        __arrayFilters = []
-
-        __isArrayFilter = "[" in item and "]" in item
-
-        if (__isArrayFilter):
-            params: [str] = item.replace(
-                '[', '').replace(']', '').replace(',', ' ').split()
-
-            for param in params:
-                __arrayFilters.append(param)
+    @classmethod
+    def ParseData(self, data: str) -> None:
+        self.__parsedData = json.loads(data) if len(json.loads(data)) != {} else None
         
-        return __arrayFilters
+    
+    @classmethod
+    def GetParsedData(self) -> object:
+        return self.__parsedData
+
+
+

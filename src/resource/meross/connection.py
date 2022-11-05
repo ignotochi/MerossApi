@@ -35,11 +35,11 @@ class ConnectionManager():
         #     loop.run_until_complete(main())
         #     loop.close()
 
-    async def GetDevices(self, filters: DevicesFilter) -> []:
+    async def GetDevices(self, devicesType: [str]) -> []:
         devices = []
         await self.manager.async_device_discovery()
 
-        for device in filters.devices:
+        for device in devicesType:
             discoveredDevices = self.manager.find_devices(device_type=device)
 
             if (len(discoveredDevices) > 0):

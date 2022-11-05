@@ -16,15 +16,15 @@ class DeviceRepository(IDeviceRepository):
         
         try:        
             mng = await Manager(user, passwd).StartManager()
-            
+                
             if (mng):
-                result = await mng.GetDevices(filters)
+                result = await mng.GetDevices(filters.devices)
             
             await mng.StopManagerAndLogOut()
-
+            
         except Exception as e:
             print(f'Error when Load Meross Devices: {e}')
-
+            
         return result
 
     async def ToggleMerossDevice(user: str, passwd: str):
