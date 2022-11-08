@@ -54,7 +54,7 @@ class ManagerUtils():
         return devices
 
     async def ToggleDevice(self, toggledDevice: ToggledDevice) -> str:
-        deviceId: str = ""
+        deviceId: str = None
 
         await self.manager.async_device_discovery()
         device = self.manager.find_devices(toggledDevice.deviceId)[0]
