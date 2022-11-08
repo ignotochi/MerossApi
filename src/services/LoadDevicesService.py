@@ -1,7 +1,7 @@
 import asyncio
 from ..resource.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
-from ..abstractions.DevicesFilter import DevicesFilter
+from ..abstractions.filters.DevicesFilter import DevicesFilter
 from ..resource.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
 

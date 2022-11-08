@@ -7,10 +7,11 @@ class DevicesFilter(BaseFilter):
     devices: [str]
     
     def __init__(self, data: str):
-        super().__init__(data)
-        parsedData: DevicesFilter = super().GetParsedData()
+        self.devices = []
+        parsedData: DevicesFilter = super().__init__(data)
         
-        self.devices = parsedData['devices']
+        if (parsedData):
+         self.devices = parsedData['devices']
         
         
 

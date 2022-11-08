@@ -1,5 +1,3 @@
-from json import JSONEncoder
-
 class Device:
 
     deviceName: str

@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "${workspaceFolder}/src/api/LoadDevicesApi.py",
+                "FLASK_APP": "${workspaceFolder}/src/api/ToggleDevice.py",
                 "FLASK_DEBUG": "1"
             },
             "args": [

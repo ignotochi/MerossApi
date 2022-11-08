@@ -1,7 +1,7 @@
 from flask import Flask, request
 from ..services.LoadDevicesService import SearchDevices
 from ..tools.WebApiOutcome import WebApiOutcome
-from ..abstractions.DevicesFilter import DevicesFilter
+from ..abstractions.filters.DevicesFilter import DevicesFilter
 
 app = Flask(__name__)
 
@@ -17,7 +17,8 @@ def WebSearchDevices() ->  WebApiOutcome :
         devicesFilter = DevicesFilter(data)
 
         try:
-            outcome = WebApiOutcome(SearchDevices(user, passwd, devicesFilter)).result
+            webDevices = SearchDevices(user, passwd, devicesFilter)
+            outcome = WebApiOutcome(webDevices).result
         except Exception as e:
             print (f'Error on search Devices: {e}')
 
