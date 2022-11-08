@@ -2,3 +2,4 @@
 -- install pipe
 -- install flask
 -- install meross-iot
+-- install dataclass-wizard

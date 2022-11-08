@@ -3,7 +3,7 @@ import os
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 from meross_iot.model.enums import OnlineStatus
-from ...abstractions.filters.DevicesFilter import DevicesFilter
+from ...abstractions.DeviceType import DeviceType
 from ...abstractions.Device import Device
 from ...abstractions.ToggledDevice import ToggledDevice
 
@@ -37,24 +37,24 @@ class ManagerUtils():
         #     loop.run_until_complete(main())
         #     loop.close()
 
-    async def GetDevices(self, devicesType: [str]) -> []:
+    async def GetDevices(self, devicesType: [DeviceType]) -> []:
         devices: [Device] = []
         
         await self.manager.async_device_discovery()
 
         for device in devicesType:
-            discoveredDevices = self.manager.find_devices(device_type=device)
-
-            await dev.async_update()
+            device: DeviceType = device
+            discoveredDevices = self.manager.find_devices(device_type=device.deviceType)
 
             if (len(discoveredDevices) > 0):
                 for discoveredDevice in discoveredDevices:
+                    await discoveredDevice.async_update()
                     devices.append(discoveredDevice)
 
         return devices
 
     async def ToggleDevice(self, toggledDevice: ToggledDevice) -> str:
-        deviceId: str = None
+        deviceId: str = ""
 
         await self.manager.async_device_discovery()
         device = self.manager.find_devices(toggledDevice.deviceId)[0]
@@ -64,9 +64,11 @@ class ManagerUtils():
             deviceId = device.uuid
 
             if (toggledDevice.enabled == True):
-                await device.async_turn_on(channel=0)
+                #await device.async_turn_on(channel=0)
+                print("Luci accese")
             else:
-                await device.async_turn_off(channel=0)
+                print("Luci spente")
+                #await device.async_turn_off(channel=0)
 
         return deviceId
 

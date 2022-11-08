@@ -4,21 +4,21 @@ from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 from ...abstractions.IDevices import IDeviceRepository
 from ...abstractions import Device, ToggledDevice
-from ...abstractions.filters.DevicesFilter import DevicesFilter
+from ...abstractions.DeviceType import DeviceType
 from ...costatnts import *
 from ..meross.ManagerUtils import ManagerUtils, Manager
 
 
 class DeviceRepository(IDeviceRepository):
 
-    async def LoadMerossDevices(user: str, passwd: str, filters: DevicesFilter) -> [Device]:
+    async def LoadMerossDevices(user: str, passwd: str, deviceType: DeviceType) -> [Device]:
         result: [Device] = []
         
         try:        
             mng = await Manager(user, passwd).StartManager()    
                 
             if (mng):
-                result = await mng.GetDevices(filters.devices)         
+                result = await mng.GetDevices(deviceType)         
                  
             await mng.StopManagerAndLogOut()
                  

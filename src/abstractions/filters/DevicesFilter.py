@@ -1,19 +1,15 @@
 from dataclasses import dataclass
 from .BaseFilters import BaseFilter
+from ..DeviceType import DeviceType
+
 
 @dataclass
 class DevicesFilter(BaseFilter):
 
-    devices: [str]
-    
+    devices: [DeviceType]
+
     def __init__(self, data: str):
-        self.devices = []
-        parsedData: DevicesFilter = super().__init__(data)
-        
-        if (parsedData):
-         self.devices = parsedData['devices']
-        
-        
-
-
-            
+        if (data != None):
+            self.devices = super().__init__(data, DeviceType)
+        else:
+            self.devices = []

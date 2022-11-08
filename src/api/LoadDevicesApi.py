@@ -17,7 +17,7 @@ def WebSearchDevices() ->  WebApiOutcome :
         devicesFilter = DevicesFilter(data)
 
         try:
-            webDevices = SearchDevices(user, passwd, devicesFilter)
+            webDevices = SearchDevices(user, passwd, devicesFilter.devices)
             outcome = WebApiOutcome(webDevices).result
         except Exception as e:
             print (f'Error on search Devices: {e}')
