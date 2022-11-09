@@ -39,12 +39,13 @@ class ManagerUtils():
 
     async def GetDevices(self, devicesType: [DeviceType]) -> []:
         devices: [Device] = []
-        
+
         await self.manager.async_device_discovery()
 
         for device in devicesType:
             device: DeviceType = device
-            discoveredDevices = self.manager.find_devices(device_type=device.deviceType)
+            discoveredDevices = self.manager.find_devices(
+                device_type=device.deviceType)
 
             if (len(discoveredDevices) > 0):
                 for discoveredDevice in discoveredDevices:
@@ -64,11 +65,9 @@ class ManagerUtils():
             deviceId = device.uuid
 
             if (toggledDevice.enabled == True):
-                #await device.async_turn_on(channel=0)
-                print("Luci accese")
+                await device.async_turn_on(channel=0)
             else:
-                print("Luci spente")
-                #await device.async_turn_off(channel=0)
+                await device.async_turn_off(channel=0)
 
         return deviceId
 

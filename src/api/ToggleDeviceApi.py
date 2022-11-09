@@ -1,11 +1,11 @@
-from flask import Flask, request
+from flask import Flask, request, Blueprint
 from ..services.ToggleDeviceService import ToggleDevice
 from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
 
-app = Flask(__name__)
+ToggleDeviceRoute = Blueprint('ToggleDeviceRoute', __name__)
 
-@app.route("/toggleDevice", methods=['POST'])
+@ToggleDeviceRoute.route("/toggleDevice", methods=['POST'])
 def WebToggleDevice():
     if (request.method == 'POST'):
 

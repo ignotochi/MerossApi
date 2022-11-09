@@ -1,12 +1,12 @@
-from flask import Flask, request
-from ..services.LoadDevicesService import SearchDevices
+from flask import Flask, request, Blueprint
+from ..services.LoadDevicesService import LoadDevices
 from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.DevicesFilter import DevicesFilter
 
-app = Flask(__name__)
+LoadDevicesRoute = Blueprint('LoadDevicesRoute', __name__)
 
-@app.route("/loaddevices", methods=['GET'])
-def WebSearchDevices() ->  WebApiOutcome :
+@LoadDevicesRoute.route("/loaddevices", methods=['GET'])
+def WebLoadDevices() ->  WebApiOutcome :
     if (request.method == 'GET'):
 
         user: str = request.args.get('user')
@@ -17,9 +17,9 @@ def WebSearchDevices() ->  WebApiOutcome :
         devicesFilter = DevicesFilter(data)
 
         try:
-            webDevices = SearchDevices(user, passwd, devicesFilter.devices)
+            webDevices = LoadDevices(user, passwd, devicesFilter.devices)
             outcome = WebApiOutcome(webDevices).result
         except Exception as e:
-            print (f'Error on search Devices: {e}')
+            print (f'Error on Load Devices: {e}')
 
     return outcome
