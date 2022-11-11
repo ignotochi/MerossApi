@@ -7,14 +7,17 @@ T = TypeVar("T")
 
 class WebApiOutcome(IWebApiOutcome):
     
-    result = [T]
+    result: T
 
-    def __init__(self, item = [T]) -> T:
-        if (item != []):
-         self.result = self.ToJson(item)
+    def __new__(self, item = None) -> T:  
+        if (item != None):
+         self.result = self.ToJson(self, item)
+         return self.result
+        else:
+         return [] 
 
     def ToJson(self, item):
         try:
-            return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder)
+            return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder) 
         except Exception as e:
             print(f'Error on WebApiOutcome: {e}')

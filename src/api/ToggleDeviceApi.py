@@ -1,5 +1,5 @@
 from flask import Flask, request, Blueprint
-from ..services.ToggleDeviceService import ToggleDevice
+from ..services.ToggleDeviceService import ToggleDeviceService
 from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
 
@@ -17,8 +17,8 @@ def WebToggleDevice():
         toggleDeviceFilter = ToggleDeviceFilter(data)
 
         try:
-            webToggleDevice = ToggleDevice(user, passwd, toggleDeviceFilter.toggledDevices)
-            outcome = WebApiOutcome(webToggleDevice).result
+            webToggleDevice = ToggleDeviceService(user, passwd, toggleDeviceFilter.toggledDevices)
+            outcome = WebApiOutcome(webToggleDevice)
         except Exception as e:
             print(f'Error when Toggle Device Controller: {e}')
 

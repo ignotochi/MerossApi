@@ -5,7 +5,7 @@ from ..abstractions.DeviceType import DeviceType
 from ..resource.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
 
-def LoadDevices(user: str, passwd: str, deviceType: DeviceType) -> [Device]:
+def LoadDevicesService(user: str, passwd: str, deviceType: DeviceType) -> [Device]:
     result: [Device] = []
 
     try:

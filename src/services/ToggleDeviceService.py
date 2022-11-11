@@ -3,7 +3,7 @@ from ..resource.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.ToggledDevice import ToggledDevice
 
-def ToggleDevice(user: str, passwd: str, toggledDevices: [ToggledDevice]):
+def ToggleDeviceService(user: str, passwd: str, toggledDevices: [ToggledDevice]):
     result: [str] = []
 
     try:

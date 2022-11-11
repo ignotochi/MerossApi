@@ -7,16 +7,17 @@ class BaseFilter():
         
         if (data):
             __parsedData: ToggleDeviceFilter = JsonUtils.ParseData(data) 
-            __dataClassObj = fromlist(obj, __parsedData)
-            __isArray = isinstance(__parsedData, list)  
+            __isArray = isinstance(__parsedData, list)
 
             if (__isArray):
+                __dataClassObj = fromlist(obj, __parsedData)  
                 items = []         
                 for obj in __dataClassObj:
                     items.append(obj)              
                 return items          
             
             else:
-                return __dataClassObj
+                __dataClassObj = fromlist(obj, [__parsedData])  
+                return __dataClassObj[0]
             
 

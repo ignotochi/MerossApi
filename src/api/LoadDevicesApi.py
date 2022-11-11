@@ -1,5 +1,5 @@
 from flask import Flask, request, Blueprint
-from ..services.LoadDevicesService import LoadDevices
+from ..services.LoadDevicesService import LoadDevicesService
 from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.DevicesFilter import DevicesFilter
 
@@ -17,8 +17,8 @@ def WebLoadDevices() ->  WebApiOutcome :
         devicesFilter = DevicesFilter(data)
 
         try:
-            webDevices = LoadDevices(user, passwd, devicesFilter.devices)
-            outcome = WebApiOutcome(webDevices).result
+            webDevices = LoadDevicesService(user, passwd, devicesFilter.devices)
+            outcome = WebApiOutcome(webDevices)
         except Exception as e:
             print (f'Error on Load Devices: {e}')
 
