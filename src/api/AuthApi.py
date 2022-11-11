@@ -19,6 +19,6 @@ def WebSingletonAuth() ->  WebApiOutcome :
             authFilter = None         
             outcome = WebApiOutcome(token)
         except Exception as e:
-            print (f'Error on Load Devices: {e}')
+            print (f'Error on Auth controlelr: {e}')
 
     return outcome
