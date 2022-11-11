@@ -19,6 +19,6 @@ def WebSingletonAuth() ->  WebApiOutcome :
             authFilter = None         
             outcome = WebApiOutcome(token)
         except Exception as e:
-            print (f'Error on Auth controlelr: {e}')
+            print (f'Error on Auth controller: {e}')
 
     return outcome
