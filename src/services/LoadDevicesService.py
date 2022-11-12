@@ -5,18 +5,17 @@ from ..abstractions.DeviceType import DeviceType
 from ..resource.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
 
-def LoadDevicesService(user: str, passwd: str, deviceType: DeviceType) -> [Device]:
-    result: [Device] = []
-
+def LoadDevicesService(deviceType: DeviceType) -> [Device]:
     try:
-        devices = asyncio.run(DeviceRepository.LoadMerossDevices(user, passwd, deviceType))
+        result: [Device] = []
+        devices = asyncio.run(DeviceRepository.LoadMerossDevices(deviceType))
 
         if (len(devices) > 0):
             for device in devices:
                 outcome = LoadDeviceHelper.MapDevice(device)
                 result.append(outcome)
+        
+        return result
                 
     except Exception as e:
         print(f'Error when Load Meross Devices: {e}')
-
-    return result

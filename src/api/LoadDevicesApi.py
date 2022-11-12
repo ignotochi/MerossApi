@@ -1,25 +1,29 @@
 from flask import Flask, request, Blueprint
 from ..services.LoadDevicesService import LoadDevicesService
+from ..services.AuthService import ValidateApiToken
 from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.DevicesFilter import DevicesFilter
+
 
 LoadDevicesRoute = Blueprint('LoadDevicesRoute', __name__)
 
 @LoadDevicesRoute.route("/loaddevices", methods=['GET'])
-def WebLoadDevices() ->  WebApiOutcome :
+
+def WebLoadDevices() -> WebApiOutcome:
     if (request.method == 'GET'):
 
-        user: str = request.args.get('user')
-        passwd: str = request.args.get('passwd')
-        data: str = request.data
-        
-        outcome = WebApiOutcome()
-        devicesFilter = DevicesFilter(data)
+        token: str = request.args.get('token')
+        dataRequest: str = request.data
 
         try:
-            webDevices = LoadDevicesService(user, passwd, devicesFilter.devices)
-            outcome = WebApiOutcome(webDevices)
+            outcome = WebApiOutcome()
+            devicesFilter = DevicesFilter(dataRequest)
+        
+            if (ValidateApiToken(token) == True):
+                webDevices = LoadDevicesService(devicesFilter.devices)
+                outcome = WebApiOutcome(webDevices)
+            
+            return outcome
+                
         except Exception as e:
-            print (f'Error on Load Devices: {e}')
-
-    return outcome
+            print(f'Error on Load Devices: {e}')

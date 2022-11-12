@@ -1,22 +1,33 @@
 import asyncio
 from ..context.context import Context
-from ..abstractions.filters.AuthFilter import AuthFilter
+from ..abstractions.filters.Credentials import Credentials
 from ..abstractions.auth import Auth
 
-
-def AuthService(authFilter: AuthFilter) -> str:
+@staticmethod
+def AuthService(auth: Credentials) -> str:
     try:
-        credentials: Auth = authFilter.credentials
+        Context.NewContext(auth.credentials.user, auth.credentials.password)
 
-        Context.NewContext(credentials.user, credentials.password)
-        
+        auth.Reset()
+
         token = Context.GetToken()
-                
-        if (token): 
-            authFilter = None
-            credentials = None
+
+        if (token):
             return token
-                
+
     except Exception as e:
         print(f'Error Auth Service: {e}')
 
+@staticmethod
+def ValidateApiToken(token: str) -> bool:
+    try:
+        contextToken = Context.GetToken()
+
+        if (contextToken):
+            Context.Authenticated = contextToken == token
+            return Context.Authenticated
+        else:
+            raise Exception("Context Token invalid")
+
+    except Exception as e:
+        print(f'Error on validation token: {e}')

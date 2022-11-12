@@ -6,6 +6,8 @@ from meross_iot.model.enums import OnlineStatus
 from ...abstractions.DeviceType import DeviceType
 from ...abstractions.Device import Device
 from ...abstractions.ToggledDevice import ToggledDevice
+from ...context.context import Context
+from ...abstractions.auth import Auth
 
 
 class ManagerUtils():
@@ -74,8 +76,9 @@ class ManagerUtils():
 
 class Manager(ManagerUtils):
 
-    def __init__(self, user, passwd) -> None:
-        super().__init__(user, passwd)
+    def __init__(self) -> None:
+        credentials: Auth = Context.Credentials() 
+        super().__init__(credentials.user, credentials.password)
 
     async def StartManager(self):
         await super().StartClient()

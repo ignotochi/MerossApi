@@ -6,6 +6,7 @@ class Context:
     _fernet: Fernet
     _instance = None
     _token: str = None
+    Authenticated: bool = False
 
     def NewContext(user: str, passwd: str):
         if Context._instance is None:
@@ -40,20 +41,25 @@ class Context:
         else:
             return ""
 
-    def Credentials() -> str:
+    def Credentials() -> Auth:
         # decrypt the encrypted string with the
         # Fernet instance of the key,
         # that was used for encrypting the string
         # encoded byte string is returned by decrypt method,
         # so decode it to string with decode methods
-        if (Context._token):
-            _decriptedCredentials = Context._fernet.decrypt(Context._token).decode()
-            _splittedCredentials = str(_decriptedCredentials).split("|")
-          
-            _credentials = Auth()  
-            _credentials.user = _splittedCredentials[0]
-            _credentials.password = _splittedCredentials[1]
-            
-            return _credentials
-        else:
-            return ""
+        try:
+            if (Context._token and Context.Authenticated == True):
+                _decriptedCredentials = Context._fernet.decrypt(
+                    Context._token).decode()
+                _splittedCredentials = str(_decriptedCredentials).split("|")
+
+                _credentials = Auth()
+                _credentials.user = _splittedCredentials[0]
+                _credentials.password = _splittedCredentials[1]
+
+                return _credentials
+            else:
+                return Auth()
+
+        except Exception as e:
+            print(f'Error on get credentials: {e}')

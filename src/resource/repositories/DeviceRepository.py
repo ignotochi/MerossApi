@@ -11,36 +11,36 @@ from ..meross.ManagerUtils import ManagerUtils, Manager
 
 class DeviceRepository(IDeviceRepository):
 
-    async def LoadMerossDevices(user: str, passwd: str, deviceType: DeviceType) -> [Device]:
-        result: [Device] = []
-        
-        try:        
-            mng = await Manager(user, passwd).StartManager()    
-                
-            if (mng):
-                result = await mng.GetDevices(deviceType)         
-                 
-            await mng.StopManagerAndLogOut()
-                 
-        except Exception as e:
-            print(f'Error when Load Meross Devices: {e}')    
-       
-        return result
+    async def LoadMerossDevices(deviceType: DeviceType) -> [Device]:
+        try:
+            result: [Device] = []
 
-    async def ToggleMerossDevice(user: str, passwd: str, toggledDevices: [ToggledDevice]) -> [Device]:
-        result: [str] = []
-        
-        try:        
-            mng = await Manager(user, passwd).StartManager()
-            
-            if (mng):    
+            mng = await Manager().StartManager()
+
+            if (mng):
+                result = await mng.GetDevices(deviceType)
+
+            #await mng.StopManagerAndLogOut()
+
+            return result
+
+        except Exception as e:
+            print(f'Error when Load Meross Devices: {e}')
+
+    async def ToggleMerossDevice(toggledDevices: [ToggledDevice]) -> [Device]:
+        try:
+            result: [str] = []
+
+            mng = await Manager().StartManager()
+
+            if (mng):
                 for toggledDevice in toggledDevices:
-                 updatedDeviceId = await mng.ToggleDevice(toggledDevice)
-                 result.append(updatedDeviceId)
-            
+                    updatedDeviceId = await mng.ToggleDevice(toggledDevice)
+                    result.append(updatedDeviceId)
+
             await mng.StopManagerAndLogOut()
+
+            return result
 
         except Exception as e:
             print(f'Error when Toglle Device Repository: {e}')
-
-        return result

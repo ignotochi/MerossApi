@@ -4,12 +4,17 @@ from ..auth import Auth
 
 
 @dataclass
-class AuthFilter(BaseFilter):
+class Credentials(BaseFilter):
 
     credentials: Auth
 
     def __init__(self, data: str):
         if (data != None):
             self.credentials = super().__init__(data, Auth)
-        else:
-            self.credentials = None
+
+    def Reset(self) -> None:
+        del self.credentials
+
+    def __del__(self):
+        if (self.credentials):
+            del self.credentials
