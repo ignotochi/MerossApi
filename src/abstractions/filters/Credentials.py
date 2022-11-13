@@ -15,6 +15,5 @@ class Credentials(BaseFilter):
     def Reset(self) -> None:
         del self.credentials
 
-    def __del__(self):
-        if (self.credentials):
-            del self.credentials
+    # def __del__(self):
+    #     del self.credentials

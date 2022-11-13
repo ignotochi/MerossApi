@@ -1,14 +1,19 @@
+import asyncio
 from cryptography.fernet import Fernet
 from ..abstractions.auth import Auth
+from ..resource.meross.Manager import Manager
+from meross_iot.manager import MerossManager
 
 
 class Context:
     _fernet: Fernet
     _instance = None
     _token: str = None
-    Authenticated: bool = False
 
-    def NewContext(user: str, passwd: str):
+    authenticated: bool = False
+    manager: MerossManager = None
+
+    async def NewContext(user: str, passwd: str):
         if Context._instance is None:
             # generate a key for encryption and decryption
             # You can use fernet to generate
@@ -19,15 +24,18 @@ class Context:
             # Instance the Fernet class with the key
             Context._fernet = Fernet(key)
 
-            _combinedCredentials = user + "|" + passwd
+            combinedCredentials = user + "|" + passwd
 
             Context._instance = Context()
 
-            Context._token = Context.__Encrypt(_combinedCredentials)
+            Context.manager = await Manager.Start(user, passwd)
 
-            return Context._instance
-        else:
-            return Context._instance
+            Context.authenticated = len(Context.manager._cloud_creds.token) > 0
+
+            if (Context.authenticated):
+                Context._token = Context.__Encrypt(combinedCredentials)
+
+        return Context._instance
 
     def GetToken() -> str:
         return str(Context._token)
@@ -48,7 +56,7 @@ class Context:
         # encoded byte string is returned by decrypt method,
         # so decode it to string with decode methods
         try:
-            if (Context._token and Context.Authenticated == True):
+            if (Context._token and Context.authenticated == True):
                 _decriptedCredentials = Context._fernet.decrypt(
                     Context._token).decode()
                 _splittedCredentials = str(_decriptedCredentials).split("|")

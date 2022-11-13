@@ -1,12 +1,11 @@
-import asyncio
-import os
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 from ...abstractions.IDevices import IDeviceRepository
 from ...abstractions import Device, ToggledDevice
 from ...abstractions.DeviceType import DeviceType
 from ...costatnts import *
-from ..meross.ManagerUtils import ManagerUtils, Manager
+from ...context.context import Context
+from ..meross.ManagerUtils import ManagerUtils
 
 
 class DeviceRepository(IDeviceRepository):
@@ -14,14 +13,11 @@ class DeviceRepository(IDeviceRepository):
     async def LoadMerossDevices(deviceType: DeviceType) -> [Device]:
         try:
             result: [Device] = []
-
-            mng = await Manager().StartManager()
-
-            if (mng):
-                result = await mng.GetDevices(deviceType)
-
-            #await mng.StopManagerAndLogOut()
-
+            
+            result = await ManagerUtils.GetDevices(Context.manager, deviceType)
+            
+            # await mng.StopManagerAndLogOut()
+            
             return result
 
         except Exception as e:
@@ -31,14 +27,11 @@ class DeviceRepository(IDeviceRepository):
         try:
             result: [str] = []
 
-            mng = await Manager().StartManager()
+            for toggledDevice in toggledDevices:
+                updatedDeviceId = await ManagerUtils.ToggleDevice(Context.manager, toggledDevice)
+                result.append(updatedDeviceId)
 
-            if (mng):
-                for toggledDevice in toggledDevices:
-                    updatedDeviceId = await mng.ToggleDevice(toggledDevice)
-                    result.append(updatedDeviceId)
-
-            await mng.StopManagerAndLogOut()
+            # await mng.StopManagerAndLogOut()
 
             return result
 
