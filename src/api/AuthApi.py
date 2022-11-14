@@ -3,9 +3,10 @@ from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.Credentials import Credentials
 from ..services.AuthService import AuthService
 
-authSingletonRoute = Blueprint('WebSingletonRoute', __name__)
+AuthSingletonRoute = Blueprint('WebSingletonRoute', __name__)
 
-@authSingletonRoute.route("/auth", methods=['POST'])
+@AuthSingletonRoute.route("/auth", methods=['POST'])
+
 def WebSingletonAuth() ->  WebApiOutcome :
     if (request.method == 'POST'):
 
@@ -15,8 +16,7 @@ def WebSingletonAuth() ->  WebApiOutcome :
             outcome = WebApiOutcome()
             credentials = Credentials(data) 
             
-            token = AuthService(credentials)    
-            outcome = WebApiOutcome(token)
+            outcome = WebApiOutcome(AuthService(credentials)   )
             return outcome
         
         except Exception as e:

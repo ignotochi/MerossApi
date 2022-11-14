@@ -13,11 +13,9 @@ class DeviceRepository(IDeviceRepository):
     async def LoadMerossDevices(deviceType: DeviceType) -> [Device]:
         try:
             result: [Device] = []
-            
+
             result = await ManagerUtils.GetDevices(Context.manager, deviceType)
-            
-            # await mng.StopManagerAndLogOut()
-            
+
             return result
 
         except Exception as e:
@@ -29,9 +27,8 @@ class DeviceRepository(IDeviceRepository):
 
             for toggledDevice in toggledDevices:
                 updatedDeviceId = await ManagerUtils.ToggleDevice(Context.manager, toggledDevice)
-                result.append(updatedDeviceId)
-
-            # await mng.StopManagerAndLogOut()
+                if (updatedDeviceId != None):
+                    result.append(updatedDeviceId)
 
             return result
 

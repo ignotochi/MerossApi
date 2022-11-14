@@ -10,9 +10,10 @@ from meross_iot.http_api import MerossHttpClient
 class ManagerUtils():
 
     @staticmethod
-    async def StopManagerAndLogOut(manager: MerossManager) -> None:
+    async def StopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:
         manager.close()
-        await manager.client.async_logout()
+        await client.async_logout()
+        return True
 
     @staticmethod
     async def GetDevices(manager: MerossManager, devicesType: [DeviceType]) -> [Device]:
@@ -35,7 +36,7 @@ class ManagerUtils():
     @staticmethod
     async def ToggleDevice(manager, toggledDevice: ToggledDevice) -> str:
 
-        deviceId: str = ""
+        deviceId: str = None
 
         await manager.async_device_discovery()
         devices = manager.find_devices(toggledDevice.deviceId)

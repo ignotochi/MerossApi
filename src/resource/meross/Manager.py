@@ -14,8 +14,6 @@ class Manager():
         if (newIstanceNeeded):
             await self.__StartClient(user, passwd)
             await self.__StartManager()
-            
-        return self.manager
                              
     @classmethod
     async def __StartClient(self, user: str, passwd: str) -> None:
@@ -25,3 +23,8 @@ class Manager():
     async def __StartManager(self) -> None:
         self.manager = MerossManager(http_client = self.client)
         await self.manager.async_init()
+        
+    @classmethod
+    def GetClient(self) -> MerossHttpClient:
+        return self.client
+

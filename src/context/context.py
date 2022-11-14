@@ -3,6 +3,7 @@ from cryptography.fernet import Fernet
 from ..abstractions.auth import Auth
 from ..resource.meross.Manager import Manager
 from meross_iot.manager import MerossManager
+from meross_iot.http_api import MerossHttpClient
 
 
 class Context:
@@ -12,6 +13,7 @@ class Context:
 
     authenticated: bool = False
     manager: MerossManager = None
+    client: MerossHttpClient = None
 
     async def NewContext(user: str, passwd: str):
         if Context._instance is None:
@@ -28,7 +30,11 @@ class Context:
 
             Context._instance = Context()
 
-            Context.manager = await Manager.Start(user, passwd)
+            await Manager.Start(user, passwd)
+            
+            Context.manager = Manager.manager
+            
+            Context.client = Manager.client
 
             Context.authenticated = len(Context.manager._cloud_creds.token) > 0
 
@@ -71,3 +77,8 @@ class Context:
 
         except Exception as e:
             print(f'Error on get credentials: {e}')
+            
+    def Reset() -> None:
+        Context.client = None
+        Context.manager = None
+        Context._instance = None
