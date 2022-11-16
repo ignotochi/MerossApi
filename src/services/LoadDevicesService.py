@@ -1,7 +1,7 @@
-from ..resource.repositories.DeviceRepository import DeviceRepository
+from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.DeviceType import DeviceType
-from ..resource.repositories.DeviceRepositoryHelper import LoadDeviceHelper
+from ..resources.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
 class LoadDevicesService:
 

@@ -1,6 +1,6 @@
 from flask import Flask, request, Blueprint
 from ..services.AuthService import AuthService
-from ..tools.WebApiOutcome import WebApiOutcome
+from ..core.WebApiOutcome import WebApiOutcome
 
 
 LogOutRoute = Blueprint('WebLogOutRoute', __name__)

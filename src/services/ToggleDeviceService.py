@@ -1,5 +1,5 @@
 import asyncio
-from ..resource.repositories.DeviceRepository import DeviceRepository
+from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.ToggledDevice import ToggledDevice
 

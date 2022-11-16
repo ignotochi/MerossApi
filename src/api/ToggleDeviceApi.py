@@ -1,7 +1,7 @@
 from flask import Flask, request, Blueprint
 from ..services.ToggleDeviceService import ToggleDeviceService
 from ..services.AuthService import AuthService
-from ..tools.WebApiOutcome import WebApiOutcome
+from ..core.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
 
 ToggleDeviceRoute = Blueprint('ToggleDeviceRoute', __name__)

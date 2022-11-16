@@ -1,4 +1,4 @@
-from ...tools.JsonHelper import JsonUtils
+from ...core.JsonHelper import JsonUtils
 from dataclass_wizard import fromlist, asdict, DateTimePattern
 from typing import TypeVar, Generic, List, Tuple
 

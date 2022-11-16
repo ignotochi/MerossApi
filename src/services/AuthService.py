@@ -3,7 +3,7 @@ import os
 from ..context.context import Context
 from ..abstractions.filters.Credentials import Credentials
 from ..abstractions.auth import Auth
-from ..resource.meross.ManagerUtils import ManagerUtils
+from ..resources.meross.ManagerUtils import ManagerUtils
 
 
 class AuthService:

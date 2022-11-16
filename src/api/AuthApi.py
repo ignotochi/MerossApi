@@ -1,5 +1,5 @@
 from flask import Flask, request, Blueprint
-from ..tools.WebApiOutcome import WebApiOutcome
+from ..core.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.Credentials import Credentials
 from ..services.AuthService import AuthService
 

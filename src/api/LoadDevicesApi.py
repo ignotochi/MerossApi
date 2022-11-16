@@ -1,7 +1,7 @@
 from flask import Flask, request, Blueprint
 from ..services.LoadDevicesService import LoadDevicesService
 from ..services.AuthService import AuthService
-from ..tools.WebApiOutcome import WebApiOutcome
+from ..core.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.DevicesFilter import DevicesFilter
 
 
