@@ -1,3 +1,4 @@
+import asyncio
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 from ...abstractions.IDevices import IDeviceRepository
@@ -10,23 +11,23 @@ from ..meross.ManagerUtils import ManagerUtils
 
 class DeviceRepository(IDeviceRepository):
 
-    async def LoadMerossDevices(deviceType: DeviceType) -> [Device]:
+    def LoadMerossDevices(devices: DeviceType) -> [Device]:
         try:
             result: [Device] = []
 
-            result = await ManagerUtils.GetDevices(Context.manager, deviceType)
+            result = asyncio.run(ManagerUtils.GetDevices(Context.manager, devices))
 
             return result
 
         except Exception as e:
             print(f'Error when Load Meross Devices: {e}')
 
-    async def ToggleMerossDevice(toggledDevices: [ToggledDevice]) -> [Device]:
+    async def ToggleMerossDevice(devices: [ToggledDevice]) -> [Device]:
         try:
             result: [str] = []
 
-            for toggledDevice in toggledDevices:
-                updatedDeviceId = await ManagerUtils.ToggleDevice(Context.manager, toggledDevice)
+            for device in devices:
+                updatedDeviceId = await ManagerUtils.ToggleDevice(Context.manager, device)
                 if (updatedDeviceId != None):
                     result.append(updatedDeviceId)
 

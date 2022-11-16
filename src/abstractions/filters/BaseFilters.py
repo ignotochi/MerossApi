@@ -1,9 +1,12 @@
 from ...tools.JsonHelper import JsonUtils
 from dataclass_wizard import fromlist, asdict, DateTimePattern
+from typing import TypeVar, Generic, List, Tuple
+
+T = TypeVar("T")
 
 class BaseFilter():
 
-    def __init__(self, data: str, obj: type) -> object:
+    def __init__(self, data: str, obj: T) -> T:
         
         if (data):
             __parsedData: ToggleDeviceFilter = JsonUtils.ParseData(data) 

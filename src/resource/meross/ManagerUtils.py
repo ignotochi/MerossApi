@@ -6,27 +6,25 @@ from ...abstractions.auth import Auth
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 
-
 class ManagerUtils():
 
     @staticmethod
     async def StopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:
         manager.close()
         await client.async_logout()
-        return True
+        return (manager._http_client._cloud_creds == None)
 
     @staticmethod
     async def GetDevices(manager: MerossManager, devicesType: [DeviceType]) -> [Device]:
         devices: [Device] = []
-
+        
         await manager.async_device_discovery()
 
         for device in devicesType:
             device: DeviceType = device
-            discoveredDevices = manager.find_devices(
-                device_type=device.deviceType)
+            discoveredDevices = manager.find_devices(device_type=device.deviceType)
 
-            if (len(discoveredDevices) > 0):
+            if (discoveredDevices and len(discoveredDevices) > 0):
                 for discoveredDevice in discoveredDevices:
                     await discoveredDevice.async_update()
                     devices.append(discoveredDevice)
@@ -34,14 +32,14 @@ class ManagerUtils():
         return devices
 
     @staticmethod
-    async def ToggleDevice(manager, toggledDevice: ToggledDevice) -> str:
+    async def ToggleDevice(manager: MerossManager, toggledDevice: ToggledDevice) -> str:
 
         deviceId: str = None
 
         await manager.async_device_discovery()
         devices = manager.find_devices(toggledDevice.deviceId)
 
-        if (len(devices) > 0):        
+        if (devices and len(devices) > 0):        
             await device.async_update()
             device = devices[0]
             deviceId = device.uuid

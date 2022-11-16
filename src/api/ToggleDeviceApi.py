@@ -1,6 +1,6 @@
 from flask import Flask, request, Blueprint
 from ..services.ToggleDeviceService import ToggleDeviceService
-from ..services.AuthService import ValidateApiToken
+from ..services.AuthService import AuthService
 from ..tools.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
 
@@ -11,15 +11,15 @@ ToggleDeviceRoute = Blueprint('ToggleDeviceRoute', __name__)
 def WebToggleDevice() -> WebApiOutcome:
     if (request.method == 'POST'):
 
-        token: str = request.args.get('token')
+        token: str = request.headers.get('token')
         dataRequest: str = request.data
     
         try:
             outcome = WebApiOutcome()
             toggleDeviceFilter = ToggleDeviceFilter(dataRequest)
         
-            if (ValidateApiToken(token) == True):
-                webToggleDevice = ToggleDeviceService(toggleDeviceFilter.toggledDevices)
+            if (AuthService.ValidateApiToken(token) == True):
+                webToggleDevice = ToggleDeviceService.Toggle(toggleDeviceFilter.toggledDevices)
                 outcome = WebApiOutcome(webToggleDevice)
             
             return outcome

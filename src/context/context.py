@@ -7,16 +7,18 @@ from meross_iot.http_api import MerossHttpClient
 
 
 class Context:
-    _fernet: Fernet
-    _instance = None
-    _token: str = None
+
+    __fernet: Fernet = None
+    __managerInstance: Manager = None
+    __localToken: str = None
 
     authenticated: bool = False
     manager: MerossManager = None
     client: MerossHttpClient = None
 
-    async def NewContext(user: str, passwd: str):
-        if Context._instance is None:
+    @classmethod
+    def __init__(cls, user: str, passwd: str):
+        if Context.__managerInstance is None:
             # generate a key for encryption and decryption
             # You can use fernet to generate
             # the key or use random key generator
@@ -24,61 +26,59 @@ class Context:
             key = Fernet.generate_key()
 
             # Instance the Fernet class with the key
-            Context._fernet = Fernet(key)
+            cls.__fernet = Fernet(key)
 
-            combinedCredentials = user + "|" + passwd
+            cls.__managerInstance = Manager(user, passwd)
 
-            Context._instance = Context()
+            cls.manager = cls.__managerInstance.GetManager()
 
-            await Manager.Start(user, passwd)
-            
-            Context.manager = Manager.manager
-            
-            Context.client = Manager.client
+            cls.client = cls.__managerInstance.GetClient()
 
-            Context.authenticated = len(Context.manager._cloud_creds.token) > 0
+            cls.authenticated = len(cls.manager._cloud_creds.token) > 0
 
-            if (Context.authenticated):
-                Context._token = Context.__Encrypt(combinedCredentials)
+            if (cls.authenticated):
+                cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
 
-        return Context._instance
-
+    @staticmethod
     def GetToken() -> str:
-        return str(Context._token)
+        return str(Context.__localToken)
 
+    @staticmethod
     def __Encrypt(value: str) -> str:
         # then use the Fernet class instance
         # to encrypt the string string must
         # be encoded to byte string before encryption
         if (value):
-            return Context._fernet.encrypt(value.encode())
+            return Context.__fernet.encrypt(value.encode())
         else:
             return ""
 
-    def Credentials() -> Auth:
+    @staticmethod
+    def DecryptLocalToken() -> str:
         # decrypt the encrypted string with the
         # Fernet instance of the key,
         # that was used for encrypting the string
         # encoded byte string is returned by decrypt method,
         # so decode it to string with decode methods
         try:
-            if (Context._token and Context.authenticated == True):
-                _decriptedCredentials = Context._fernet.decrypt(
-                    Context._token).decode()
-                _splittedCredentials = str(_decriptedCredentials).split("|")
+            if (Context.__localToken and Context.authenticated == True):
+                decriptedToken = Context.__fernet.decrypt(
+                    Context.__localToken).decode()
 
-                _credentials = Auth()
-                _credentials.user = _splittedCredentials[0]
-                _credentials.password = _splittedCredentials[1]
-
-                return _credentials
+                return decriptedToken
             else:
-                return Auth()
+                return None
 
         except Exception as e:
             print(f'Error on get credentials: {e}')
-            
-    def Reset() -> None:
-        Context.client = None
-        Context.manager = None
-        Context._instance = None
+
+    @classmethod
+    def Reset(cls) -> None:
+        cls.__fernet = None
+        cls.__localToken = None
+        cls.__managerInstance = None
+
+        cls.authenticated = False
+        cls.client = None
+        cls.manager = None
+

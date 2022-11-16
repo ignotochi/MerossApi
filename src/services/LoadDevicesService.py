@@ -1,21 +1,22 @@
-import asyncio
 from ..resource.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.DeviceType import DeviceType
 from ..resource.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
+class LoadDevicesService:
 
-def LoadDevicesService(deviceType: DeviceType) -> [Device]:
-    try:
-        result: [Device] = []
-        devices = asyncio.run(DeviceRepository.LoadMerossDevices(deviceType))
+    @staticmethod
+    def Load(devices: DeviceType) -> [Device]:
+        try:
+            result: [Device] = []
+            items = DeviceRepository.LoadMerossDevices(devices)
 
-        if (len(devices) > 0):
-            for device in devices:
-                outcome = LoadDeviceHelper.MapDevice(device)
-                result.append(outcome)
-        
-        return result
-                
-    except Exception as e:
-        print(f'Error when Load Meross Devices: {e}')
+            if (len(items) > 0):
+                for item in items:
+                    outcome = LoadDeviceHelper.MapDevice(item)
+                    result.append(outcome)
+            
+            return result
+                    
+        except Exception as e:
+            print(f'Error when Load Meross Devices: {e}')

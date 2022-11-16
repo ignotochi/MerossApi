@@ -1,30 +1,45 @@
+import asyncio
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 
+
 class Manager():
-    
-    manager: MerossManager = None
-    client: MerossHttpClient = None
-        
+
+    __manager: MerossManager = None
+    __client: MerossHttpClient = None
+
     @classmethod
-    async def Start(self, user: str, passwd: str) -> None:
-       
-        newIstanceNeeded = isinstance(self.manager, MerossManager) == False and isinstance(self.client, MerossHttpClient) == False
-        
+    def __init__(cls, user: str, passwd: str) -> None:
+        asyncio.run(cls.Start(user, passwd))
+
+    @classmethod
+    async def Start(cls, user: str, passwd: str) -> None:
+
+        newIstanceNeeded = isinstance(cls.__manager, MerossManager) == False and isinstance(cls.__client, MerossHttpClient) == False
+
         if (newIstanceNeeded):
-            await self.__StartClient(user, passwd)
-            await self.__StartManager()
-                             
+            await cls.__StartClient(user, passwd)
+            await cls.__StartManager()
+
     @classmethod
-    async def __StartClient(self, user: str, passwd: str) -> None:
-        self.client = await MerossHttpClient.async_from_user_password(email=user, password=passwd)
-    
+    async def __StartClient(cls, user: str, passwd: str) -> None:
+        cls.__client = await MerossHttpClient.async_from_user_password(email=user, password=passwd)
+
     @classmethod
-    async def __StartManager(self) -> None:
-        self.manager = MerossManager(http_client = self.client)
-        await self.manager.async_init()
-        
+    async def __StartManager(cls) -> None:
+        cls.__manager = MerossManager(http_client=cls.__client)
+        await cls.__manager.async_init()
+
     @classmethod
-    def GetClient(self) -> MerossHttpClient:
-        return self.client
+    def GetClient(cls) -> MerossHttpClient:
+        return cls.__client
+
+    @classmethod
+    def GetManager(cls) -> MerossManager:
+        return cls.__manager
+
+    @classmethod
+    def __del__(cls):
+       del cls
+
 

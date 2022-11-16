@@ -1,5 +1,5 @@
 from flask import Flask, request, Blueprint
-from ..services.AuthService import LogOut, ValidateApiToken
+from ..services.AuthService import AuthService
 from ..tools.WebApiOutcome import WebApiOutcome
 
 
@@ -10,13 +10,13 @@ LogOutRoute = Blueprint('WebLogOutRoute', __name__)
 def WebLogOut() -> WebApiOutcome:
     if (request.method == 'GET'):
 
-        token: str = request.args.get('token')
+        token: str = request.headers.get('token')
 
         try:
             outcome = WebApiOutcome()
 
-            if (ValidateApiToken(token) == True):
-                outcome = WebApiOutcome(LogOut())
+            if (AuthService.ValidateApiToken(token) == True):
+                outcome = WebApiOutcome(AuthService.LogOut())
         
             return outcome
                 

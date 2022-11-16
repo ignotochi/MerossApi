@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from .BaseFilters import BaseFilter
 from ..DeviceType import DeviceType
 
-
 @dataclass
 class DevicesFilter(BaseFilter):
 
