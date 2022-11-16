@@ -15,8 +15,8 @@ def WebSingletonAuth() ->  WebApiOutcome :
         try:
             outcome = WebApiOutcome()
             credentials = Credentials(data) 
-            
-            outcome = WebApiOutcome(AuthService.CreateContext(credentials)   )
+                
+            outcome = WebApiOutcome(AuthService.CreateContext(credentials))
             return outcome
         
         except Exception as e:

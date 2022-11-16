@@ -20,6 +20,7 @@ def WebLoadDevices() -> WebApiOutcome:
             devicesFilter = DevicesFilter(dataRequest)
         
             if (AuthService.ValidateApiToken(token) == True):
+                
                 webDevices = LoadDevicesService.Load(devicesFilter.devices)
                 outcome = WebApiOutcome(webDevices)
             

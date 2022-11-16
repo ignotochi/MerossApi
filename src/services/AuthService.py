@@ -26,7 +26,7 @@ class AuthService:
     @staticmethod
     def ValidateApiToken(token: str) -> bool:
         try:
-            validLocalToken: bool = Context.manager._cloud_creds.token == Context.DecryptLocalToken()
+            validLocalToken: bool = Context.managerTools.manager._cloud_creds.token == Context.DecryptLocalToken()
 
             if (validLocalToken):
                 return (Context.authenticated == True and validLocalToken == True)
@@ -38,8 +38,8 @@ class AuthService:
 
     @staticmethod
     def LogOut() -> bool:
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(
-            Context.manager, Context.client))
+        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.managerTools.manager, Context.managerTools.client))
+        
         Context.Reset()
 
         return result

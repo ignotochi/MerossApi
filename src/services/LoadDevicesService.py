@@ -2,6 +2,7 @@ from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.DeviceType import DeviceType
 from ..resources.repositories.DeviceRepositoryHelper import LoadDeviceHelper
+from ..context.context import Context
 
 class LoadDevicesService:
 
@@ -9,7 +10,10 @@ class LoadDevicesService:
     def Load(devices: DeviceType) -> [Device]:
         try:
             result: [Device] = []
-            items = DeviceRepository.LoadMerossDevices(devices)
+            
+            context = Context
+            
+            items = DeviceRepository.LoadMerossDevices(context, devices)
 
             if (len(items) > 0):
                 for item in items:

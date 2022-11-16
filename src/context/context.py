@@ -2,23 +2,19 @@ import asyncio
 from cryptography.fernet import Fernet
 from ..abstractions.auth import Auth
 from ..resources.meross.Manager import Manager
-from meross_iot.manager import MerossManager
-from meross_iot.http_api import MerossHttpClient
 
 
 class Context:
 
     __fernet: Fernet = None
-    __managerInstance: Manager = None
     __localToken: str = None
 
     authenticated: bool = False
-    manager: MerossManager = None
-    client: MerossHttpClient = None
+    managerTools: Manager = None
 
     @classmethod
     def __init__(cls, user: str, passwd: str):
-        if Context.__managerInstance is None:
+        if Context.managerTools is None:
             # generate a key for encryption and decryption
             # You can use fernet to generate
             # the key or use random key generator
@@ -28,16 +24,12 @@ class Context:
             # Instance the Fernet class with the key
             cls.__fernet = Fernet(key)
 
-            cls.__managerInstance = Manager(user, passwd)
+            cls.managerTools = Manager(user, passwd)
 
-            cls.manager = cls.__managerInstance.GetManager()
-
-            cls.client = cls.__managerInstance.GetClient()
-
-            cls.authenticated = len(cls.manager._cloud_creds.token) > 0
+            cls.authenticated = len(cls.managerTools.manager._cloud_creds.token) > 0
 
             if (cls.authenticated):
-                cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
+                cls.__localToken = cls.__Encrypt(cls.managerTools.manager._cloud_creds.token)
 
     @staticmethod
     def GetToken() -> str:
@@ -71,14 +63,14 @@ class Context:
 
         except Exception as e:
             print(f'Error on get credentials: {e}')
+    
+    @staticmethod
+    def Reset() -> None:
+        Context.managerTools = None
+        Context.__localToken = None
+        Context.__fernet = None
+        Context.authenticated = None
+        
+        
 
-    @classmethod
-    def Reset(cls) -> None:
-        cls.__fernet = None
-        cls.__localToken = None
-        cls.__managerInstance = None
-
-        cls.authenticated = False
-        cls.client = None
-        cls.manager = None
 

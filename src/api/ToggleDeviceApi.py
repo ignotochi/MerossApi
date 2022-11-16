@@ -4,6 +4,7 @@ from ..services.AuthService import AuthService
 from ..core.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
 
+
 ToggleDeviceRoute = Blueprint('ToggleDeviceRoute', __name__)
 
 @ToggleDeviceRoute.route("/toggleDevice", methods=['POST'])
