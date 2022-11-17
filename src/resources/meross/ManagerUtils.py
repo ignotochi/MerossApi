@@ -18,7 +18,7 @@ class ManagerUtils(Manager):
     async def StopManagerAndLogOut(cls, client: MerossHttpClient) -> bool:
         cls.manager.close()
         await client.async_logout()
-        return {"disconnected": (cls.manager._http_client._cloud_creds == None)}
+        return (cls.manager._http_client._cloud_creds == None)
 
     @classmethod
     async def GetDevices(cls, devicesType: [DeviceType]) -> [Device]:

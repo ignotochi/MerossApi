@@ -40,7 +40,5 @@ class AuthService:
     @staticmethod
     def LogOut() -> bool:
         result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.managerTools.client))
-        
         Context.Reset()
-
-        return result
+        return {"disconnected": result }
