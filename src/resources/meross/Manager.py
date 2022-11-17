@@ -20,14 +20,7 @@ class Manager():
         if (newIstanceNeeded):
             await cls.__StartClient(user, passwd)
             await cls.__StartManager()
-            await cls.manager.async_device_discovery()
-            
-            discoveredDevices = cls.manager.find_devices()
-
-            if (discoveredDevices and len(discoveredDevices) > 0):
-                for discoveredDevice in discoveredDevices:
-                    await discoveredDevice.async_update()
-        
+   
     @classmethod
     async def __StartClient(cls, user: str, passwd: str) -> None:
         cls.client = await MerossHttpClient.async_from_user_password(email=user, password=passwd)
