@@ -3,7 +3,6 @@ from cryptography.fernet import Fernet
 from ..abstractions.auth import Auth
 from ..resources.meross.ManagerUtils import ManagerUtils
 
-
 class Context:
 
     __fernet: Fernet = None
@@ -67,13 +66,14 @@ class Context:
         except Exception as e:
             print(f'Error on get credentials: {e}')
     
-    @staticmethod
-    def Reset() -> None:
-        Context.managerTools = None
-        Context.__localToken = None
-        Context.__fernet = None
-        Context.authenticated = False
-        ManagerUtils = None
+    @classmethod
+    def Reset(cls) -> None:
+        cls.__localToken = None
+        cls.__fernet = None
+        cls.authenticated = False
+        cls.managerTools.Reset()
+        cls.managerTools = None
+
 
         
         

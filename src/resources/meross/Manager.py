@@ -52,3 +52,8 @@ class Manager(object):
     @classmethod
     async def Update(cls, device: BaseDevice):
         await device.async_update()
+        
+    @classmethod
+    def Reset(cls) -> None:
+        cls.manager = None
+        cls.client = None

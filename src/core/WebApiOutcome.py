@@ -13,7 +13,7 @@ class WebApiOutcome(IWebApiOutcome):
         if (item != None):
             return self.ToJson(self, item)
         else:
-            return [T]
+            return []
  
     @staticmethod
     def ToJson(self, item):

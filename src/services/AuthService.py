@@ -11,15 +11,16 @@ class AuthService:
     @staticmethod
     def CreateContext(auth: Credentials) -> str:
         try:
-            newContextRequired: bool = (Context.authenticated == False and Context.GetToken() == None )
-            
+            newContextRequired: bool = (
+                Context.authenticated == False and Context.GetToken() == None)
+
             if (newContextRequired):
                 Context(auth.credentials.user, auth.credentials.password)
                 auth.Reset()
                 return Context.GetToken()
-            
+
             else:
-                return { "authenticated":"True" }
+                return {"authenticated": "True"}
 
         except Exception as e:
             print(f'Error Auth Service: {e}')
@@ -27,18 +28,20 @@ class AuthService:
     @staticmethod
     def ValidateApiToken(token: str) -> bool:
         try:
-            validLocalToken: bool = Context.managerTools.manager._cloud_creds.token == Context.DecryptLocalToken()
+            if (Context and isinstance(Context.managerTools, ManagerUtils)):
+                
+                validLocalToken: bool = Context.managerTools.manager._cloud_creds.token == Context.DecryptLocalToken()
 
-            if (validLocalToken):
-                return (Context.authenticated == True and validLocalToken == True)
+                if (validLocalToken):
+                    return (Context.authenticated == True and validLocalToken == True)
             else:
-                raise Exception("Invalid local token")
+                return False
 
         except Exception as e:
             print(f'Error on validation token: {e}')
 
     @staticmethod
     def LogOut() -> bool:
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.managerTools.client))
+        result = asyncio.run(ManagerUtils.StopManagerAndLogOut())
         Context.Reset()
-        return {"disconnected": result }
+        return {"disconnected": result}

@@ -15,9 +15,9 @@ class ManagerUtils(Manager):
         super(ManagerUtils, cls).__init__(user, passwd)
 
     @classmethod
-    async def StopManagerAndLogOut(cls, client: MerossHttpClient) -> bool:
+    async def StopManagerAndLogOut(cls) -> bool:
         cls.manager.close()
-        await client.async_logout()
+        await cls.client.async_logout()
         return (cls.manager._http_client._cloud_creds == None)
 
     @classmethod
