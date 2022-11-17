@@ -1,7 +1,7 @@
 import asyncio
 from cryptography.fernet import Fernet
 from ..abstractions.auth import Auth
-from ..resources.meross.Manager import Manager
+from ..resources.meross.ManagerUtils import ManagerUtils
 
 
 class Context:
@@ -10,7 +10,7 @@ class Context:
     __localToken: str = None
 
     authenticated: bool = False
-    managerTools: Manager = None
+    managerTools: ManagerUtils = None
 
     @classmethod
     def __init__(cls, user: str, passwd: str):
@@ -24,7 +24,7 @@ class Context:
             # Instance the Fernet class with the key
             cls.__fernet = Fernet(key)
 
-            cls.managerTools = Manager(user, passwd)
+            cls.managerTools = ManagerUtils(user, passwd)
 
             cls.authenticated = len(cls.managerTools.manager._cloud_creds.token) > 0
 
@@ -33,7 +33,10 @@ class Context:
 
     @staticmethod
     def GetToken() -> str:
-        return str(Context.__localToken)
+        if (Context.__localToken != None): 
+            return str(Context.__localToken)
+        else:
+            return None
 
     @staticmethod
     def __Encrypt(value: str) -> str:
@@ -69,7 +72,10 @@ class Context:
         Context.managerTools = None
         Context.__localToken = None
         Context.__fernet = None
-        Context.authenticated = None
+        Context.authenticated = False
+        ManagerUtils = None
+
+        
         
         
 

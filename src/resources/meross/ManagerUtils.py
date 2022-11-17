@@ -1,58 +1,55 @@
 from ...abstractions.DeviceType import DeviceType
 from ...abstractions.Device import Device
 from ...abstractions.ToggledDevice import ToggledDevice
-from ...abstractions.auth import Auth
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.controller.device import BaseDevice
 from ..meross.Manager import Manager
+import asyncio
 
 
+class ManagerUtils(Manager):
 
-class ManagerUtils():
+    @classmethod
+    def __init__(cls, user: str, passwd: str):
+        super(ManagerUtils, cls).__init__(user, passwd)
 
-    @staticmethod
-    async def StopManagerAndLogOut(manager: Manager, client: MerossHttpClient) -> bool:
-        manager.close()
+    @classmethod
+    async def StopManagerAndLogOut(cls, client: MerossHttpClient) -> bool:
+        cls.manager.close()
         await client.async_logout()
-        return (manager._http_client._cloud_creds == None)
+        return {"disconnected": (cls.manager._http_client._cloud_creds == None)}
 
-    @staticmethod
-    async def GetDevices(manager: Manager, devicesType: [DeviceType]) -> [Device]:
+    @classmethod
+    async def GetDevices(cls, devicesType: [DeviceType]) -> [Device]:
         devices: [Device] = []
-        
-        await manager.async_device_discovery()
+
+        await cls.Discover()
 
         for device in devicesType:
-            device: DeviceType = device
-            discoveredDevices: [BaseDevice] = manager.find_devices(device_type=device.deviceType)
+            discoveredDevices: [BaseDevice] = cls.Find(device.deviceType)
 
             if (discoveredDevices and len(discoveredDevices) > 0):
-                
-                for discoveredDevice in discoveredDevices:    
-                    device: BaseDevice = discoveredDevice
-                    
-                    await device.async_update()
+
+                for discoveredDevice in discoveredDevices:
+                    await cls.Update(discoveredDevice)
                     devices.append(device)
 
         return devices
 
-    @staticmethod
-    async def ToggleDevice(manager: Manager, toggledDevice: ToggledDevice) -> str:
-
+    @classmethod
+    async def ToggleDevice(cls, toggledDevice: ToggledDevice) -> str:
         deviceId: str = None
-        
-        await manager.async_device_discovery()
-        
-        devices: [BaseDevice] = manager.find_devices(toggledDevice.deviceId)
 
-        if (devices and len(devices) > 0):        
-            
+        await cls.manager.async_device_discovery()
+        devices: [BaseDevice] = cls.manager.find_devices(toggledDevice.deviceId)
+
+        if (devices and len(devices) > 0):
             device: BaseDevice = devices[0]
-            deviceId = device.uuid 
-            
+            deviceId = device.uuid
+
             await device.async_update()
-            
+
             if (toggledDevice.enabled == True):
                 await device.async_turn_on(channel=0)
             else:

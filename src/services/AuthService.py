@@ -11,14 +11,15 @@ class AuthService:
     @staticmethod
     def CreateContext(auth: Credentials) -> str:
         try:
-            context: Context = Context(auth.credentials.user, auth.credentials.password)
+            newContextRequired: bool = (Context.authenticated == False and Context.GetToken() == None )
             
-            auth.Reset()
-
-            token = context.GetToken()
-
-            if (token):
-                return token
+            if (newContextRequired):
+                Context(auth.credentials.user, auth.credentials.password)
+                auth.Reset()
+                return Context.GetToken()
+            
+            else:
+                return { "authenticated":"True" }
 
         except Exception as e:
             print(f'Error Auth Service: {e}')
@@ -38,7 +39,7 @@ class AuthService:
 
     @staticmethod
     def LogOut() -> bool:
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.managerTools.manager, Context.managerTools.client))
+        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.managerTools.client))
         
         Context.Reset()
 

@@ -5,19 +5,19 @@ from typing import TypeVar, Generic, List, Tuple
 
 T = TypeVar("T")
 
+
 class WebApiOutcome(IWebApiOutcome):
-    
-    result: T
 
-    def __new__(self, item = None) -> T:  
+    @staticmethod
+    def __new__(self, item: T = None) -> T:
         if (item != None):
-         self.result = self.ToJson(self, item)
-         return self.result
+            return self.ToJson(self, item)
         else:
-         return [] 
-
+            return [T]
+ 
+    @staticmethod
     def ToJson(self, item):
         try:
-            return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder) 
+            return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder)
         except Exception as e:
             print(f'Error on WebApiOutcome: {e}')

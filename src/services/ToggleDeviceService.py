@@ -2,7 +2,6 @@ import asyncio
 from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.ToggledDevice import ToggledDevice
-from ..context.context import Context
 
 class ToggleDeviceService: 
     
@@ -11,7 +10,7 @@ class ToggleDeviceService:
         result: [str] = []
 
         try:
-            result = asyncio.run(DeviceRepository.ToggleMerossDevice(Context.managerTools.manager, devices))
+            result = asyncio.run(DeviceRepository.ToggleMerossDevice(devices))
             return result
         
         except Exception as e:
