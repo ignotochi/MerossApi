@@ -11,9 +11,7 @@ class LoadDevicesService:
         try:
             result: [Device] = []
             
-            context = Context
-            
-            items = DeviceRepository.LoadMerossDevices(context, devices)
+            items = DeviceRepository.LoadMerossDevices(Context.managerTools.manager, devices)
 
             if (len(items) > 0):
                 for item in items:

@@ -9,11 +9,9 @@ class ToggleDeviceService:
     @staticmethod
     def Toggle(devices: [ToggledDevice]) -> [str]:
         result: [str] = []
-        
-        context = Context
 
         try:
-            result = asyncio.run(DeviceRepository.ToggleMerossDevice(context, devices))
+            result = asyncio.run(DeviceRepository.ToggleMerossDevice(Context.managerTools.manager, devices))
             return result
         
         except Exception as e:

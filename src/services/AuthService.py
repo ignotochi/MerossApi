@@ -11,11 +11,11 @@ class AuthService:
     @staticmethod
     def CreateContext(auth: Credentials) -> str:
         try:
-            Context(auth.credentials.user, auth.credentials.password)
+            context: Context = Context(auth.credentials.user, auth.credentials.password)
             
             auth.Reset()
 
-            token = Context.GetToken()
+            token = context.GetToken()
 
             if (token):
                 return token
