@@ -1,5 +1,7 @@
-class Device:
+from dataclasses import dataclass
 
+@dataclass()
+class Device:
     deviceName: str
     deviceType: str
     firmwareVersion: str

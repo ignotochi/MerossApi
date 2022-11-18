@@ -25,5 +25,5 @@ def WebToggleDevice() -> WebApiOutcome:
             
             return outcome
         
-        except Exception as e:
-            print(f'Error when Toggle Device Controller: {e}')
+        except Exception as exception:
+            return {"WebToggleDeviceError" : exception.args[0]}

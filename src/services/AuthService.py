@@ -1,9 +1,8 @@
-import asyncio
-import os
 from ..context.context import Context
 from ..abstractions.filters.Credentials import Credentials
 from ..abstractions.auth import Auth
-from ..resources.meross.ManagerUtils import ManagerUtils
+from ..resources.manager.ManagerUtils import ManagerUtils
+from meross_iot.manager import MerossManager
 
 
 class AuthService:
@@ -11,8 +10,7 @@ class AuthService:
     @staticmethod
     def CreateContext(auth: Credentials) -> str:
         try:
-            newContextRequired: bool = (
-                Context.authenticated == False and Context.GetToken() == None)
+            newContextRequired: bool = (isinstance(Context, object) and not hasattr(Context, 'manager'))
 
             if (newContextRequired):
                 Context(auth.credentials.user, auth.credentials.password)
@@ -20,28 +18,28 @@ class AuthService:
                 return Context.GetToken()
 
             else:
-                return {"authenticated": "True"}
+                return {"Auth": "User already authenticated"}
 
-        except Exception as e:
-            print(f'Error Auth Service: {e}')
+        except Exception as exception:
+            return {"CreateContextError" : exception.args[0]}
 
     @staticmethod
     def ValidateApiToken(token: str) -> bool:
         try:
-            if (Context and isinstance(Context.managerTools, ManagerUtils)):
+            if (Context and isinstance(Context.manager, MerossManager)):
                 
-                validLocalToken: bool = Context.managerTools.manager._cloud_creds.token == Context.DecryptLocalToken()
+                validLocalToken: bool = Context.manager._cloud_creds.token == Context.DecryptLocalToken()
 
                 if (validLocalToken):
                     return (Context.authenticated == True and validLocalToken == True)
             else:
                 return False
 
-        except Exception as e:
-            print(f'Error on validation token: {e}')
+        except Exception as exception:
+            return {"ValidateApiTokenError" : exception.args[0]}
 
     @staticmethod
     def LogOut() -> bool:
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut())
+        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.manager, Context.client))
         Context.Reset()
         return {"disconnected": result}

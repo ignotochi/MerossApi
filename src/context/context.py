@@ -1,38 +1,48 @@
 import asyncio
 from cryptography.fernet import Fernet
 from ..abstractions.auth import Auth
-from ..resources.meross.ManagerUtils import ManagerUtils
+from ..resources.manager.Manager import Manager
+from meross_iot.manager import MerossManager
+from meross_iot.http_api import MerossHttpClient
+from ..core.Singleton import Singleton
 
-class Context:
+@Singleton
+class Context(object):
 
     __fernet: Fernet = None
     __localToken: str = None
 
     authenticated: bool = False
-    managerTools: ManagerUtils = None
+    client: MerossHttpClient = None
+    manager: MerossManager = None
 
     @classmethod
     def __init__(cls, user: str, passwd: str):
-        if Context.managerTools is None:
-            # generate a key for encryption and decryption
-            # You can use fernet to generate
-            # the key or use random key generator
-            # here I'm using fernet to generate key
-            key = Fernet.generate_key()
+        if cls.manager is None:
+            try:
+                # generate a key for encryption and decryption
+                # You can use fernet to generate
+                # the key or use random key generator
+                # here I'm using fernet to generate key
+                key = Fernet.generate_key()
 
-            # Instance the Fernet class with the key
-            cls.__fernet = Fernet(key)
+                # Instance the Fernet class with the key
+                cls.__fernet = Fernet(key)
 
-            cls.managerTools = ManagerUtils(user, passwd)
+                cls.manager = Manager(user, passwd).manager
 
-            cls.authenticated = len(cls.managerTools.manager._cloud_creds.token) > 0
+                cls.authenticated = len(cls.manager._cloud_creds.token) > 0
 
-            if (cls.authenticated):
-                cls.__localToken = cls.__Encrypt(cls.managerTools.manager._cloud_creds.token)
+                if (cls.authenticated):
+                    cls.__localToken = cls.__Encrypt(
+                        cls.manager._cloud_creds.token)
+            
+            except Exception as exception:
+                raise  
 
     @staticmethod
     def GetToken() -> str:
-        if (Context.__localToken != None): 
+        if (Context.__localToken != None):
             return str(Context.__localToken)
         else:
             return None
@@ -63,20 +73,13 @@ class Context:
             else:
                 return None
 
-        except Exception as e:
-            print(f'Error on get credentials: {e}')
-    
+        except Exception as exception:
+            return {"DecryptLocalTokenError" : exception.args[0]}
+
     @classmethod
     def Reset(cls) -> None:
         cls.__localToken = None
         cls.__fernet = None
         cls.authenticated = False
-        cls.managerTools.Reset()
-        cls.managerTools = None
-
-
-        
-        
-        
-
-
+        cls.manager.Reset()
+        cls.manager = None

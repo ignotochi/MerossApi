@@ -1,4 +1,3 @@
-import asyncio
 from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.ToggledDevice import ToggledDevice
@@ -10,8 +9,8 @@ class ToggleDeviceService:
         result: [str] = []
 
         try:
-            result = asyncio.run(DeviceRepository.ToggleMerossDevice(devices))
+            result = DeviceRepository.ToggleMerossDevice(devices)
             return result
         
-        except Exception as e:
-            print(f'Error when Toglle Device Service: {e}')
+        except Exception as exception:
+            return {"ToggleError" : exception.args[0]}

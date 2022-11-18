@@ -1,12 +1,12 @@
 from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
-from ..abstractions.DeviceType import DeviceType
+from ..abstractions.DeviceModel import DeviceModel
 from ..resources.repositories.DeviceRepositoryHelper import LoadDeviceHelper
 
 class LoadDevicesService:
 
     @staticmethod
-    def Load(devices: DeviceType) -> [Device]:
+    def Load(devices: DeviceModel) -> [Device]:
         try:
             result: [Device] = []
             
@@ -19,5 +19,5 @@ class LoadDevicesService:
             
             return result
                     
-        except Exception as e:
-            print(f'Error when Load Meross Devices: {e}')
+        except Exception as exception:
+            return {"LoadError" : exception.args[0]}

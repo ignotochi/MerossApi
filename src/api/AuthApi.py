@@ -19,5 +19,5 @@ def WebSingletonAuth() ->  WebApiOutcome :
             outcome = WebApiOutcome(AuthService.CreateContext(credentials))
             return outcome
         
-        except Exception as e:
-            print (f'Error on Auth controller: {e}')
+        except Exception as exception:
+            return {"WebSingletonAuthError" : exception.args[0]}

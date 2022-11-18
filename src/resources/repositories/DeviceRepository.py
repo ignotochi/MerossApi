@@ -1,35 +1,34 @@
 import asyncio
 from ...abstractions.IDevices import IDeviceRepository
 from ...abstractions import Device, ToggledDevice
-from ...abstractions.DeviceType import DeviceType
-from ...costatnts import *
-from ..meross.ManagerUtils import ManagerUtils
-
+from ...abstractions.DeviceModel import DeviceModel
+from ...resources.manager.ManagerUtils import ManagerUtils
+from ...context.context import Context
 
 class DeviceRepository(IDeviceRepository):
 
-    def LoadMerossDevices(devices: DeviceType) -> [Device]:
+    def LoadMerossDevices(devices: DeviceModel) -> [Device]:
         try:
             result: [Device] = []
 
-            result = asyncio.run(ManagerUtils.GetDevices(devices))
+            result = asyncio.run(ManagerUtils.GetDevices(Context.manager, devices))
             
             return result
 
-        except Exception as e:
-            print(f'Error when Load Meross Devices: {e}')
+        except Exception as exception:
+            return {"LoadMerossDevicesError" : exception.args[0]}
 
     async def ToggleMerossDevice(devices: [ToggledDevice]) -> [Device]:
         try:
             result: [str] = []
 
             for device in devices:
-                updatedDeviceId = await ManagerUtils.ToggleDevice(device)
+                updatedDeviceId = asyncio.run(ManagerUtils.ToggleDevice(Context.manager, device))
                 
                 if (updatedDeviceId != None):
                     result.append(updatedDeviceId)
 
             return result
 
-        except Exception as e:
-            print(f'Error when Toglle Device Repository: {e}')
+        except Exception as exception:
+            return {"ToggleMerossDeviceError" : exception.args[0]}

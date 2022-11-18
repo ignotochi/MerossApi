@@ -15,6 +15,7 @@ class BaseFilter():
             if (__isArray):
                 __dataClassObj = fromlist(obj, __parsedData)  
                 items = []         
+                
                 for obj in __dataClassObj:
                     items.append(obj)              
                 return items          

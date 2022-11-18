@@ -26,5 +26,5 @@ def WebLoadDevices() -> WebApiOutcome:
             
             return outcome
                 
-        except Exception as e:
-            print(f'Error on Load Devices: {e}')
+        except Exception as exception:
+            return {"WebLoadDevicesError" : exception.args[0]}

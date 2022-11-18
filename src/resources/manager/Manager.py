@@ -2,9 +2,10 @@ import asyncio
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.controller.device import BaseDevice
-from ...abstractions.DeviceType import DeviceType
-
-
+from ...abstractions.DeviceModel import DeviceModel
+from ...core.Singleton import Singleton
+ 
+@Singleton
 class Manager(object):
 
     manager: MerossManager = None
@@ -20,16 +21,21 @@ class Manager(object):
         newIstanceNeeded = isinstance(cls.manager, MerossManager) == False and isinstance(cls.client, MerossHttpClient) == False
 
         if (newIstanceNeeded):
-            await cls.__StartClient(user, passwd)
-            await cls.__StartManager()
+            try:
+                await cls.__StartClient(user, passwd)
+                await cls.__StartManager()
+            
+            except Exception as exception:
+                 raise Exception(exception.args[0])
+                
 
-        await cls.Discover()
+        await cls.manager.async_device_discovery()
 
-        discoveredDevices = cls.Find()
+        discoveredDevices = cls.manager.find_devices()
 
         if (discoveredDevices and len(discoveredDevices) > 0):
             for discoveredDevice in discoveredDevices:
-                await cls.Update(discoveredDevice)
+                await discoveredDevice.async_update()
 
     @classmethod
     async def __StartClient(cls, user: str, passwd: str) -> None:
@@ -40,19 +46,6 @@ class Manager(object):
         cls.manager = MerossManager(http_client=cls.client)
         await cls.manager.async_init()
 
-    @classmethod
-    def Find(cls, devicesType: [DeviceType] = None) -> [BaseDevice]:
-        discoverdDevices = cls.manager.find_devices(device_type=devicesType)
-        return discoverdDevices
-
-    @classmethod
-    async def Discover(cls) -> None:
-        await cls.manager.async_device_discovery()
-
-    @classmethod
-    async def Update(cls, device: BaseDevice):
-        await device.async_update()
-        
     @classmethod
     def Reset(cls) -> None:
         cls.manager = None
