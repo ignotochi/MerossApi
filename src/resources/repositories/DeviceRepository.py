@@ -9,9 +9,11 @@ class DeviceRepository(IDeviceRepository):
 
     def LoadMerossDevices(devices: DeviceModel) -> [Device]:
         try:
+            context = Context()
+            
             result: [Device] = []
 
-            result = asyncio.run(ManagerUtils.GetDevices(Context.manager, devices))
+            result = asyncio.run(ManagerUtils.GetDevices(context.manager, devices))
             
             return result
 
@@ -20,10 +22,12 @@ class DeviceRepository(IDeviceRepository):
 
     async def ToggleMerossDevice(devices: [ToggledDevice]) -> [Device]:
         try:
+            context = Context()
+            
             result: [str] = []
 
             for device in devices:
-                updatedDeviceId = asyncio.run(ManagerUtils.ToggleDevice(Context.manager, device))
+                updatedDeviceId = asyncio.run(ManagerUtils.ToggleDevice(context.manager, device))
                 
                 if (updatedDeviceId != None):
                     result.append(updatedDeviceId)

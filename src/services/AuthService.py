@@ -1,3 +1,4 @@
+import asyncio
 from ..context.context import Context
 from ..abstractions.filters.Credentials import Credentials
 from ..abstractions.auth import Auth
@@ -13,9 +14,9 @@ class AuthService:
             newContextRequired: bool = (isinstance(Context, object) and not hasattr(Context, 'manager'))
 
             if (newContextRequired):
-                Context(auth.credentials.user, auth.credentials.password)
+                context = Context(auth.credentials.user, auth.credentials.password)
                 auth.Reset()
-                return Context.GetToken()
+                return context.GetToken()
 
             else:
                 return {"Auth": "User already authenticated"}
@@ -25,13 +26,15 @@ class AuthService:
 
     @staticmethod
     def ValidateApiToken(token: str) -> bool:
-        try:
-            if (Context and isinstance(Context.manager, MerossManager)):
+        try:        
+            context = Context()
+            
+            if (isinstance(context, object) and hasattr(context, 'authenticated') and context.authenticated == True):
                 
-                validLocalToken: bool = Context.manager._cloud_creds.token == Context.DecryptLocalToken()
+                validLocalToken: bool = context.manager._cloud_creds.token == context.DecryptLocalToken()
 
                 if (validLocalToken):
-                    return (Context.authenticated == True and validLocalToken == True)
+                    return (context.authenticated == True and validLocalToken == True)
             else:
                 return False
 
@@ -40,6 +43,7 @@ class AuthService:
 
     @staticmethod
     def LogOut() -> bool:
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(Context.manager, Context.client))
-        Context.Reset()
+        context = Context()
+        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
+        context.Reset()
         return {"disconnected": result}

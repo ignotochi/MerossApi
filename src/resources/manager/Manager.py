@@ -27,18 +27,16 @@ class Manager(object):
             try:
                 await cls.__StartClient(user, passwd)
                 await cls.__StartManager()
-            
-            except Exception as exception:
-                 raise Exception(exception.args[0])
+                await cls.manager.async_device_discovery()
+               
+                discoveredDevices = cls.manager.find_devices()
                 
-
-        await cls.manager.async_device_discovery()
-
-        discoveredDevices = cls.manager.find_devices()
-
-        if (discoveredDevices and len(discoveredDevices) > 0):
-            for discoveredDevice in discoveredDevices:
-                await discoveredDevice.async_update()
+                if (discoveredDevices and len(discoveredDevices) > 0):
+                    for discoveredDevice in discoveredDevices:
+                        await discoveredDevice.async_update()
+                    
+            except Exception as exception:
+                raise Exception(exception.args[0])
 
     @classmethod
     async def __StartClient(cls, user: str, passwd: str) -> None:

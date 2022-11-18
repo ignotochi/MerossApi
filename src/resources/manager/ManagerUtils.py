@@ -10,17 +10,20 @@ class ManagerUtils():
     @staticmethod
     async def StopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:
         manager.close()
-        await ManagerUtils.client.async_logout()
-        return (ManagerUtils.manager._http_client._cloud_creds == None)
+        await client.async_logout()
+        return (manager._http_client._cloud_creds == None)
 
     @staticmethod
     async def GetDevices(manager: MerossManager, devices: [DeviceModel]) -> [Device]:
         
         result: [Device] = []
+        
         await manager.async_device_discovery()
 
         for device in devices:
-            discoveredDevices = manager.find_devices(device_type=device.model)
+            dev: DeviceModel = device
+            
+            discoveredDevices = manager.find_devices(dev.model)
 
             if (discoveredDevices and len(discoveredDevices) > 0):
                 

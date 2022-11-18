@@ -28,46 +28,49 @@ class Context(object):
 
                 # Instance the Fernet class with the key
                 cls.__fernet = Fernet(key)
+                
+                _manager = Manager(user, passwd)
 
-                cls.manager = Manager(user, passwd).manager
+                cls.manager = _manager.manager
+                
+                cls.client = _manager.client
 
                 cls.authenticated = len(cls.manager._cloud_creds.token) > 0
 
                 if (cls.authenticated):
-                    cls.__localToken = cls.__Encrypt(
-                        cls.manager._cloud_creds.token)
+                    cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
             
             except Exception as exception:
                 raise  
 
-    @staticmethod
-    def GetToken() -> str:
-        if (Context.__localToken != None):
-            return str(Context.__localToken)
+    @classmethod
+    def GetToken(cls) -> str:
+        if (cls.__localToken != None):
+            return str(cls.__localToken)
         else:
             return None
 
-    @staticmethod
-    def __Encrypt(value: str) -> str:
+    @classmethod
+    def __Encrypt(cls, value: str) -> str:
         # then use the Fernet class instance
         # to encrypt the string string must
         # be encoded to byte string before encryption
         if (value):
-            return Context.__fernet.encrypt(value.encode())
+            return cls.__fernet.encrypt(value.encode())
         else:
             return ""
 
-    @staticmethod
-    def DecryptLocalToken() -> str:
+    @classmethod
+    def DecryptLocalToken(cls) -> str:
         # decrypt the encrypted string with the
         # Fernet instance of the key,
         # that was used for encrypting the string
         # encoded byte string is returned by decrypt method,
         # so decode it to string with decode methods
         try:
-            if (Context.__localToken and Context.authenticated == True):
-                decriptedToken = Context.__fernet.decrypt(
-                    Context.__localToken).decode()
+            if (cls.__localToken and cls.authenticated == True):
+                decriptedToken = cls.__fernet.decrypt(
+                    cls.__localToken).decode()
 
                 return decriptedToken
             else:
@@ -81,5 +84,4 @@ class Context(object):
         cls.__localToken = None
         cls.__fernet = None
         cls.authenticated = False
-        cls.manager.Reset()
         cls.manager = None
