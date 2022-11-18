@@ -8,11 +8,14 @@ from ...core.Singleton import Singleton
 @Singleton
 class Manager(object):
 
-    manager: MerossManager = None
-    client: MerossHttpClient = None
+    # manager: MerossManager = None
+    # client: MerossHttpClient = None
 
     @classmethod
     def __init__(cls, user: str, passwd: str) -> None:
+        cls.manager = MerossManager
+        cls.client = MerossHttpClient
+        
         asyncio.run(cls.Start(user, passwd))
 
     @classmethod
@@ -39,11 +42,11 @@ class Manager(object):
 
     @classmethod
     async def __StartClient(cls, user: str, passwd: str) -> None:
-        cls.client = await MerossHttpClient.async_from_user_password(email=user, password=passwd)
+        cls.client = await cls.client.async_from_user_password(email=user, password=passwd)
 
     @classmethod
     async def __StartManager(cls) -> None:
-        cls.manager = MerossManager(http_client=cls.client)
+        cls.manager = cls.manager(http_client=cls.client)
         await cls.manager.async_init()
 
     @classmethod
