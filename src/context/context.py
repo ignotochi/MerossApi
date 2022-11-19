@@ -6,7 +6,7 @@ from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from ..core.Singleton import Singleton
 
-@Singleton
+@Singleton.Create
 class Context(object):
 
     __fernet: Fernet = None
@@ -41,7 +41,7 @@ class Context(object):
                     cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
             
             except Exception as exception:
-                raise  
+                raise {"Context" : exception.args[0]}
 
     @classmethod
     def GetToken(cls) -> str:
@@ -77,11 +77,16 @@ class Context(object):
                 return None
 
         except Exception as exception:
-            return {"DecryptLocalTokenError" : exception.args[0]}
-
+            raise {"DecryptLocalTokenError" : exception.args[0]}
+    
     @classmethod
     def Reset(cls) -> None:
         cls.__localToken = None
         cls.__fernet = None
         cls.authenticated = False
         cls.manager = None
+        cls.client = None
+        Singleton.Clean(cls)
+        
+        mng = Manager()
+        mng.Reset()

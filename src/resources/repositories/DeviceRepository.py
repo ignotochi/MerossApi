@@ -12,22 +12,22 @@ class DeviceRepository(IDeviceRepository):
             context = Context()
             
             result: [Device] = []
-
-            result = asyncio.run(ManagerUtils.GetDevices(context.manager, devices))
+            
+            result = asyncio.run(ManagerUtils.GetDevices(context.client, devices))
             
             return result
 
         except Exception as exception:
-            return {"LoadMerossDevicesError" : exception.args[0]}
+            raise Exception({"LoadMerossDevicesError" : exception.args[0]}) 
 
-    async def ToggleMerossDevice(devices: [ToggledDevice]) -> [Device]:
+    def ToggleMerossDevice(devices: [ToggledDevice]) -> [Device]:
         try:
             context = Context()
             
             result: [str] = []
 
             for device in devices:
-                updatedDeviceId = asyncio.run(ManagerUtils.ToggleDevice(context.manager, device))
+                updatedDeviceId = asyncio.run(ManagerUtils.ToggleDevice(context.client, device))
                 
                 if (updatedDeviceId != None):
                     result.append(updatedDeviceId)
@@ -35,4 +35,4 @@ class DeviceRepository(IDeviceRepository):
             return result
 
         except Exception as exception:
-            return {"ToggleMerossDeviceError" : exception.args[0]}
+            raise {"ToggleMerossDeviceError" : exception.args[0]}

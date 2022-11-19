@@ -5,19 +5,16 @@ from meross_iot.controller.device import BaseDevice
 from ...abstractions.DeviceModel import DeviceModel
 from ...core.Singleton import Singleton
  
-@Singleton
+@Singleton.Create
 class Manager(object):
-
-    # manager: MerossManager = None
-    # client: MerossHttpClient = None
-
+    
+    manager: MerossManager = None
+    client: MerossHttpClient = None
+    
     @classmethod
     def __init__(cls, user: str, passwd: str) -> None:
-        cls.manager = MerossManager
-        cls.client = MerossHttpClient
-        
-        asyncio.run(cls.Start(user, passwd))
-
+        starter = asyncio.run(cls.Start(user, passwd))
+            
     @classmethod
     async def Start(cls, user: str, passwd: str) -> None:
 
@@ -25,29 +22,23 @@ class Manager(object):
 
         if (newIstanceNeeded):
             try:
-                await cls.__StartClient(user, passwd)
-                await cls.__StartManager()
-                await cls.manager.async_device_discovery()
-               
-                discoveredDevices = cls.manager.find_devices()
-                
-                if (discoveredDevices and len(discoveredDevices) > 0):
-                    for discoveredDevice in discoveredDevices:
-                        await discoveredDevice.async_update()
+                cls.client = await cls.__StartClient(user, passwd)
+                cls.manager = await cls.__StartManager(cls.client)
                     
             except Exception as exception:
                 raise Exception(exception.args[0])
 
     @classmethod
-    async def __StartClient(cls, user: str, passwd: str) -> None:
-        cls.client = await cls.client.async_from_user_password(email=user, password=passwd)
+    async def __StartClient(cls, user: str, passwd: str) -> MerossHttpClient:
+        client = await MerossHttpClient.async_from_user_password(email=user, password=passwd)
+        return client
 
     @classmethod
-    async def __StartManager(cls) -> None:
-        cls.manager = cls.manager(http_client=cls.client)
-        await cls.manager.async_init()
+    async def __StartManager(cls, client: MerossHttpClient) -> MerossManager:
+        manager = MerossManager(http_client=client, auto_reconnect= True, mqtt_skip_cert_validation=True)
+        await manager.async_init()
+        return manager
 
     @classmethod
     def Reset(cls) -> None:
-        cls.manager = None
-        cls.client = None
+        Singleton.Clean(cls)

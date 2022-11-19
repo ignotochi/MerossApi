@@ -4,19 +4,23 @@ from ..abstractions.filters.Credentials import Credentials
 from ..abstractions.auth import Auth
 from ..resources.manager.ManagerUtils import ManagerUtils
 from meross_iot.manager import MerossManager
+from ..resources.manager.Manager import Manager
+from ..core.Singleton import Singleton
 
 
 class AuthService:
+    
+    context: Context = None
 
-    @staticmethod
-    def CreateContext(auth: Credentials) -> str:
+    @classmethod
+    def CreateContext(cls, auth: Credentials) -> str:
         try:
-            newContextRequired: bool = (isinstance(Context, object) and not hasattr(Context, 'manager'))
+            newContextRequired: bool = (cls.context == None)
 
             if (newContextRequired):
-                context = Context(auth.credentials.user, auth.credentials.password)
+                cls.context = Context(auth.credentials.user, auth.credentials.password)
                 auth.Reset()
-                return context.GetToken()
+                return cls.context.GetToken()
 
             else:
                 return {"Auth": "User already authenticated"}
@@ -24,26 +28,24 @@ class AuthService:
         except Exception as exception:
             return {"CreateContextError" : exception.args[0]}
 
-    @staticmethod
-    def ValidateApiToken(token: str) -> bool:
-        try:        
-            context = Context()
-            
-            if (isinstance(context, object) and hasattr(context, 'authenticated') and context.authenticated == True):
+    @classmethod
+    def ValidateApiToken(cls, token: str) -> bool:
+        try:                    
+            if (cls.context != None and cls.context.authenticated == True):
                 
-                validLocalToken: bool = context.manager._cloud_creds.token == context.DecryptLocalToken()
+                validLocalToken: bool = cls.context.manager._cloud_creds.token == cls.context.DecryptLocalToken()
 
                 if (validLocalToken):
-                    return (context.authenticated == True and validLocalToken == True)
+                    return (cls.context.authenticated == True and validLocalToken == True)
             else:
                 return False
 
         except Exception as exception:
             return {"ValidateApiTokenError" : exception.args[0]}
 
-    @staticmethod
-    def LogOut() -> bool:
-        context = Context()
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
-        context.Reset()
+    @classmethod
+    def LogOut(cls) -> bool: 
+        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(cls.context.manager, cls.context.client))
+        cls.context.Reset()
+        cls.context = None
         return {"disconnected": result}

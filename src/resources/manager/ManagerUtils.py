@@ -1,9 +1,9 @@
 from ...abstractions.DeviceModel import DeviceModel
 from ...abstractions.Device import Device
 from ...abstractions.ToggledDevice import ToggledDevice
+from meross_iot.controller.device import BaseDevice
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
-from meross_iot.controller.device import BaseDevice
 
 class ManagerUtils():
 
@@ -14,39 +14,52 @@ class ManagerUtils():
         return (manager._http_client._cloud_creds == None)
 
     @staticmethod
-    async def GetDevices(manager: MerossManager, devices: [DeviceModel]) -> [Device]:
+    async def GetDevices(client: MerossHttpClient, devices: [DeviceModel]) -> [Device]:
         
-        result: [Device] = []
-        
-        await manager.async_device_discovery()
-
-        for device in devices:
-            dev: DeviceModel = device
+        try:
+            result: [Device] = []
             
-            discoveredDevices = manager.find_devices(dev.model)
+            manager = MerossManager(http_client=client)          
+            
+            await manager.async_device_discovery()
 
-            if (discoveredDevices and len(discoveredDevices) > 0):
+            for device in devices:
+                dev: DeviceModel = device
                 
-                for discoveredDevice in discoveredDevices:
-                    await discoveredDevice.async_update(self)
-                    devices.append(discoveredDevice)
+                discoveredDevices = manager.find_devices(device_type=dev.model)
 
-        return result
+                if (discoveredDevices and len(discoveredDevices) > 0):
+                    
+                    for discoveredDevice in discoveredDevices:
+                        await discoveredDevice.async_update()                
+                        result.append(discoveredDevice)
+
+            return result
+        
+        except Exception as exception:
+            raise Exception(exception.args[0])
 
     @staticmethod
-    async def ToggleDevice(manager: MerossManager, toggledDevice: ToggledDevice) -> str:
+    async def ToggleDevice(client: MerossHttpClient, toggledDevice: ToggledDevice) -> str:
         
-        deviceId: str = None
+        try:
+            deviceId: str = None
+            
+            manager = MerossManager(http_client=client)  
 
-        await manager.async_device_discovery()
-        device = manager.find_devices(toggledDevice.deviceId)[0]
-        deviceId = device.uuid
+            await manager.async_device_discovery()
+            device = manager.find_devices(toggledDevice.deviceId)[0]
+            deviceId = device.uuid
 
-        await device.async_update()
+            if (toggledDevice.enabled == True):
+                await device.async_turn_on(channel=0)
+            else:
+                await device.async_turn_off(channel=0)
+                
+            await device.async_update()
 
-        if (toggledDevice.enabled == True):
-            await device.async_turn_on(channel=0)
-        else:
-            await device.async_turn_off(channel=0)
-
-        return deviceId
+            return deviceId
+        
+        except Exception as exception:
+            raise Exception(exception.args[0])
+    

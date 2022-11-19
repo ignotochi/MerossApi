@@ -7,7 +7,7 @@ class LoadDeviceHelper:
         outcome: Device = Device()
 
         outcome.deviceName = item.name
-        outcome.deviceType = item.type
+        outcome.model = item.type
         outcome.hardwareVersion = item.hardware_version
         outcome.firmwareVersion = item.firmware_version
         outcome.deviceId = item.uuid
