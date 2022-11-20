@@ -13,25 +13,26 @@ class Manager(object):
     
     @classmethod
     def __init__(cls, user: str, passwd: str) -> None:
-        starter = asyncio.run(cls.Start(user, passwd))
+        asyncio.run(cls.Start(user, passwd))
             
     @classmethod
     async def Start(cls, user: str, passwd: str) -> None:
-
-        newIstanceNeeded = isinstance(cls.manager, MerossManager) == False and isinstance(cls.client, MerossHttpClient) == False
-
-        if (newIstanceNeeded):
-            try:
+        try:
+            newIstanceNeeded = isinstance(cls.manager, MerossManager) == False and isinstance(cls.client, MerossHttpClient) == False
+           
+            if (newIstanceNeeded):
                 cls.client = await cls.__StartClient(user, passwd)
                 cls.manager = await cls.__StartManager(cls.client)
-                    
-            except Exception as exception:
-                raise Exception(exception.args[0])
+            else:
+                eventLoop = asyncio.get_event_loop()
+                cls.manager._loop = eventLoop
+
+        except Exception as exception:
+            raise Exception(exception.args[0])
 
     @classmethod
     async def __StartClient(cls, user: str, passwd: str) -> MerossHttpClient:
-        client = await MerossHttpClient.async_from_user_password(email=user, password=passwd)
-        return client
+        return await MerossHttpClient.async_from_user_password(email=user, password=passwd)
 
     @classmethod
     async def __StartManager(cls, client: MerossHttpClient) -> MerossManager:

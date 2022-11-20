@@ -19,11 +19,12 @@ class AuthService:
 
             if (newContextRequired):
                 cls.context = Context(auth.credentials.user, auth.credentials.password)
-                auth.Reset()
                 return cls.context.GetToken()
 
             else:
                 return {"Auth": "User already authenticated"}
+        
+            auth.Reset()
 
         except Exception as exception:
             return {"CreateContextError" : exception.args[0]}
@@ -47,5 +48,4 @@ class AuthService:
     def LogOut(cls) -> bool: 
         result = asyncio.run(ManagerUtils.StopManagerAndLogOut(cls.context.manager, cls.context.client))
         cls.context.Reset()
-        cls.context = None
         return {"disconnected": result}
