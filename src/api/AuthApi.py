@@ -1,4 +1,4 @@
-from flask import Flask, request, Blueprint
+from flask import request, Blueprint
 from ..core.WebApiOutcome import WebApiOutcome
 from ..abstractions.filters.Credentials import Credentials
 from ..services.AuthService import AuthService

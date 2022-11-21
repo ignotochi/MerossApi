@@ -1,8 +1,6 @@
 import asyncio
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
-from meross_iot.controller.device import BaseDevice
-from ...abstractions.DeviceModel import DeviceModel
 from ...core.Singleton import Singleton
  
 @Singleton.New

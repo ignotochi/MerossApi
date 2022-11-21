@@ -1,29 +1,29 @@
 from ...core.JsonHelper import JsonUtils
-from dataclass_wizard import fromlist, asdict, DateTimePattern
-from typing import TypeVar, Generic, List, Tuple
+from dataclass_wizard import fromlist
+from typing import TypeVar
 
 T = TypeVar("T")
 
 class BaseFilter():
 
-    def __init__(self, data: str, obj: T) -> T:
+    def __init__(self, data: str, dataClass: T) -> T:
         
         try:
             if (data):
-                __parsedData: ToggleDeviceFilter = JsonUtils.ParseData(data) 
-                __isArray = isinstance(__parsedData, list)
+                parsedData: T = JsonUtils.ParseData(data) 
+                isArray = isinstance(parsedData, list)
 
-                if (__isArray):
-                    __dataClassObj = fromlist(obj, __parsedData)  
+                if (isArray):
+                    dataClassObj = fromlist(dataClass, parsedData)  
                     items = []         
                     
-                    for obj in __dataClassObj:
-                        items.append(obj)              
+                    for dataClass in dataClassObj:
+                        items.append(dataClass)              
                     return items          
                 
                 else:
-                    __dataClassObj = fromlist(obj, [__parsedData])  
-                    return __dataClassObj[0]
+                    dataClassObj = fromlist(dataClass, [parsedData])  
+                    return dataClassObj[0]
         
         except Exception as exception:
             raise Exception({"BaseFilterError" : exception.args[0]})

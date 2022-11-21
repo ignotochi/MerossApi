@@ -1,6 +1,6 @@
 import asyncio
-from meross_iot.manager import MerossManager
 from functools import wraps
+
 
 @staticmethod
 def UpdateLoopManager(func):
@@ -16,3 +16,4 @@ def UpdateLoopManager(func):
             
             return asyncio.run(wrapped(*args))
     return wrapper
+

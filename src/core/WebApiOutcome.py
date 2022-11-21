@@ -1,10 +1,9 @@
 import json
 from ..abstractions.IWebApiOutcome import IWebApiOutcome
 from ..abstractions.OutcomeJsonEncoder import OutcomeJsonEncoder
-from typing import TypeVar, Generic, List, Tuple
+from typing import TypeVar
 
 T = TypeVar("T")
-
 
 class WebApiOutcome(IWebApiOutcome):
 

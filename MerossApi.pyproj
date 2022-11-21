@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{dff37aaa-a01f-405e-8f38-05354e2a502a}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>src\app.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <InterpreterId>Global|PythonCore|3.11</InterpreterId>
+    <TestFramework>Pytest</TestFramework>
+    <WebBrowserPort>4449</WebBrowserPort>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\abstractions\auth.py" />
+    <Compile Include="src\abstractions\Device.py" />
+    <Compile Include="src\abstractions\DeviceModel.py" />
+    <Compile Include="src\abstractions\filters\BaseFilters.py" />
+    <Compile Include="src\abstractions\filters\Credentials.py" />
+    <Compile Include="src\abstractions\filters\DevicesFilter.py" />
+    <Compile Include="src\abstractions\filters\ToggleDeviceFilter.py" />
+    <Compile Include="src\abstractions\IDevices.py" />
+    <Compile Include="src\abstractions\IWebApiOutcome.py" />
+    <Compile Include="src\abstractions\OutcomeJsonEncoder.py" />
+    <Compile Include="src\abstractions\ToggledDevice.py" />
+    <Compile Include="src\abstractions\__init__.py" />
+    <Compile Include="src\api\AuthApi.py" />
+    <Compile Include="src\api\LoadDevicesApi.py" />
+    <Compile Include="src\api\LogOutApi.py" />
+    <Compile Include="src\api\ToggleDeviceApi.py" />
+    <Compile Include="src\api\__init__.py" />
+    <Compile Include="src\app.py">
+      <Publish>True</Publish>
+    </Compile>
+    <Compile Include="src\context\Context.py" />
+    <Compile Include="src\context\__init__.py" />
+    <Compile Include="src\core\JsonHelper.py" />
+    <Compile Include="src\core\Singleton.py" />
+    <Compile Include="src\core\WebApiOutcome.py" />
+    <Compile Include="src\core\wraps.py" />
+    <Compile Include="src\core\__init__.py" />
+    <Compile Include="src\costatnts.py" />
+    <Compile Include="src\resources\manager\Manager.py" />
+    <Compile Include="src\resources\manager\ManagerUtils.py" />
+    <Compile Include="src\resources\repositories\DeviceRepository.py" />
+    <Compile Include="src\resources\repositories\DeviceRepositoryHelper.py" />
+    <Compile Include="src\resources\__init__.py" />
+    <Compile Include="src\services\AuthService.py" />
+    <Compile Include="src\services\LoadDevicesService.py" />
+    <Compile Include="src\services\ToggleDeviceService.py" />
+    <Compile Include="src\services\__init__.py" />
+    <Compile Include="src\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src" />
+    <Folder Include="src\abstractions" />
+    <Folder Include="src\abstractions\filters" />
+    <Folder Include="src\api" />
+    <Folder Include="src\context" />
+    <Folder Include="src\core" />
+    <Folder Include="src\resources" />
+    <Folder Include="src\resources\manager" />
+    <Folder Include="src\resources\repositories" />
+    <Folder Include="src\services" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.11" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

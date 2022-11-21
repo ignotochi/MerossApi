@@ -2,14 +2,18 @@ from ..resources.repositories.DeviceRepository import DeviceRepository
 from ..abstractions.Device import Device
 from ..abstractions.DeviceModel import DeviceModel
 from ..resources.repositories.DeviceRepositoryHelper import LoadDeviceHelper
-from ..context.context import Context
+from ..context.Context import Context
+from typing import TypeVar
+from typing import List
+
+Device = TypeVar("Device")
 
 class LoadDevicesService:
 
     @staticmethod
-    def Load(devices: DeviceModel) -> [Device]:
+    def Load(devices: DeviceModel) -> List[Device]:
         try:
-            result: [Device] = []
+            result: List[Device] = []
             
             context: Context = Context()
             

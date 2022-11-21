@@ -1,15 +1,20 @@
-import asyncio
 from ...abstractions.IDevices import IDeviceRepository
 from ...abstractions import Device, ToggledDevice
 from ...abstractions.DeviceModel import DeviceModel
 from ...resources.manager.ManagerUtils import ManagerUtils
-from ...context.context import Context
+from ...context.Context import Context
+from typing import TypeVar
+from typing import List
+
+Device = TypeVar("Device")
+ToggledDevice = TypeVar("ToggledDevice")
+
 
 class DeviceRepository(IDeviceRepository):
 
-    def LoadMerossDevices(context: Context, devices: DeviceModel) -> [Device]:
+    def LoadMerossDevices(context: Context, devices: DeviceModel) -> List[Device]:
         try:  
-            result: [Device] = []    
+            result = []    
             
             result = ManagerUtils.GetDevices(context.manager, devices)
             
@@ -18,9 +23,9 @@ class DeviceRepository(IDeviceRepository):
         except Exception as exception:
             raise Exception({"LoadMerossDevicesError" : exception.args[0]}) 
 
-    def ToggleMerossDevice(context: Context, devices: [ToggledDevice]) -> [Device]:
+    def ToggleMerossDevice(context: Context, devices: List[ToggledDevice]) -> List[Device]:
         try:       
-            result: [str] = []
+            result: List[str] = []
 
             for device in devices:
                 updatedDeviceId = ManagerUtils.ToggleDevice(context.manager, device)

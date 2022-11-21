@@ -4,13 +4,14 @@ class LoadDeviceHelper:
 
     @staticmethod
     def MapDevice(item):
-        outcome: Device = Device()
+       
+       outcome: Device = Device(
+                    deviceName=item.name,
+                    model=item.type,
+                    firmwareVersion=item.firmware_version,
+                    hardwareVersion=item.hardware_version,
+                    deviceUid=item.uuid,
+                    status=item.online_status.name)
 
-        outcome.deviceName = item.name
-        outcome.model = item.type
-        outcome.hardwareVersion = item.hardware_version
-        outcome.firmwareVersion = item.firmware_version
-        outcome.deviceId = item.uuid
-        outcome.status = item.online_status.name
+       return outcome
 
-        return outcome

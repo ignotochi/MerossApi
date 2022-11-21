@@ -69,8 +69,7 @@ class Context(object):
         # so decode it to string with decode methods
         try:
             if (cls.__localToken and cls.authenticated == True):
-                decriptedToken = cls.__fernet.decrypt(
-                    cls.__localToken).decode()
+                decriptedToken = cls.__fernet.decrypt(cls.__localToken).decode()
 
                 return decriptedToken
             else:

@@ -1,11 +1,7 @@
 import asyncio
-from ..context.context import Context
+from ..context.Context import Context
 from ..abstractions.filters.Credentials import Credentials
-from ..abstractions.auth import Auth
 from ..resources.manager.ManagerUtils import ManagerUtils
-from meross_iot.manager import MerossManager
-from ..resources.manager.Manager import Manager
-from ..core.Singleton import Singleton
 
 
 class AuthService:
@@ -34,7 +30,7 @@ class AuthService:
         try:                    
             if (cls.context != None and cls.context.authenticated == True):
                 
-                validLocalToken: bool = cls.context.manager._cloud_creds.token == cls.context.DecryptLocalToken()
+                validLocalToken: bool = token == cls.context.GetToken() 
 
                 if (validLocalToken):
                     return (cls.context.authenticated == True and validLocalToken == True)

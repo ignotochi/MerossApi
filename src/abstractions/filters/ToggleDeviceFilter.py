@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 from .BaseFilters import BaseFilter
-from ...abstractions import Device
 from ...abstractions.ToggledDevice import ToggledDevice
+from typing import List
 
 
 @dataclass
 class ToggleDeviceFilter(BaseFilter):
 
-    toggledDevices: [ToggledDevice]
+    toggledDevices: List[ToggledDevice]
 
     def __init__(self, data: str = None):
         if (data != None):

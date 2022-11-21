@@ -1,5 +1,4 @@
 import json
-from ..abstractions.ToggledDevice import ToggledDevice
 
 class JsonUtils():
 

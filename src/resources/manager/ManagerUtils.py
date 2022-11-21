@@ -1,19 +1,21 @@
-import asyncio
 from ...abstractions.DeviceModel import DeviceModel
 from ...abstractions.Device import Device
 from ...abstractions.ToggledDevice import ToggledDevice
-from meross_iot.controller.device import BaseDevice
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from ...core.wraps import UpdateLoopManager
+from typing import TypeVar
+from typing import List
 
+DeviceModel = TypeVar("DeviceModel")
+Deice = TypeVar("Deice")
 
 class ManagerUtils():
 
     @UpdateLoopManager
-    async def GetDevices(manager: MerossManager, devices: [DeviceModel]) -> [Device]:
+    async def GetDevices(manager: MerossManager, devices: List[DeviceModel]) -> List[Device]:
         try:
-            result: [Device] = []
+            result: List[Device] = []
 
             await manager.async_device_discovery()
 
@@ -54,6 +56,7 @@ class ManagerUtils():
 
         except Exception as exception:
             raise Exception(exception.args[0])
+
 
     @staticmethod
     async def StopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:

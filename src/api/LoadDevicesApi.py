@@ -1,4 +1,4 @@
-from flask import Flask, request, Blueprint
+from flask import request, Blueprint
 from ..services.LoadDevicesService import LoadDevicesService
 from ..services.AuthService import AuthService
 from ..core.WebApiOutcome import WebApiOutcome
@@ -17,9 +17,10 @@ def WebLoadDevices() -> WebApiOutcome:
 
         try:
             outcome = WebApiOutcome()
-            devicesFilter = DevicesFilter(dataRequest)
-        
+            
             if (AuthService.ValidateApiToken(token) == True):
+                outcome = WebApiOutcome()
+                devicesFilter = DevicesFilter(dataRequest)
                 
                 webDevices = LoadDevicesService.Load(devicesFilter.devices)
                 outcome = WebApiOutcome(webDevices)

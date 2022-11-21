@@ -1,15 +1,17 @@
 from ..resources.repositories.DeviceRepository import DeviceRepository
-from ..abstractions.Device import Device
 from ..abstractions.ToggledDevice import ToggledDevice
-from ..context.context import Context
+from ..context.Context import Context
+from typing import TypeVar
+from typing import List
 
+ToggledDevice = TypeVar("ToggledDevice")
 
 class ToggleDeviceService:
 
     @staticmethod
-    def Toggle(devices: [ToggledDevice]) -> [str]:
+    def Toggle(devices: List[ToggledDevice]) -> List[str]:
         try:
-            result: [str] = []
+            result: List[str] = []
             context: Context = Context()
             
             result = DeviceRepository.ToggleMerossDevice(context, devices)
