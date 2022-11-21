@@ -1,9 +1,9 @@
 class Singleton:
 
     instances = {}
-
+         
     @classmethod
-    def Create(cls, instance, *args, **kw) -> object:
+    def New(cls, instance, *args, **kw) -> object:
 
         def _Create(*args, **kw):
             if instance not in cls.instances:

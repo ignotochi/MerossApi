@@ -6,7 +6,7 @@ from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from ..core.Singleton import Singleton
 
-@Singleton.Create
+@Singleton.New
 class Context(object):
 
     __fernet: Fernet = None

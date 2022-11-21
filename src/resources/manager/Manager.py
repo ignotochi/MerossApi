@@ -5,7 +5,7 @@ from meross_iot.controller.device import BaseDevice
 from ...abstractions.DeviceModel import DeviceModel
 from ...core.Singleton import Singleton
  
-@Singleton.Create
+@Singleton.New
 class Manager(object):
     
     manager: MerossManager = None
