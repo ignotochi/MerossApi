@@ -10,11 +10,11 @@ from ...core.wraps import UpdateLoopManager
 
 class ManagerUtils():
 
-    @staticmethod
+    @UpdateLoopManager
     async def GetDevices(manager: MerossManager, devices: [DeviceModel]) -> [Device]:
         try:
             result: [Device] = []
-            UpdateLoopManager(manager)
+
             await manager.async_device_discovery()
 
             for device in devices:
@@ -34,11 +34,11 @@ class ManagerUtils():
         except Exception as exception:
             raise Exception(exception.args[0])
 
-    @staticmethod
+
+    @UpdateLoopManager
     async def ToggleDevice(manager: MerossManager, toggledDevice: ToggledDevice) -> str:
         try:
             deviceId: str = None
-            UpdateLoopManager(manager)
 
             await manager.async_device_discovery()
             device = manager.find_devices(toggledDevice.deviceId)[0]

@@ -11,7 +11,7 @@ class DeviceRepository(IDeviceRepository):
         try:  
             result: [Device] = []    
             
-            result = asyncio.run(ManagerUtils.GetDevices(context.manager, devices))
+            result = ManagerUtils.GetDevices(context.manager, devices)
             
             return result
 
@@ -23,7 +23,7 @@ class DeviceRepository(IDeviceRepository):
             result: [str] = []
 
             for device in devices:
-                updatedDeviceId = asyncio.run(ManagerUtils.ToggleDevice(context.manager, device))
+                updatedDeviceId = ManagerUtils.ToggleDevice(context.manager, device)
                 
                 if (updatedDeviceId != None):
                     result.append(updatedDeviceId)
