@@ -7,7 +7,7 @@
     <ProjectHome />
     <StartupFile>src\app.py</StartupFile>
     <SearchPath />
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory>src\merossApi</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Web launcher</LaunchProvider>
@@ -15,6 +15,8 @@
     <TestFramework>Pytest</TestFramework>
     <WebBrowserPort>4449</WebBrowserPort>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -65,7 +67,6 @@
     <Compile Include="src\merossApi\services\LoadDevicesService.py" />
     <Compile Include="src\merossApi\services\ToggleDeviceService.py" />
     <Compile Include="src\merossApi\services\__init__.py" />
-    <Compile Include="src\merossApi\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src" />

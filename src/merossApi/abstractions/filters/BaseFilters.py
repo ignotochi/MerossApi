@@ -20,7 +20,7 @@ class BaseFilter:
                     for dataClass in dataClassObj:
                         items.append(dataClass)
 
-                        return items
+                    return items
 
                 else:
                     dataClassObj = fromlist(dataClass, [parsedData])
