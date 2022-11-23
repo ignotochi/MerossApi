@@ -7,7 +7,6 @@ T = TypeVar("T")
 
 class WebApiOutcome(IWebApiOutcome):
 
-    @staticmethod
     def __new__(self, item: T = None) -> T:
         if (item != None):
             return self.ToJson(self, item)

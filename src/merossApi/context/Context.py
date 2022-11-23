@@ -1,6 +1,4 @@
-import asyncio
 from cryptography.fernet import Fernet
-from merossApi.abstractions.auth import Auth
 from merossApi.resources.manager.Manager import Manager
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
