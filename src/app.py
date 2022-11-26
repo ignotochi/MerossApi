@@ -1,4 +1,3 @@
-import meross
 from flask import Flask
 from meross.api import ToggleDeviceApi, LoadDevicesApi, AuthApi, LogOutApi
 

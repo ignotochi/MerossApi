@@ -1,5 +1,5 @@
 from flask import request, Blueprint
-from meross.services.LoadDevicesService import LoadDevicesService
+from meross.services.LoadDevicesService import LoadDevicesService 
 from meross.services.LoadDevicesService import LoadDevicesService
 from meross.services.AuthService import AuthService
 from meross.core.WebApiOutcome import WebApiOutcome
