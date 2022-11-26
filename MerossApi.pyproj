@@ -3,19 +3,23 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{dff37aaa-a01f-405e-8f38-05354e2a502a}</ProjectGuid>
+    <ProjectGuid>{7c61033b-28ab-4300-93a2-fd7a3b7120da}</ProjectGuid>
     <ProjectHome />
     <StartupFile>src\app.py</StartupFile>
-    <SearchPath />
-    <WorkingDirectory>src\merossApi</WorkingDirectory>
+    <SearchPath>src\meross;src;..\MerossApi</SearchPath>
+    <WorkingDirectory>src\meross</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
-    <LaunchProvider>Web launcher</LaunchProvider>
-    <InterpreterId>Global|PythonCore|3.11</InterpreterId>
-    <TestFramework>Pytest</TestFramework>
-    <WebBrowserPort>4449</WebBrowserPort>
+    <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <WebBrowserUrl>
+    </WebBrowserUrl>
+    <PythonWsgiHandler>
+    </PythonWsgiHandler>
+    <SuppressConfigureTestFrameworkPrompt>true</SuppressConfigureTestFrameworkPrompt>
+    <WebBrowserPort>
+    </WebBrowserPort>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <WebBrowserUrl>http://localhost</WebBrowserUrl>
     <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
@@ -24,65 +28,97 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="libman.json" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\merossApi\abstractions\auth.py" />
-    <Compile Include="src\merossApi\abstractions\Device.py" />
-    <Compile Include="src\merossApi\abstractions\DeviceModel.py" />
-    <Compile Include="src\merossApi\abstractions\filters\BaseFilters.py" />
-    <Compile Include="src\merossApi\abstractions\filters\Credentials.py" />
-    <Compile Include="src\merossApi\abstractions\filters\DevicesFilter.py" />
-    <Compile Include="src\merossApi\abstractions\filters\ToggleDeviceFilter.py" />
-    <Compile Include="src\merossApi\abstractions\filters\__init__.py" />
-    <Compile Include="src\merossApi\abstractions\IDevices.py" />
-    <Compile Include="src\merossApi\abstractions\IWebApiOutcome.py" />
-    <Compile Include="src\merossApi\abstractions\OutcomeJsonEncoder.py" />
-    <Compile Include="src\merossApi\abstractions\ToggledDevice.py" />
-    <Compile Include="src\merossApi\abstractions\__init__.py" />
-    <Compile Include="src\merossApi\api\AuthApi.py" />
-    <Compile Include="src\merossApi\api\LoadDevicesApi.py" />
-    <Compile Include="src\merossApi\api\LogOutApi.py" />
-    <Compile Include="src\merossApi\api\ToggleDeviceApi.py" />
-    <Compile Include="src\app.py">
-      <Publish>True</Publish>
-    </Compile>
-    <Compile Include="src\merossApi\api\__init__.py" />
-    <Compile Include="src\merossApi\context\Context.py" />
-    <Compile Include="src\merossApi\context\__init__.py" />
-    <Compile Include="src\merossApi\core\JsonHelper.py" />
-    <Compile Include="src\merossApi\core\Singleton.py" />
-    <Compile Include="src\merossApi\core\WebApiOutcome.py" />
-    <Compile Include="src\merossApi\core\wraps.py" />
-    <Compile Include="src\merossApi\core\__init__.py" />
-    <Compile Include="src\merossApi\costatnts.py" />
-    <Compile Include="src\merossApi\resources\manager\Manager.py" />
-    <Compile Include="src\merossApi\resources\manager\ManagerUtils.py" />
-    <Compile Include="src\merossApi\resources\manager\__init__.py" />
-    <Compile Include="src\merossApi\resources\repositories\DeviceRepository.py" />
-    <Compile Include="src\merossApi\resources\repositories\DeviceRepositoryHelper.py" />
-    <Compile Include="src\merossApi\resources\repositories\__init__.py" />
-    <Compile Include="src\merossApi\resources\__init__.py" />
-    <Compile Include="src\merossApi\services\AuthService.py" />
-    <Compile Include="src\merossApi\services\LoadDevicesService.py" />
-    <Compile Include="src\merossApi\services\ToggleDeviceService.py" />
-    <Compile Include="src\merossApi\services\__init__.py" />
+    <Compile Include="src\app.py" />
+    <Compile Include="src\meross\abstractions\auth.py" />
+    <Compile Include="src\meross\abstractions\Device.py" />
+    <Compile Include="src\meross\abstractions\DeviceModel.py" />
+    <Compile Include="src\meross\abstractions\filters\BaseFilters.py" />
+    <Compile Include="src\meross\abstractions\filters\Credentials.py" />
+    <Compile Include="src\meross\abstractions\filters\DevicesFilter.py" />
+    <Compile Include="src\meross\abstractions\filters\ToggleDeviceFilter.py" />
+    <Compile Include="src\meross\abstractions\IDevices.py" />
+    <Compile Include="src\meross\abstractions\IWebApiOutcome.py" />
+    <Compile Include="src\meross\abstractions\OutcomeJsonEncoder.py" />
+    <Compile Include="src\meross\abstractions\ToggledDevice.py" />
+    <Compile Include="src\meross\api\AuthApi.py" />
+    <Compile Include="src\meross\api\LoadDevicesApi.py" />
+    <Compile Include="src\meross\api\LogOutApi.py" />
+    <Compile Include="src\meross\api\ToggleDeviceApi.py" />
+    <Compile Include="src\meross\context\Context.py" />
+    <Compile Include="src\meross\core\JsonHelper.py" />
+    <Compile Include="src\meross\core\Singleton.py" />
+    <Compile Include="src\meross\core\WebApiOutcome.py" />
+    <Compile Include="src\meross\core\wraps.py" />
+    <Compile Include="src\meross\costatnts.py" />
+    <Compile Include="src\meross\resources\manager\Manager.py" />
+    <Compile Include="src\meross\resources\manager\ManagerUtils.py" />
+    <Compile Include="src\meross\resources\repositories\DeviceRepository.py" />
+    <Compile Include="src\meross\resources\repositories\DeviceRepositoryHelper.py" />
+    <Compile Include="src\meross\services\AuthService.py" />
+    <Compile Include="src\meross\services\LoadDevicesService.py" />
+    <Compile Include="src\meross\services\ToggleDeviceService.py" />
+    <Compile Include="src\meross\__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src" />
-    <Folder Include="src\merossApi\abstractions\" />
-    <Folder Include="src\merossApi\abstractions\filters\" />
-    <Folder Include="src\merossApi\api\" />
-    <Folder Include="src\merossApi\context\" />
-    <Folder Include="src\merossApi\core\" />
-    <Folder Include="src\merossApi\" />
-    <Folder Include="src\merossApi\resources\" />
-    <Folder Include="src\merossApi\resources\manager\" />
-    <Folder Include="src\merossApi\resources\repositories\" />
-    <Folder Include="src\merossApi\services\" />
+    <Folder Include="src\meross\abstractions\" />
+    <Folder Include="src\meross\abstractions\filters\" />
+    <Folder Include="src\meross\api\" />
+    <Folder Include="src\meross\context\" />
+    <Folder Include="src\meross\core\" />
+    <Folder Include="src\" />
+    <Folder Include="src\meross\resources\" />
+    <Folder Include="src\meross\resources\manager\" />
+    <Folder Include="src\meross\resources\repositories\" />
+    <Folder Include="src\meross\services\" />
+    <Folder Include="src\meross\" />
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="Global|PythonCore|3.11" />
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.11</Version>
+      <Description>env (Python 3.11 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
