@@ -34,13 +34,15 @@ class Context(object):
                 
                 cls.client = _manager.client
 
-                cls.authenticated = len(cls.manager._cloud_creds.token) > 0
+                if (cls.manager != None and cls.client != None):
 
-                if (cls.authenticated):
-                    cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
+                    cls.authenticated = len(cls.manager._cloud_creds.token) > 0
+
+                    if (cls.authenticated):
+                        cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
             
             except Exception as exception:
-                raise {"Context" : exception.args[0]}
+                raise Exception({"Context" : "Error on context creation: " + str(exception.args[0])})
 
     @classmethod
     def GetToken(cls) -> str:

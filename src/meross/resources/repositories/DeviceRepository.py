@@ -35,4 +35,4 @@ class DeviceRepository(IDeviceRepository):
             return result
 
         except Exception as exception:
-            raise {"ToggleMerossDeviceError" : exception.args[0]}
+            raise Exception({"ToggleMerossDeviceError" : exception.args[0]})

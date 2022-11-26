@@ -6,12 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# folders
-.vs/
-obj/
-
-
-
 # Distribution / packaging
 .Python
 build/
@@ -116,6 +110,8 @@ ENV/
 env.bak/
 venv.bak/
 .vs/
+.vs/
+.vs/*
 *pyproj
 .pyproj
 

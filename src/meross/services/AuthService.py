@@ -19,8 +19,6 @@ class AuthService:
 
             else:
                 return {"Auth": "User already authenticated"}
-        
-            auth.Reset()
 
         except Exception as exception:
             return {"CreateContextError" : exception.args[0]}

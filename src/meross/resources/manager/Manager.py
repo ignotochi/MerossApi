@@ -26,17 +26,18 @@ class Manager(object):
                 cls.manager._loop = eventLoop
 
         except Exception as exception:
-            raise Exception(exception.args[0])
+            raise Exception({"Manager": exception.args[0]})
 
     @classmethod
     async def __StartClient(cls, user: str, passwd: str) -> MerossHttpClient:
-        return await MerossHttpClient.async_from_user_password(email=user, password=passwd)
+          return await MerossHttpClient.async_from_user_password(email=user, password=passwd)
+
 
     @classmethod
     async def __StartManager(cls, client: MerossHttpClient) -> MerossManager:
-        manager = MerossManager(http_client=client, auto_reconnect= True, mqtt_skip_cert_validation=True)
-        await manager.async_init()
-        return manager
+          manager = MerossManager(http_client=client, auto_reconnect= True, mqtt_skip_cert_validation=True)
+          await manager.async_init()
+          return manager
 
     @classmethod
     def Reset(cls) -> None:
