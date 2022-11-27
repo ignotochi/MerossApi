@@ -1,22 +1,26 @@
 from flask import request, Blueprint
 from meross.services.AuthService import AuthService
 from meross.core.WebApiOutcome import WebApiOutcome
+from meross.core.HttpRequest import HttpRequest
+from flask.wrappers import Response
 
 
 LogOutRoute = Blueprint("WebLogOutRoute", __name__)
 
+
 @LogOutRoute.route("/logout", methods=["GET"])
-def WebLogOut() -> WebApiOutcome:
-    
-    if request.method == "GET":
-        token: str = request.headers.get("token")
+def WebLogOut() -> Response:
+
+    if HttpRequest.ValidateHttpGetRequest(request) == True:
 
         try:
-            if AuthService.ValidateApiToken(token) == True:
-                outcome = WebApiOutcome(AuthService.LogOut())
-                return outcome
-            else:
-                return WebApiOutcome("Authentication is needed")
+
+            outcome = WebApiOutcome(AuthService.LogOut())
+            return outcome
 
         except Exception as exception:
-            return {"WebLogOutError": exception.args[0]}
+            error = exception.args[0]
+            return HttpRequest.CustomErrorResponse("Web LogOut Error: ", error)
+
+    else:
+        return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)

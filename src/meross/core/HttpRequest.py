@@ -6,6 +6,7 @@ from meross.services.AuthService import AuthService
 class HttpRequest:
 
     AUTHENTICATION_REQUIRED = "Authentication is needed"
+    BAD_REQUEST_TYPE = "Wrong request type"
 
     @staticmethod
     def ValidateHttpGetRequest(request: Request) -> bool:

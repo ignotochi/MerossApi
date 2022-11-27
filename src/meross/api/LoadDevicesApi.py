@@ -9,10 +9,11 @@ from flask.wrappers import Response
 
 LoadDevicesRoute = Blueprint("LoadDevicesRoute", __name__)
 
+
 @LoadDevicesRoute.route("/loaddevices", methods=["GET"])
 def WebLoadDevices() -> Response:
 
-    if (HttpRequest.ValidateHttpGetRequest(request) == True):
+    if HttpRequest.ValidateHttpGetRequest(request) == True:
 
         try:
             filters = DevicesFilter(str(request.data))
@@ -22,7 +23,7 @@ def WebLoadDevices() -> Response:
 
         except Exception as exception:
             error = exception.args[0]
-            return HttpRequest.CustomErrorResponse("Web Load Devices Error: ", error) 
+            return HttpRequest.CustomErrorResponse("Web Load Devices Error: ", error)
 
     else:
-         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)
+        return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)

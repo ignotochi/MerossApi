@@ -1,29 +1,28 @@
 from flask import request, Blueprint
 from meross.services.ToggleDeviceService import ToggleDeviceService
-from meross.services.AuthService import AuthService
 from meross.core.WebApiOutcome import WebApiOutcome
+from meross.core.HttpRequest import HttpRequest
 from meross.abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
+from flask.wrappers import Response
 
 
 ToggleDeviceRoute = Blueprint("ToggleDeviceRoute", __name__)
 
 
 @ToggleDeviceRoute.route("/toggleDevice", methods=["POST"])
-def WebToggleDevice() -> WebApiOutcome:
-    
-    if request.method == "POST":
-        token: str = request.headers.get("token")
-        dataRequest: str = request.data
+def WebToggleDevice() -> Response:
+
+    if HttpRequest.ValidateHttpPostRequest == True:
 
         try:
-            if AuthService.ValidateApiToken(token) == True:
-
-                filters = ToggleDeviceFilter(dataRequest)
-                webToggleDevice = ToggleDeviceService.Toggle(filters.toggledDevices)
-                outcome = WebApiOutcome(webToggleDevice)
-                return outcome
-            else:
-                return WebApiOutcome("Authentication is needed")
+            filters = ToggleDeviceFilter(str(request.data))
+            webToggleDevice = ToggleDeviceService.Toggle(filters.toggledDevices)
+            outcome = WebApiOutcome(webToggleDevice)
+            return outcome
 
         except Exception as exception:
-            return {"WebToggleDeviceError": exception.args[0]}
+            error = exception.args[0]
+            return HttpRequest.CustomErrorResponse("Web Toggle Device Error: ", error)
+
+    else:
+        return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)

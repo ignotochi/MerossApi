@@ -1,21 +1,22 @@
 from meross.resources.repositories.DeviceRepository import DeviceRepository
 from meross.abstractions.ToggledDevice import ToggledDevice
-from meross.context.Context import Context
-from typing import TypeVar, List
+from meross.abstractions.Device import Device
+from meross.services.AuthService import AuthService
+from typing import List, Union
 
-ToggledDevice = TypeVar("ToggledDevice")
 
 class ToggleDeviceService:
 
     @staticmethod
-    def Toggle(devices: List[ToggledDevice]) -> List[str]:
+    def Toggle(devices: List[ToggledDevice]) -> Union[List[str], str]:
         try:
             result: List[str] = []
-            context: Context = Context()
-            
+
+            context = AuthService.context
+
             result = DeviceRepository.ToggleMerossDevice(context, devices)
-           
+
             return result
 
         except Exception as exception:
-            return {"ToggleError": exception.args[0]}
+            return "ToggleError: " + str(exception.args[0])

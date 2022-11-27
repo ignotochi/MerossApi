@@ -7,7 +7,7 @@ from typing import Union
 
 
 class AuthService:
-    
+
     context: IContext
 
     @classmethod
@@ -15,7 +15,7 @@ class AuthService:
         try:
             newContextRequired: bool = (cls.context == None or cls.context.authenticated == False)
 
-            if (newContextRequired):
+            if newContextRequired:
                 cls.context = Context(auth.credentials.user, auth.credentials.password)
                 return cls.context.GetToken()
 
@@ -27,11 +27,11 @@ class AuthService:
 
     @classmethod
     def ValidateApiToken(cls, token: str) -> Union[bool, str]:
-        try:                    
-            if (cls.context != None and cls.context.authenticated == True):           
-                validLocalToken: bool = token == cls.context.GetToken() 
-                return (cls.context.authenticated == True and validLocalToken == True)
-            
+        try:
+            if cls.context != None and cls.context.authenticated == True:
+                validLocalToken: bool = token == cls.context.GetToken()
+                return cls.context.authenticated == True and validLocalToken == True
+
             else:
                 return False
 
@@ -39,8 +39,7 @@ class AuthService:
             return "ValidateApiTokenError: " + str(exception.args[0])
 
     @classmethod
-    def LogOut(cls) -> str: 
+    def LogOut(cls) -> str:
         closed = asyncio.run(ManagerUtils.StopManagerAndLogOut(cls.context.manager, cls.context.client))
-        cls.context.Reset()   
+        cls.context.Reset()
         return "disconnected: " + str(closed)
-

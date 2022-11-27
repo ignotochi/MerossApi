@@ -2,21 +2,26 @@ from flask import request, Blueprint
 from meross.core.WebApiOutcome import WebApiOutcome 
 from meross.abstractions.filters.Credentials import Credentials
 from meross.services.AuthService import AuthService
+from flask.wrappers import Response
+from meross.core.HttpRequest import HttpRequest
 
 
-AuthSingletonRoute = Blueprint('WebSingletonRoute', __name__)
 
-@AuthSingletonRoute.route("/auth", methods=['POST'])
+AuthRoute = Blueprint('AuthRoute', __name__)
 
-def WebSingletonAuth() ->  WebApiOutcome :
+@AuthRoute.route("/auth", methods=['POST'])
+
+def WebAuth() -> Response :
     if (request.method == 'POST'):
-
-        data: str = request.data
      
         try:
-            filters = Credentials(data) 
+            filters = Credentials(str(request.data)) 
             outcome = WebApiOutcome(AuthService.CreateContext(filters))
             return outcome
         
         except Exception as exception:
-            return {"WebSingletonAuthError" : exception.args[0]}
+            error = exception.args[0]
+            return HttpRequest.CustomErrorResponse("Web Auth Error: ", error)
+    
+    else:
+        return HttpRequest.CustomResponse(HttpRequest.BAD_REQUEST_TYPE)
