@@ -1,12 +1,14 @@
 import asyncio
 from meross.context.Context import Context
+from meross.abstractions.iContext import IContext
 from meross.abstractions.filters.Credentials import Credentials
 from meross.resources.manager.ManagerUtils import ManagerUtils
+from typing import Union
 
 
 class AuthService:
     
-    context: Context = None
+    context: IContext
 
     @classmethod
     def CreateContext(cls, auth: Credentials) -> str:
@@ -18,28 +20,27 @@ class AuthService:
                 return cls.context.GetToken()
 
             else:
-                return {"Auth": "User already authenticated"}
+                return "Auth: User already authenticated"
 
         except Exception as exception:
-            return {"CreateContextError" : exception.args[0]}
+            return "CreateContextError: " + str(exception.args[0])
 
     @classmethod
-    def ValidateApiToken(cls, token: str) -> bool:
+    def ValidateApiToken(cls, token: str) -> Union[bool, str]:
         try:                    
-            if (cls.context != None and cls.context.authenticated == True):
-                
+            if (cls.context != None and cls.context.authenticated == True):           
                 validLocalToken: bool = token == cls.context.GetToken() 
-
-                if (validLocalToken):
-                    return (cls.context.authenticated == True and validLocalToken == True)
+                return (cls.context.authenticated == True and validLocalToken == True)
+            
             else:
                 return False
 
         except Exception as exception:
-            return {"ValidateApiTokenError" : exception.args[0]}
+            return "ValidateApiTokenError: " + str(exception.args[0])
 
     @classmethod
-    def LogOut(cls) -> bool: 
-        result = asyncio.run(ManagerUtils.StopManagerAndLogOut(cls.context.manager, cls.context.client))
-        cls.context.Reset()
-        return {"disconnected": result}
+    def LogOut(cls) -> str: 
+        closed = asyncio.run(ManagerUtils.StopManagerAndLogOut(cls.context.manager, cls.context.client))
+        cls.context.Reset()   
+        return "disconnected: " + str(closed)
+

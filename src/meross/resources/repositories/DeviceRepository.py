@@ -1,20 +1,19 @@
 from meross.abstractions.IDevices import IDeviceRepository
-from meross.abstractions import Device, ToggledDevice
+from meross.abstractions.Device import Device
+from meross.abstractions.ToggledDevice import ToggledDevice
 from meross.abstractions.DeviceModel import DeviceModel
 from meross.resources.manager.ManagerUtils import ManagerUtils
-from meross.context.Context import Context
-from typing import TypeVar, List
-
-Device = TypeVar("Device")
-ToggledDevice = TypeVar("ToggledDevice")
+from meross.abstractions.iContext import IContext
+from typing import List
 
 
 class DeviceRepository(IDeviceRepository):
 
-    def LoadMerossDevices(context: Context, devices: DeviceModel) -> List[Device]:
+    @staticmethod
+    def LoadMerossDevices(context: IContext, devices: List[DeviceModel]) -> List[Device]:
         try:  
-            result = []    
-            
+            result: List[Device] = []  
+
             result = ManagerUtils.GetDevices(context.manager, devices)
             
             return result
@@ -22,7 +21,9 @@ class DeviceRepository(IDeviceRepository):
         except Exception as exception:
             raise Exception({"LoadMerossDevicesError" : exception.args[0]}) 
 
-    def ToggleMerossDevice(context: Context, devices: List[ToggledDevice]) -> List[Device]:
+    
+    @staticmethod
+    def ToggleMerossDevice(context: IContext, devices: List[ToggledDevice]) -> List[str]:
         try:       
             result: List[str] = []
 
@@ -30,7 +31,7 @@ class DeviceRepository(IDeviceRepository):
                 updatedDeviceId = ManagerUtils.ToggleDevice(context.manager, device)
                 
                 if (updatedDeviceId != None):
-                    result.append(updatedDeviceId)
+                    result.append(str(updatedDeviceId))
                     
             return result
 

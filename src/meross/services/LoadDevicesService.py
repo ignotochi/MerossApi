@@ -2,19 +2,18 @@ from meross.resources.repositories.DeviceRepository import DeviceRepository
 from meross.abstractions.Device import Device
 from meross.abstractions.DeviceModel import DeviceModel
 from meross.resources.repositories.DeviceRepositoryHelper import LoadDeviceHelper
-from meross.context.Context import Context
-from typing import TypeVar, List
+from meross.services.AuthService import AuthService
+from typing import List, Union
 
-Device = TypeVar("Device")
 
 class LoadDevicesService:
 
     @staticmethod
-    def Load(devices: DeviceModel) -> List[Device]:
+    def Load(devices: List[DeviceModel]) -> Union[List[Device] , str]: 
         try:
             result: List[Device] = []
-            
-            context: Context = Context()
+
+            context = AuthService.context
             
             items = DeviceRepository.LoadMerossDevices(context, devices)
 
@@ -26,4 +25,4 @@ class LoadDevicesService:
             return result
                     
         except Exception as exception:
-            return {"LoadError" : exception.args[0]}
+            return "LoadError: " + str(exception.args[0])

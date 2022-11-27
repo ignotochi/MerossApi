@@ -2,14 +2,15 @@ import asyncio
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from meross.core.Singleton import Singleton
+from meross.abstractions.IManager import IManager
  
-@Singleton.New
-class Manager(object):
+@Singleton
+class Manager(IManager):
     
     @classmethod
     def __init__(cls, user: str, passwd: str) -> None:
-        cls.manager: MerossManager = None
-        cls.client: MerossHttpClient = None
+        cls.manager: MerossManager
+        cls.client: MerossHttpClient
         
         asyncio.run(cls.Start(user, passwd))
             

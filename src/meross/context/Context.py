@@ -3,21 +3,23 @@ from meross.resources.manager.Manager import Manager
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from meross.core.Singleton import Singleton
+from meross.abstractions.iContext import IContext
+from meross.abstractions.IManager import IManager
 
-@Singleton.New
-class Context(object):
+@Singleton
+class Context(IContext):
 
     @classmethod
     def __init__(cls, user: str, passwd: str):
 
-        cls.__fernet: Fernet = None
-        cls.__localToken: str = None
+        cls.__fernet: Fernet
+        cls.__localToken: str
 
         cls.authenticated: bool = False
-        cls.client: MerossHttpClient = None
-        cls.manager: MerossManager = None
+        cls.client: MerossHttpClient
+        cls.manager: MerossManager
 
-        if cls.manager is None:
+        if cls.manager is not isinstance(cls.manager, MerossManager):
             try:
                 # generate a key for encryption and decryption
                 # You can use fernet to generate
@@ -28,38 +30,37 @@ class Context(object):
                 # Instance the Fernet class with the key
                 cls.__fernet = Fernet(key)
                 
-                _manager = Manager(user, passwd)
+                _manager: IManager = Manager(user, passwd)
 
-                cls.manager = _manager.manager
-                
+                cls.manager = _manager.manager          
                 cls.client = _manager.client
 
-                if (cls.manager != None and cls.client != None):
-
+                if (isinstance(cls.manager, MerossManager) and isinstance(cls.client, MerossHttpClient)):
                     cls.authenticated = len(cls.manager._cloud_creds.token) > 0
 
                     if (cls.authenticated):
                         cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
             
             except Exception as exception:
-                raise Exception({"Context" : "Error on context creation: " + str(exception.args[0])})
+                raise Exception("Error on context creation: " + str(exception.args[0]))
 
     @classmethod
     def GetToken(cls) -> str:
-        if (cls.__localToken != None):
+        if len(cls.__localToken) > 0:
             return str(cls.__localToken)
         else:
-            return None
+            return str()
 
     @classmethod
     def __Encrypt(cls, value: str) -> str:
         # then use the Fernet class instance
         # to encrypt the string string must
         # be encoded to byte string before encryption
-        if (value):
-            return cls.__fernet.encrypt(value.encode())
+        if len(value) > 0:
+            encripted = str(cls.__fernet.encrypt(value.encode()))
+            return encripted
         else:
-            return ""
+            return str()
 
     @classmethod
     def DecryptLocalToken(cls) -> str:
@@ -74,19 +75,19 @@ class Context(object):
 
                 return decriptedToken
             else:
-                return None
+                return str()
 
         except Exception as exception:
-            raise {"DecryptLocalTokenError" : exception.args[0]}
+            error = "DecryptLocalTokenError: " +  str(exception.args[0])
+            raise Exception(error)
     
     @classmethod
     def Reset(cls) -> None:
-        cls.__localToken = None
-        cls.__fernet = None
-        cls.authenticated = False
-        cls.manager = None
-        cls.client = None
-        Singleton.Clean(cls)
-        
+        del cls.__localToken
+        del cls.__fernet
+        del cls.authenticated
+        del cls.manager
+        del cls.client
+        Singleton.Clean(cls)    
         mng = Manager()
         mng.Reset()

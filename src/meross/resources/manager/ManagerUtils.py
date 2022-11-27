@@ -4,15 +4,14 @@ from meross.abstractions.ToggledDevice import ToggledDevice
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from meross.core.wraps import UpdateLoopManager
-from typing import TypeVar, List
+from typing import List
 
-DeviceModel = TypeVar("DeviceModel")
-Device = TypeVar("Device")
 
 class ManagerUtils():
 
+    @staticmethod
     @UpdateLoopManager
-    async def GetDevices(manager: MerossManager, devices: List[DeviceModel]) -> List[Device]:
+    async def GetDevices(manager: MerossManager, devices: List[DeviceModel]) ->  List[Device]:
         try:
             result: List[Device] = []
 
@@ -35,11 +34,12 @@ class ManagerUtils():
         except Exception as exception:
             raise Exception(exception.args[0])
 
-
+    
+    @staticmethod
     @UpdateLoopManager
     async def ToggleDevice(manager: MerossManager, toggledDevice: ToggledDevice) -> str:
         try:
-            deviceId: str = None
+            deviceId = str()
 
             await manager.async_device_discovery()
             device = manager.find_devices(toggledDevice.deviceId)[0]

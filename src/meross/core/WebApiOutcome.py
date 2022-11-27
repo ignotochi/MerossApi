@@ -1,21 +1,21 @@
 import json
+from flask.wrappers import Response
 from meross.abstractions.IWebApiOutcome import IWebApiOutcome
 from meross.abstractions.OutcomeJsonEncoder import OutcomeJsonEncoder
-from typing import TypeVar
+from typing import List
 
-T = TypeVar("T")
 
 class WebApiOutcome(IWebApiOutcome):
 
-    def __new__(self, item: T = None) -> T:
-        if (item != None):
-            return self.ToJson(self, item)
-        else:
-            return []
+    def __new__(cls, item) -> Response:
+        response = Response()
+        response.content_type = "'application/json" 
+        response.data = cls.ToJson(item)
+        return response
  
     @staticmethod
-    def ToJson(self, item):
+    def ToJson(item) -> str:
         try:
             return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder)
         except Exception as exception:
-            return {"WebApiOutcomeError" : exception.args[0]}
+            return "WebApiOutcomeError: " + str(exception.args[0])

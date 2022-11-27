@@ -112,8 +112,17 @@ venv.bak/
 .vs/
 .vs/
 .vs/*
-*pyproj
+**/*.pyproj
+*.pyproj
 .pyproj
+pyproj/proj_dir/
+pyproj/*.c
+pyproj/*/*.c
+pyproj/*/*.html
+pyproj/*.html
+proj-*/
+MerossApi.pyproy
+
 
 # Spyder project settings
 .spyderproject
