@@ -1,6 +1,5 @@
 from flask import request, Blueprint
 from meross.services.LoadDevicesService import LoadDevicesService
-from meross.services.LoadDevicesService import LoadDevicesService
 from meross.core.WebApiOutcome import WebApiOutcome
 from meross.core.HttpRequest import HttpRequest
 from meross.abstractions.filters.DevicesFilter import DevicesFilter
@@ -13,7 +12,7 @@ LoadDevicesRoute = Blueprint("LoadDevicesRoute", __name__)
 @LoadDevicesRoute.route("/loaddevices", methods=["GET"])
 def WebLoadDevices() -> Response:
 
-    if HttpRequest.ValidateHttpGetRequest(request) == True:
+    if HttpRequest.ValidateHttpGetRequest(request):
 
         try:
             filters = DevicesFilter(str(request.data))

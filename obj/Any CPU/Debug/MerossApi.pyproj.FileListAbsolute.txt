@@ -1,4 +1,0 @@
-C:\Dev\MerossApi\obj\Any CPU\Debug\MerossApi.pyproj.SuggestedBindingRedirects.cache
-C:\Dev\MerossApi\obj\Any CPU\Debug\MerossApi.pyproj.CoreCompileInputs.cache
-C:\Dev\MerossApi\bin\Microsoft.PythonTools.WebRole.dll
-C:\Dev\MerossApi\bin\wfastcgi.py
