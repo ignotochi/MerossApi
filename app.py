@@ -10,4 +10,3 @@ app.register_blueprint(LogOutApi.LogOutRoute)
 
 if __name__ == "__main__":
     app.run("localhost", 4449, load_dotenv=True)
-

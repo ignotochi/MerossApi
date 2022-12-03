@@ -8,29 +8,37 @@ from typing import Union
 
 class AuthService:
 
-    context: IContext
-
-    @classmethod
-    def CreateContext(cls, auth: Credentials) -> str:
+    @staticmethod
+    def CreateContext(auth: Credentials) -> str:
         try:
-            newContextRequired: bool = (cls.context == None or cls.context.authenticated == False)
-
-            if newContextRequired:
-                cls.context = Context(auth.credentials.user, auth.credentials.password)
-                return cls.context.GetToken()
-
-            else:
-                return "Auth: User already authenticated"
+            context = Context(None, auth.credentials.user, auth.credentials.password)
+            return context.GetToken()
 
         except Exception as exception:
             return "CreateContextError: " + str(exception.args[0])
 
-    @classmethod
-    def ValidateApiToken(cls, token: str) -> Union[bool, str]:
+    @staticmethod
+    def RetrieveUserContext(token: str) -> Union[IContext, None, str]:
         try:
-            if cls.context != None and cls.context.authenticated == True:
-                validLocalToken: bool = token == cls.context.GetToken()
-                return cls.context.authenticated == True and validLocalToken == True
+            context = Context(token)
+
+            if context.GetToken() == token:
+                return context
+            else:
+                return None
+
+        except Exception as exception:
+            return "RetrieveUserContextError: " + str(exception.args[0])
+
+    @staticmethod
+    def ValidateApiToken(token: str) -> Union[bool, str]:
+        try:
+            context = AuthService.RetrieveUserContext(token)
+
+            if context is not None and context.authenticated is True:
+                validLocalToken: bool = token == context.GetToken()
+                isValid = context.authenticated is True and validLocalToken is True
+                return isValid
 
             else:
                 return False
@@ -38,8 +46,13 @@ class AuthService:
         except Exception as exception:
             return "ValidateApiTokenError: " + str(exception.args[0])
 
-    @classmethod
-    def LogOut(cls) -> str:
-        closed = asyncio.run(ManagerUtils.StopManagerAndLogOut(cls.context.manager, cls.context.client))
-        cls.context.Reset()
-        return "disconnected: " + str(closed)
+    @staticmethod
+    def LogOut(token: str) -> str:
+        try:
+            context = AuthService.RetrieveUserContext(token)
+            closed = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
+            context.Reset()
+            return "disconnected: " + str(closed)
+
+        except Exception as exception:
+            return "LogOutError: " + str(exception.args[0])

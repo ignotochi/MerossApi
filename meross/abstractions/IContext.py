@@ -1,36 +1,48 @@
 from abc import ABC, abstractmethod
+from cryptography.fernet import Fernet
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
+
 
 class IContext(ABC, object):
 
     @property
     @abstractmethod
-    def authenticated(self) -> bool: 
+    def fernet(self, value) -> Fernet:
         pass
 
     @property
     @abstractmethod
-    def client(self) -> MerossHttpClient: 
+    def token(self, value) -> str:
         pass
 
     @property
     @abstractmethod
-    def manager(self) -> MerossManager: 
+    def authenticated(self, value) -> bool:
+        pass
+
+    @property
+    @abstractmethod
+    def client(self, value) -> MerossHttpClient:
+        pass
+
+    @property
+    @abstractmethod
+    def manager(self, value) -> MerossManager:
         pass
 
     @abstractmethod
-    def GetToken() -> str:
-        pass
-    
-    @abstractmethod
-    def __Encrypt(value) -> str:
+    def GetToken(self) -> str:
         pass
 
     @abstractmethod
-    def DecryptLocalToken() -> str:
+    def Encrypt(self, value: str) -> str:
         pass
 
     @abstractmethod
-    def Reset() -> None:
+    def DecryptLocalToken(self) -> str:
+        pass
+
+    @abstractmethod
+    def Reset(cls) -> None:
         pass

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Device:
     deviceName: str
@@ -8,5 +9,3 @@ class Device:
     hardwareVersion: str
     deviceUid: str
     status: str
-
-

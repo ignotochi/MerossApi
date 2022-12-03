@@ -121,7 +121,10 @@ pyproj/*/*.c
 pyproj/*/*.html
 pyproj/*.html
 proj-*/
-MerossApi.pyproy
+.idea/
+venv/
+
+
 
 
 # Spyder project settings

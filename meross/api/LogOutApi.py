@@ -11,11 +11,12 @@ LogOutRoute = Blueprint("WebLogOutRoute", __name__)
 @LogOutRoute.route("/logout", methods=["GET"])
 def WebLogOut() -> Response:
 
-    if HttpRequest.ValidateHttpGetRequest(request) == True:
+    if HttpRequest.ValidateHttpGetRequest(request):
 
         try:
+            userToken = HttpRequest.GetUserApiToken(request)
 
-            outcome = WebApiOutcome(AuthService.LogOut())
+            outcome = WebApiOutcome(AuthService.LogOut(userToken))
             return outcome
 
         except Exception as exception:

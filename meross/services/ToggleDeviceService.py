@@ -7,14 +7,10 @@ from typing import List, Union
 class ToggleDeviceService:
 
     @staticmethod
-    def Toggle(devices: List[ToggledDevice]) -> Union[List[str], str]:
+    def Toggle(devices: List[ToggledDevice], token: str) -> Union[List[str], str]:
         try:
-            result: List[str] = []
-
-            context = AuthService.context
-
+            context = AuthService.RetrieveUserContext(token)
             result = DeviceRepository.ToggleMerossDevice(context, devices)
-
             return result
 
         except Exception as exception:

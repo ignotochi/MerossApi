@@ -6,12 +6,10 @@ from typing import List
 
 @dataclass
 class ToggleDeviceFilter(BaseFilter):
-    def __init__(self, data: str = None):
+    def __init__(self, data: bytes):
 
         self.toggledDevices: List[ToggledDevice]
 
-        if data != None:
-            super(ToggleDeviceFilter, self).__init__(data, ToggledDevice)
-            self.toggledDevices = self._parsedData
-        else:
-            self.toggledDevices = []
+        super(ToggleDeviceFilter, self).__init__(data, ToggledDevice)
+        self.toggledDevices = self._parsedData
+

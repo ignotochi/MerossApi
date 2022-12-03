@@ -1,42 +1,53 @@
-from typing import Any, Callable
+from typing import Callable, Dict, TypeVar
+from meross.abstractions.IContext import IContext
+from meross.context.Context import Context
+from meross.tools.PyDictionary import PyDictionary
+
+T = TypeVar("T")
 
 
 class Singleton:
-
-    instances = {}
-
-    @classmethod
-    def __new__(cls, instance, *args, **kw) -> Callable:
-        return cls.Create(instance)
+    instances: PyDictionary = PyDictionary()
 
     @classmethod
-    def Create(cls, instance, *args, **kw) -> Callable:
-        if instance not in cls.instances:
-            cls.instances[instance] = instance(*args, **kw)
+    def New(cls, instance: T) -> T:
 
-        return cls.instances[instance]
+        def Create(*args, **kw) -> T:
+
+            if issubclass(instance, IContext):
+                token = args[0] if args[0] is not None else None
+
+                if token:
+                    instanceExist = cls.instances.Exist(token + '_' + instance.__name__)
+                else:
+                    instanceExist = False
+
+                if instanceExist is False:
+                    newInstance: IContext = instance(*args, **kw)
+                    dictionaryKey = newInstance.token + '_' + instance.__name__
+
+                    cls.instances.Add(dictionaryKey, newInstance)
+
+                    if isinstance(newInstance, Context) and cls.instances.Exist(dictionaryKey):
+                        return newInstance
+
+                else:
+                    return cls.instances.Get(token + '_' + instance.__name__)
+
+            else:
+                if cls.instances.Exist(instance.__name__) is False:
+                    genericInstance: T = instance(*args, **kw)
+                    cls.instances.Add(instance.__name__, genericInstance)
+                    return genericInstance
+
+                else:
+                    return cls.instances.Get(instance.__name__)
+
+        return Create
 
     @classmethod
     def Clean(cls, instance, *args, **kw):
-        if cls.instances[instance]:
-            del cls.instances[instance]
+        cachedInstance = cls.instances.Get(instance.__name__)
 
-
-#class Singleton:
-
-#    instances = {}
-
-#    @classmethod
-#    def New(cls, instance, *args, **kw) -> Callable:
-#        def _Create(*args, **kw):
-#            if instance not in cls.instances:
-#                cls.instances[instance] = instance(*args, **kw)
-
-#            return cls.instances[instance]
-
-#        return _Create
-
-#    @classmethod
-#    def Clean(cls, instance, *args, **kw):
-#        if cls.instances[instance]:
-#            del cls.instances[instance]
+        if cachedInstance:
+            cls.instances.Delete(instance.__name__)

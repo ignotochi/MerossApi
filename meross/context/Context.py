@@ -6,20 +6,35 @@ from meross.core.Singleton import Singleton
 from meross.abstractions.IContext import IContext
 from meross.abstractions.IManager import IManager
 
-@Singleton
+
+@Singleton.New
 class Context(IContext):
 
-    @classmethod
-    def __init__(cls, user: str, passwd: str):
+    def manager(self, value):
+        self.manager = value
 
-        cls.__fernet: Fernet
-        cls.__localToken: str
+    def authenticated(self, value):
+        self.authenticated = value
 
-        cls.authenticated: bool = False
-        cls.client: MerossHttpClient
-        cls.manager: MerossManager
+    def client(self, value):
+        self.client = value
 
-        if cls.manager is not isinstance(cls.manager, MerossManager):
+    def fernet(self, value):
+        self.fernet = value
+
+    def token(self, value):
+        self.token = value
+
+    def __init__(self, token: str = None, user : str = None, passwd: str = None):
+
+        self.fernet: Fernet
+        self.token: str
+
+        self.authenticated: bool = False
+        self.client: MerossHttpClient
+        self.manager: MerossManager
+
+        if self.manager is not isinstance(self.manager, MerossManager):
             try:
                 # generate a key for encryption and decryption
                 # You can use fernet to generate
@@ -28,66 +43,56 @@ class Context(IContext):
                 key = Fernet.generate_key()
 
                 # Instance the Fernet class with the key
-                cls.__fernet = Fernet(key)
-                
-                _manager: IManager = Manager(user, passwd)
+                self.fernet = Fernet(key)
 
-                cls.manager = _manager.manager          
-                cls.client = _manager.client
+                instancedManager: IManager = Manager(user, passwd)
 
-                if (isinstance(cls.manager, MerossManager) and isinstance(cls.client, MerossHttpClient)):
-                    cls.authenticated = len(cls.manager._cloud_creds.token) > 0
+                self.manager = instancedManager.manager
+                self.client = instancedManager.client
 
-                    if (cls.authenticated):
-                        cls.__localToken = cls.__Encrypt(cls.manager._cloud_creds.token)
-            
+                if isinstance(self.manager, MerossManager) and isinstance(self.client, MerossHttpClient):
+                    self.authenticated = len(self.manager.cloud_creds.token) > 0
+
+                    if self.authenticated:
+                        self.token = self.Encrypt(self.manager.cloud_creds.token)
+
             except Exception as exception:
                 raise Exception("Error on context creation: " + str(exception.args[0]))
 
-    @classmethod
-    def GetToken(cls) -> str:
-        if len(cls.__localToken) > 0:
-            return str(cls.__localToken)
+    def GetToken(self) -> str:
+        if len(self.token) > 0:
+            return str(self.token)
         else:
             return str()
 
-    @classmethod
-    def __Encrypt(cls, value: str) -> str:
+    def Encrypt(self, value: str) -> str:
         # then use the Fernet class instance
-        # to encrypt the string string must
+        # to encrypt the string must
         # be encoded to byte string before encryption
         if len(value) > 0:
-            encripted = str(cls.__fernet.encrypt(value.encode()))
-            return encripted
+            encrypted = str(self.fernet.encrypt(value.encode()))
+            return encrypted
         else:
             return str()
 
-    @classmethod
-    def DecryptLocalToken(cls) -> str:
+    def DecryptLocalToken(self) -> str:
         # decrypt the encrypted string with the
         # Fernet instance of the key,
         # that was used for encrypting the string
         # encoded byte string is returned by decrypt method,
         # so decode it to string with decode methods
         try:
-            if (cls.__localToken and cls.authenticated == True):
-                decriptedToken = cls.__fernet.decrypt(cls.__localToken).decode()
+            if self.token and self.authenticated == True:
+                decryptedToken = self.fernet.decrypt(self.token).decode()
 
-                return decriptedToken
+                return decryptedToken
             else:
                 return str()
 
         except Exception as exception:
-            error = "DecryptLocalTokenError: " +  str(exception.args[0])
+            error = "DecryptLocalTokenError: " + str(exception.args[0])
             raise Exception(error)
-    
-    @classmethod
-    def Reset(cls) -> None:
-        del cls.__localToken
-        del cls.__fernet
-        del cls.authenticated
-        del cls.manager
-        del cls.client
-        Singleton.Clean(cls)    
-        mng = Manager()
-        mng.Reset()
+
+    def Reset(self) -> None:
+        Singleton.Clean(self)
+

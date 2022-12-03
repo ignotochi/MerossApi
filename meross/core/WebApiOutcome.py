@@ -7,14 +7,14 @@ from typing import List
 
 class WebApiOutcome(IWebApiOutcome):
 
-    def __new__(cls, item) -> Response:
+    def __new__(self, item) -> Response:
         response = Response()
         response.content_type = "'application/json" 
-        response.data = cls.ToJson(item)
+        response.data = self.ToJson(self, item)
         return response
- 
+
     @staticmethod
-    def ToJson(item) -> str:
+    def ToJson(self, item) -> str:
         try:
             return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder)
         except Exception as exception:

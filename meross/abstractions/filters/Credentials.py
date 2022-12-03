@@ -4,13 +4,12 @@ from meross.abstractions.auth import Auth
 
 class Credentials(BaseFilter):
 
-    def __init__(self, data: str):
-        
+    def __init__(self, data: bytes):
+
         self.credentials: Auth
-        
-        if (data != None):
-            super(Credentials, self).__init__(data, Auth)
-            self.credentials = self._parsedData
+        super(Credentials, self).__init__(data, Auth)
+
+        self.credentials = self._parsedData
 
     def Reset(self) -> None:
         del self.credentials

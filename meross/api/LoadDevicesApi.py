@@ -15,8 +15,10 @@ def WebLoadDevices() -> Response:
     if HttpRequest.ValidateHttpGetRequest(request):
 
         try:
-            filters = DevicesFilter(str(request.data))
-            webDevices = LoadDevicesService.Load(filters.devices)
+            userToken = HttpRequest.GetUserApiToken(request)
+            filters = DevicesFilter(request.data)
+
+            webDevices = LoadDevicesService.Load(filters.devices, userToken)
             outcome = WebApiOutcome(webDevices)
             return outcome
 

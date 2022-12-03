@@ -1,8 +1,12 @@
 import json
+from typing import TypeVar
 
-class JsonUtils():
+T = TypeVar("T")
 
-    @classmethod
-    def ParseData(self, data: str) -> None:        
-        __parsedData = json.loads(data) if len(json.loads(data)) != {} else None       
-        return __parsedData
+
+class JsonUtils(object):
+
+    @staticmethod
+    def ParseData(data: bytes, dataClass: T) -> T:
+        parsedData: dataClass = json.loads(data)
+        return parsedData

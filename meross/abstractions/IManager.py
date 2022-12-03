@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 
+
 class IManager(ABC, object):
 
     @property
@@ -15,22 +16,17 @@ class IManager(ABC, object):
         pass
 
     @abstractmethod
-    @classmethod
-    def Start(cls, user: str, passwd: str) -> None:
-        pass
-    
-    @abstractmethod
-    @classmethod
-    def __StartClient(cls, user: str, passwd: str) -> MerossHttpClient:
+    def Start(self, user: str, passwd: str) -> None:
         pass
 
     @abstractmethod
-    @classmethod
-    def __StartManager(cls, client: MerossHttpClient) -> MerossManager:
+    def StartClient(self, user: str, passwd: str) -> MerossHttpClient:
         pass
 
     @abstractmethod
-    @classmethod
-    def Reset(cls) -> None:
+    def StartManager(self, client: MerossHttpClient) -> MerossManager:
         pass
 
+    @abstractmethod
+    def Reset(self) -> None:
+        pass

@@ -1,28 +1,29 @@
 from meross.core.JsonHelper import JsonUtils
 from dataclass_wizard import fromlist
-from typing import TypeVar, List
+from typing import TypeVar, List, Type
 
 T = TypeVar("T")
 
 
 class BaseFilter:
-    def __init__(self, data: str, dataClass: T):
+    def __init__(self, data: bytes, dataClass: T):
+
         self._parsedData: List[T] = []
 
         try:
-            if len(data) > 0:
-                parsedData: T = JsonUtils.ParseData(data)
+            if data:
+                parsedData: T = JsonUtils.ParseData(data, dataClass)
                 isArray = isinstance(parsedData, list)
 
-                if isArray == True:
-                    dataClassObj = fromlist(List[dataClass], parsedData)
+                if isArray is True:
+                    dataClassObj = fromlist(dataClass, parsedData)
             
                     for dataClass in dataClassObj:
                         self._parsedData.append(dataClass)
 
                 else:
-                    dataClassObj = fromlist(List[dataClass], [parsedData])
+                    dataClassObj = fromlist(dataClass, [parsedData])
                     self._parsedData = dataClassObj[0]
 
         except Exception as exception:
-            raise Exception({"BaseFilterError": "Error trying to parse data"})
+            raise Exception("Error trying to parse data")

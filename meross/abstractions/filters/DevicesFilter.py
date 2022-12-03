@@ -7,12 +7,10 @@ from typing import List
 @dataclass
 class DevicesFilter(BaseFilter):
 
-    def __init__(self, data: str):
-        
+    def __init__(self, data: bytes):
+
         self.devices: List[DeviceModel]
-        
-        if (data != None):
-            super(DevicesFilter, self).__init__(data, DeviceModel)
-            self.devices = self._parsedData
-        else:
-            self.devices = List[DeviceModel]()
+
+        super(DevicesFilter, self).__init__(data, DeviceModel)
+        self.devices = self._parsedData
+

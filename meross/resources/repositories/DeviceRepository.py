@@ -4,13 +4,13 @@ from meross.abstractions.ToggledDevice import ToggledDevice
 from meross.abstractions.DeviceModel import DeviceModel
 from meross.resources.manager.ManagerUtils import ManagerUtils
 from meross.abstractions.IContext import IContext
-from typing import List
+from typing import List, Coroutine
 
 
 class DeviceRepository(IDeviceRepository):
 
     @staticmethod
-    def LoadMerossDevices(context: IContext, devices: List[DeviceModel]) -> List[Device]:
+    def LoadMerossDevices(context: IContext, devices: List[DeviceModel]) -> list[Device]:
         try:
             result = ManagerUtils.GetDevices(context.manager, devices)
             return result
