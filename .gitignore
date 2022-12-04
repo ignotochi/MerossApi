@@ -109,6 +109,26 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vs/
+.vs/
+.vs/*
+**/*.pyproj
+*.pyproj
+.pyproj
+pyproj/proj_dir/
+pyproj/*.c
+pyproj/*/*.c
+pyproj/*/*.html
+pyproj/*.html
+proj-*/
+.idea
+.idea/
+.idea/*
+.idea/*.*
+venv/
+
+
+
 
 # Spyder project settings
 .spyderproject
