@@ -1,7 +1,7 @@
 import json
 from flask.wrappers import Response
-from meross.abstractions.weboutcome.IWebApiOutcome import IWebApiOutcome
-from meross.abstractions.weboutcome.OutcomeJsonEncoder import OutcomeJsonEncoder
+from meross.abstractions.webOutcome.IWebApiOutcome import IWebApiOutcome
+from meross.abstractions.webOutcome.OutcomeJsonEncoder import OutcomeJsonEncoder
 
 
 class WebApiOutcome(IWebApiOutcome):
