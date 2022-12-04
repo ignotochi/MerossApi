@@ -26,7 +26,7 @@ Remind this is a work in progress project.
     "password": "YourPassword"
 }
 ```
-****Return: token as a string****
+****Return a token as a string****
 ``` json 
 "k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"
 ```
