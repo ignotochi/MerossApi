@@ -42,7 +42,7 @@ Remind this is a work in progress project.
 ```
 - In the headers add: 
 ``` json 
-{token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'}
+{"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
 
 ****Return list of devices:****
@@ -93,7 +93,7 @@ Remind this is a work in progress project.
 
 - In the headers add: 
 ``` json 
-   {token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'}
+   {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ``` 
 
 ****Return list of enabled/disabled device id:****
@@ -109,7 +109,7 @@ Remind this is a work in progress project.
 
 - In the headers add: 
 ``` json
-   {token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'}
+   {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
 
 
