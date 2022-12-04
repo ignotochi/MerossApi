@@ -28,7 +28,7 @@ def WebToggleDevice() -> Response:
 
         except Exception as exception:
             error = exception.args[0]
-            return HttpRequest.CustomErrorResponse("Web Toggle Device Error: ", error)
+            return HttpRequest.CustomErrorResponse("Web Toggle device Error: ", error)
 
     else:
         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)
