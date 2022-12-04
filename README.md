@@ -28,7 +28,7 @@ Remind this is a work in progress project.
 ```
 ****Return: token as a string****
 ``` json 
-k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd
+"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"
 ```
 
 ### /loaddevices route:
@@ -42,7 +42,7 @@ k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd
 ```
 - In the headers add: 
 ``` json 
-   token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+{token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'}
 ```
 
 ****Return list of devices:****
@@ -93,7 +93,7 @@ k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd
 
 - In the headers add: 
 ``` json 
-   token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+   {token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'}
 ``` 
 
 ****Return list of enabled/disabled device id:****
@@ -109,7 +109,7 @@ k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd
 
 - In the headers add: 
 ``` json
-   token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+   {token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'}
 ```
 
 
