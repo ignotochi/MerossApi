@@ -10,7 +10,7 @@ from flask.wrappers import Response
 ToggleDeviceRoute = Blueprint("ToggleDeviceRoute", __name__)
 
 
-@ToggleDeviceRoute.route("/toggleDevice", methods=["POST"])
+@ToggleDeviceRoute.route("/toggledevice", methods=["POST"])
 def WebToggleDevice() -> Response:
 
     if HttpRequest.ValidateHttpPostRequest(request):

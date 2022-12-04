@@ -20,35 +20,35 @@ Remind this is a work in progress project.
 ###  /auth route:
 - Request type POST 
 - in the body add:
-{
+**{
     "user": "yourRealMerossEmailAccount@xxxx.xxx",
     "password": "YourPassword"
-}
+}**
 - This return the token for other HTTP request
 
 ### /loaddevices route:
 - Request type GET
 - in the body add:
-[
+**[
     {"model":"mss710"},
     {"model":"mssXXX"}
-]
+]**
 - in Headers add: 
    - token='your token here'
 
-### /toggleDevice route 
+### /toggledevice route 
 - Request type POST 
 - in the body add:
-[    
+**[    
     {
-        "deviceId": "20062807XXXX get from loaddevices",
+        "deviceId": "20062807XXXX",
         "enabled": false
     },
     {
-        "deviceId": "220062807XXXX get from loaddevices",
-        "enabled": false
+        "deviceId": "220062807XXXX",
+        "enabled": true
     }
-]
+]**
 - in Headers add: 
    - token='your token here'
 
