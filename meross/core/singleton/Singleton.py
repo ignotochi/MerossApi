@@ -32,7 +32,6 @@ class Singleton:
 
         if instance is not None:
             return instance
-
         else:
             return None
 

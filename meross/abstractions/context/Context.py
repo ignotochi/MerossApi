@@ -83,7 +83,7 @@ class Context(IContext):
         # encoded byte string is returned by decrypt method,
         # so decode it to string with decode methods
         try:
-            if self.token and self.authenticated == True:
+            if self.token and self.authenticated is True:
                 decryptedToken = self.fernet.decrypt(self.token).decode()
 
                 return decryptedToken
