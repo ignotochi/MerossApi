@@ -19,7 +19,7 @@ Remind this is a work in progress project.
 
 ###  /auth route:
 - Request type ****[POST]****
-- ****[Example]**** in the body add:
+- in the body add:
 ``` json
 {
     "user": "yourRealMerossEmailAccount@xxxx.xxx",
@@ -33,15 +33,15 @@ Remind this is a work in progress project.
 
 ### /loaddevices route:
 - Request type ****[GET]****
-- ****[Example]**** In the body add:
+- In the body add:
 ``` json 
 [
     {"model":"mss710"},
     {"model":"mssXXX"}
 ]
 ```
-- ****[Example]**** In the Headers add: 
-   - token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+- In the Headers add: 
+   - token='Your Token'
 
 ****Return list of devices:****
 ``` json 
@@ -75,7 +75,7 @@ Remind this is a work in progress project.
 
 ### /toggledevice route 
 - Request type ****[POST]****
-- ****[Example]**** In the body add:
+- In the body add:
 ``` json 
 [    
     {
@@ -89,8 +89,8 @@ Remind this is a work in progress project.
 ]
 ```
 
-- ****[Example]**** In the Headers add: 
-   - token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+- In the Headers add: 
+   - token='Your Token'
 
 ****Return list of enabled/disabled device id:****
 ``` json 
@@ -103,8 +103,8 @@ Remind this is a work in progress project.
 ### /logout route:
 - Request type ****[GET]****
 
-- ****[Example]**** In the Headers add: 
-   - token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+- In the Headers add: 
+   - token='Your Token'
 
 
 
