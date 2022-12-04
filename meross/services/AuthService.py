@@ -3,6 +3,7 @@ from meross.abstractions.context.Context import Context
 from meross.abstractions.context.IContext import IContext
 from meross.abstractions.webFilters.AuhtFilter import AuthFilter
 from meross.resources.manager.ManagerUtils import ManagerUtils
+from meross.core.singleton.Singleton import Singleton
 from typing import Union
 
 
@@ -23,9 +24,9 @@ class AuthService:
     @staticmethod
     def RetrieveUserContext(token: str) -> Union[IContext, None, str]:
         try:
-            context = Context(token)
+            context = Singleton.Get(token + '_' + 'Context')
 
-            if context.GetToken() == token:
+            if context is not None and context.GetToken() == token:
                 return context
             else:
                 return None

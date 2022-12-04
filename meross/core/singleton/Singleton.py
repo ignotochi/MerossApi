@@ -27,8 +27,23 @@ class Singleton:
         return Create
 
     @classmethod
-    def Clean(cls, key):
+    def Get(cls, key):
         instance = cls.instances.Get(key)
 
-        if instance:
-            cls.instances.Delete(key)
+        if instance is not None:
+            return instance
+
+        else:
+            return None
+
+    @classmethod
+    def Clean(cls, key):
+        try:
+            instance = cls.instances.Get(key)
+
+            if instance is not None:
+                cls.instances.Delete(key)
+
+        except Exception as exception:
+            raise Exception(f"Error on logout, context not found { exception.args[0] }")
+

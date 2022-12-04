@@ -1,5 +1,4 @@
 from flask import request, Blueprint
-
 from meross.services.AuthService import AuthService
 from meross.services.ToggleDeviceService import ToggleDeviceService
 from meross.abstractions.weboutcome.WebApiOutcome import WebApiOutcome
@@ -14,7 +13,7 @@ ToggleDeviceRoute = Blueprint("ToggleDeviceRoute", __name__)
 @ToggleDeviceRoute.route("/toggleDevice", methods=["POST"])
 def WebToggleDevice() -> Response:
 
-    if HttpRequest.ValidateHttpPostRequest:
+    if HttpRequest.ValidateHttpPostRequest(request):
 
         try:
             userToken = HttpRequest.GetUserApiToken(request)
