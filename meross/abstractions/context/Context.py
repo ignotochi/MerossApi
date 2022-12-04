@@ -2,9 +2,9 @@ from cryptography.fernet import Fernet
 from meross.resources.manager.Manager import Manager
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
-from meross.core.Singleton import Singleton
-from meross.abstractions.IContext import IContext
-from meross.abstractions.IManager import IManager
+from meross.core.singleton.Singleton import Singleton
+from meross.abstractions.context.IContext import IContext
+from meross.abstractions.manager.IManager import IManager
 
 
 @Singleton.New
@@ -25,7 +25,7 @@ class Context(IContext):
     def token(self, value):
         self.token = value
 
-    def __init__(self, token: str = None, user : str = None, passwd: str = None):
+    def __init__(self, token: str = None, user: str = None, passwd: str = None):
 
         self.fernet: Fernet
         self.token: str
@@ -40,21 +40,22 @@ class Context(IContext):
                 # You can use fernet to generate
                 # the key or use random key generator
                 # here I'm using fernet to generate key
+
                 key = Fernet.generate_key()
 
                 # Instance the Fernet class with the key
                 self.fernet = Fernet(key)
 
-                instancedManager: IManager = Manager(user, passwd)
+                manager: IManager = Manager(user, passwd)
 
-                self.manager = instancedManager.manager
-                self.client = instancedManager.client
+                self.manager = manager.manager
+                self.client = manager.client
 
                 if isinstance(self.manager, MerossManager) and isinstance(self.client, MerossHttpClient):
                     self.authenticated = len(self.manager.cloud_creds.token) > 0
 
                     if self.authenticated:
-                        self.token = self.Encrypt(self.manager.cloud_creds.token)
+                        self.token = self.Encrypt(user + '|' + passwd)
 
             except Exception as exception:
                 raise Exception("Error on context creation: " + str(exception.args[0]))
@@ -94,5 +95,4 @@ class Context(IContext):
             raise Exception(error)
 
     def Reset(self) -> None:
-        Singleton.Clean(self)
-
+        Singleton.Clean(self.token + '_' + Context.__name__)

@@ -1,8 +1,8 @@
-from abc import ABC, abstractmethod
-from meross.abstractions.IContext import IContext
-from meross.abstractions.DeviceModel import DeviceModel
-from meross.abstractions.ToggledDevice import ToggledDevice
-from meross.abstractions.Device import Device
+from abc import ABC
+from meross.abstractions.context.IContext import IContext
+from meross.abstractions.device.DeviceModel import DeviceModel
+from meross.abstractions.device.ToggledDevice import ToggledDevice
+from meross.abstractions.device.Device import Device
 from typing import List
 
 

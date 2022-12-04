@@ -1,10 +1,10 @@
-from meross.abstractions.IDeviceRepository import IDeviceRepository
-from meross.abstractions.Device import Device
-from meross.abstractions.ToggledDevice import ToggledDevice
-from meross.abstractions.DeviceModel import DeviceModel
+from meross.abstractions.device.IDeviceRepository import IDeviceRepository
+from meross.abstractions.device.Device import Device
+from meross.abstractions.device.ToggledDevice import ToggledDevice
+from meross.abstractions.device.DeviceModel import DeviceModel
 from meross.resources.manager.ManagerUtils import ManagerUtils
-from meross.abstractions.IContext import IContext
-from typing import List, Coroutine
+from meross.abstractions.context.IContext import IContext
+from typing import List
 
 
 class DeviceRepository(IDeviceRepository):

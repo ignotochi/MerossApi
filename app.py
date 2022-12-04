@@ -1,5 +1,6 @@
 from flask import Flask
-from meross.api import ToggleDeviceApi, LoadDevicesApi, AuthApi, LogOutApi
+from meross.api.Device import ToggleDeviceApi, LoadDevicesApi
+from meross.api.auth import LogOutApi, AuthApi
 
 app = Flask(__name__)
 

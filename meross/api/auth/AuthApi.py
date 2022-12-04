@@ -1,6 +1,6 @@
 from flask import request, Blueprint
-from meross.core.WebApiOutcome import WebApiOutcome
-from meross.abstractions.filters.Credentials import Credentials
+from meross.abstractions.weboutcome.WebApiOutcome import WebApiOutcome
+from meross.abstractions.webFilters.AuhtFilter import AuthFilter
 from meross.services.AuthService import AuthService
 from flask.wrappers import Response
 from meross.core.HttpRequest import HttpRequest
@@ -13,8 +13,9 @@ def WebAuth() -> Response:
     if request.method == 'POST':
 
         try:
-            filters = Credentials(request.data)
+            filters = AuthFilter(request.data)
             outcome = WebApiOutcome(AuthService.CreateContext(filters))
+
             return outcome
 
         except Exception as exception:

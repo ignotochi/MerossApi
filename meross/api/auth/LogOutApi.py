@@ -1,6 +1,6 @@
 from flask import request, Blueprint
 from meross.services.AuthService import AuthService
-from meross.core.WebApiOutcome import WebApiOutcome
+from meross.abstractions.weboutcome.WebApiOutcome import WebApiOutcome
 from meross.core.HttpRequest import HttpRequest
 from flask.wrappers import Response
 
@@ -15,8 +15,10 @@ def WebLogOut() -> Response:
 
         try:
             userToken = HttpRequest.GetUserApiToken(request)
+            context = AuthService.RetrieveUserContext(userToken)
 
-            outcome = WebApiOutcome(AuthService.LogOut(userToken))
+            outcome = WebApiOutcome(AuthService.LogOut(context))
+
             return outcome
 
         except Exception as exception:

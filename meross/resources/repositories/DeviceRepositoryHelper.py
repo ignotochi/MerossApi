@@ -1,4 +1,4 @@
-from meross.abstractions.Device import Device
+from meross.abstractions.device.Device import Device
 
 
 class LoadDeviceHelper:

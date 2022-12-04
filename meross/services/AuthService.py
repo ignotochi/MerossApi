@@ -1,7 +1,7 @@
 import asyncio
-from meross.context.Context import Context
-from meross.abstractions.IContext import IContext
-from meross.abstractions.filters.Credentials import Credentials
+from meross.abstractions.context.Context import Context
+from meross.abstractions.context.IContext import IContext
+from meross.abstractions.webFilters.AuhtFilter import AuthFilter
 from meross.resources.manager.ManagerUtils import ManagerUtils
 from typing import Union
 
@@ -9,10 +9,13 @@ from typing import Union
 class AuthService:
 
     @staticmethod
-    def CreateContext(auth: Credentials) -> str:
+    def CreateContext(auth: AuthFilter) -> str:
         try:
-            context = Context(None, auth.credentials.user, auth.credentials.password)
-            return context.GetToken()
+            if len(auth.credentials.user) > 0 and len(auth.credentials.password) > 0:
+                context = Context(None, auth.credentials.user, auth.credentials.password)
+                return context.GetToken()
+            else:
+                return "Credentials are required"
 
         except Exception as exception:
             return "CreateContextError: " + str(exception.args[0])
@@ -47,12 +50,13 @@ class AuthService:
             return "ValidateApiTokenError: " + str(exception.args[0])
 
     @staticmethod
-    def LogOut(token: str) -> str:
+    def LogOut(context: IContext) -> str:
         try:
-            context = AuthService.RetrieveUserContext(token)
             closed = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
-            context.Reset()
             return "disconnected: " + str(closed)
 
         except Exception as exception:
             return "LogOutError: " + str(exception.args[0])
+
+        finally:
+            context.Reset()

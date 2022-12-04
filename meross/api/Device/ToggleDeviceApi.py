@@ -1,8 +1,10 @@
 from flask import request, Blueprint
+
+from meross.services.AuthService import AuthService
 from meross.services.ToggleDeviceService import ToggleDeviceService
-from meross.core.WebApiOutcome import WebApiOutcome
+from meross.abstractions.weboutcome.WebApiOutcome import WebApiOutcome
 from meross.core.HttpRequest import HttpRequest
-from meross.abstractions.filters.ToggleDeviceFilter import ToggleDeviceFilter
+from meross.abstractions.webFilters.ToggleDeviceFilter import ToggleDeviceFilter
 from flask.wrappers import Response
 
 
@@ -16,10 +18,13 @@ def WebToggleDevice() -> Response:
 
         try:
             userToken = HttpRequest.GetUserApiToken(request)
+            context = AuthService.RetrieveUserContext(userToken)
+
             filters = ToggleDeviceFilter(request.data)
 
-            webToggleDevice = ToggleDeviceService.Toggle(filters.toggledDevices, userToken)
+            webToggleDevice = ToggleDeviceService.Toggle(filters.toggledDevices, context)
             outcome = WebApiOutcome(webToggleDevice)
+
             return outcome
 
         except Exception as exception:

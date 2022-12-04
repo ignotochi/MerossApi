@@ -16,7 +16,8 @@ class PyDictionary:
         self.dictionary.update({key, value})
 
     def Delete(self, key) -> None:
-        del self.dictionary[key]
+        if self.Exist(key):
+            del self.dictionary[key]
 
     def Exist(self, key) -> bool:
         return self.dictionary.get(key) is not None

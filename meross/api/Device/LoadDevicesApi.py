@@ -1,8 +1,9 @@
 from flask import request, Blueprint
 from meross.services.LoadDevicesService import LoadDevicesService
-from meross.core.WebApiOutcome import WebApiOutcome
+from meross.services.AuthService import AuthService
+from meross.abstractions.weboutcome.WebApiOutcome import WebApiOutcome
 from meross.core.HttpRequest import HttpRequest
-from meross.abstractions.filters.DevicesFilter import DevicesFilter
+from meross.abstractions.webFilters.DevicesFilter import DevicesFilter
 from flask.wrappers import Response
 
 
@@ -16,10 +17,13 @@ def WebLoadDevices() -> Response:
 
         try:
             userToken = HttpRequest.GetUserApiToken(request)
+            context = AuthService.RetrieveUserContext(userToken)
+
             filters = DevicesFilter(request.data)
 
-            webDevices = LoadDevicesService.Load(filters.devices, userToken)
+            webDevices = LoadDevicesService.Load(filters.devices, context)
             outcome = WebApiOutcome(webDevices)
+
             return outcome
 
         except Exception as exception:

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from meross.abstractions.filters.BaseFilters import BaseFilter
-from meross.abstractions.DeviceModel import DeviceModel
+from meross.abstractions.webFilters.base.BaseFilters import BaseFilter
+from meross.abstractions.device.DeviceModel import DeviceModel
 from typing import List
 
 

@@ -1,8 +1,8 @@
 import asyncio
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
-from meross.core.Singleton import Singleton
-from meross.abstractions.IManager import IManager
+from meross.core.singleton.Singleton import Singleton
+from meross.abstractions.manager.IManager import IManager
 
 
 class Manager(IManager):

@@ -1,10 +1,10 @@
-from telnetlib import AUTHENTICATION
 from flask.wrappers import Response, Request
+
+from meross.abstractions.webFilters.AuhtFilter import AuthFilter
 from meross.services.AuthService import AuthService
 
 
 class HttpRequest:
-
     AUTHENTICATION_REQUIRED = "Authentication is needed"
     BAD_REQUEST_TYPE = "Wrong request type"
     USER_ALREADY_AUTHENTICATED = "User already authenticated"
@@ -26,7 +26,10 @@ class HttpRequest:
     @staticmethod
     def GetUserApiToken(request: Request) -> str:
         token = str(request.headers.get("token"))
-        return token
+        if len(token) > 0:
+            return token
+        else:
+            return None
 
     @staticmethod
     def CustomResponse(response: str) -> Response:
