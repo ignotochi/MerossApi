@@ -28,7 +28,7 @@ Remind this is a work in progress project.
 ```
 ****Return: token as a string****
 ``` json 
-'k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd
 ```
 
 ### /loaddevices route:
@@ -40,8 +40,10 @@ Remind this is a work in progress project.
     {"model":"mssXXX"}
 ]
 ```
-- In the Headers add: 
-   - token='Your Token'
+- In the headers add: 
+``` json 
+   token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+```
 
 ****Return list of devices:****
 ``` json 
@@ -89,8 +91,10 @@ Remind this is a work in progress project.
 ]
 ```
 
-- In the Headers add: 
-   - token='Your Token'
+- In the headers add: 
+``` json 
+   token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+``` 
 
 ****Return list of enabled/disabled device id:****
 ``` json 
@@ -103,8 +107,10 @@ Remind this is a work in progress project.
 ### /logout route:
 - Request type ****[GET]****
 
-- In the Headers add: 
-   - token='Your Token'
+- In the headers add: 
+``` json
+   token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+```
 
 
 
