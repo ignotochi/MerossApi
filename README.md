@@ -18,28 +18,66 @@ Remind this is a work in progress project.
 # Usage Examples
 
 ###  /auth route:
-- Request type POST 
-- in the body add:
-**{
+- Request type ****[POST]****
+- ****[Example]**** in the body add:
+``` json
+{
     "user": "yourRealMerossEmailAccount@xxxx.xxx",
     "password": "YourPassword"
-}**
-- This return the token for other HTTP request
+}
+```
+****Return: token as a string****
+``` json 
+'k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+```
 
 ### /loaddevices route:
-- Request type GET
-- in the body add:
-**[
+- Request type ****[GET]****
+- ****[Example]**** In the body add:
+``` json 
+[
     {"model":"mss710"},
     {"model":"mssXXX"}
-]**
-- in Headers add: 
-   - token='your token here'
+]
+```
+- ****[Example]**** In the Headers add: 
+   - token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+
+****Return list of devices:****
+``` json 
+[
+    {
+        "deviceName": "Luci Platani",
+        "deviceUid": "20062805773015",
+        "firmwareVersion": "3.1.6",
+        "hardwareVersion": "3.0.0",
+        "model": "mss710",
+        "status": "ONLINE"
+    },
+    {
+        "deviceName": "Luce Ufficio Dx",
+        "deviceUid": "20062807349678258",
+        "firmwareVersion": "3.1.6",
+        "hardwareVersion": "3.0.0",
+        "model": "mss710",
+        "status": "ONLINE"
+    },
+    {
+        "deviceName": "Luce Ufficio Sx",
+        "deviceUid": "2006284947008625",
+        "firmwareVersion": "3.1.6",
+        "hardwareVersion": "3.0.0",
+        "model": "mss710",
+        "status": "ONLINE"
+    }
+]
+```
 
 ### /toggledevice route 
-- Request type POST 
-- in the body add:
-**[    
+- Request type ****[POST]****
+- ****[Example]**** In the body add:
+``` json 
+[    
     {
         "deviceId": "20062807XXXX",
         "enabled": false
@@ -48,15 +86,27 @@ Remind this is a work in progress project.
         "deviceId": "220062807XXXX",
         "enabled": true
     }
-]**
-- in Headers add: 
-   - token='your token here'
+]
+```
+
+- ****[Example]**** In the Headers add: 
+   - token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+
+****Return list of enabled/disabled device id:****
+``` json 
+[
+    "20062807349678258h1",
+    "20062849470086258h1"
+]
+```
 
 ### /logout route:
-in Headers add: 
-   - token='your token here'
+- Request type ****[GET]****
 
-Enjoy
+- ****[Example]**** In the Headers add: 
+   - token='k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd'
+
+
 
 
 
