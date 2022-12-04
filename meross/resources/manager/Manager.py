@@ -1,7 +1,6 @@
 import asyncio
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
-from meross.core.singleton.Singleton import Singleton
 from meross.abstractions.manager.IManager import IManager
 
 
@@ -43,7 +42,3 @@ class Manager(IManager):
         manager = MerossManager(http_client=client, auto_reconnect=True, mqtt_skip_cert_validation=True)
         await manager.async_init()
         return manager
-
-    @classmethod
-    def Reset(cls) -> None:
-        Singleton.Clean(cls)

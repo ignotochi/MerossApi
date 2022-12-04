@@ -44,5 +44,5 @@ class IContext(ABC, object):
         pass
 
     @abstractmethod
-    def Reset(cls) -> None:
+    def Reset(self) -> None:
         pass

@@ -26,7 +26,3 @@ class IManager(ABC, object):
     @abstractmethod
     def StartManager(self, client: MerossHttpClient) -> MerossManager:
         pass
-
-    @abstractmethod
-    def Reset(self) -> None:
-        pass
