@@ -5,7 +5,7 @@ this application integrates the latest meross-iot library.
 
 With this app you can Load and Toggle your devices.
 
-the authentication is guaranteed by a token, and the output is a json, so you
+The authentication is guaranteed by a token, and the output is a json, so you
 can implement you front-end to manage your devices.
 
 This is my first project in python, so please have a mercy on me! =)
