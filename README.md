@@ -15,6 +15,47 @@ and improvements for the back-end .
 
 Remind this is a work in progress project.
 
+# Usage Examples
+
+###  /auth route:
+- Request type POST 
+- in the body add:
+{
+    "user": "yourRealMerossEmailAccount@xxxx.xxx",
+    "password": "YourPassword"
+}
+- This return the token for other HTTP request
+
+### /loaddevices route:
+- Request type GET
+- in the body add:
+[
+    {"model":"mss710"},
+    {"model":"mssXXX"}
+]
+- in Headers add: 
+   - token='your token here'
+
+### /toggleDevice route 
+- Request type POST 
+- in the body add:
+[    
+    {
+        "deviceId": "20062807XXXX get from loaddevices",
+        "enabled": false
+    },
+    {
+        "deviceId": "220062807XXXX get from loaddevices",
+        "enabled": false
+    }
+]
+- in Headers add: 
+   - token='your token here'
+
+### /logout route:
+in Headers add: 
+   - token='your token here'
+
 Enjoy
 
 
