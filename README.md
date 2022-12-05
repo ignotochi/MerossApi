@@ -15,9 +15,9 @@ and improvements for the back-end.
 
 Remind this is a work in progress project.
 
-# Usage Examples
+# Routes usage examples
 
-###  /auth route:
+###  localhost:4449/auth:
 - Request type ****[POST]****
 - in the body add:
 ``` json
@@ -31,7 +31,7 @@ Remind this is a work in progress project.
 "k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"
 ```
 
-### /loaddevices route:
+### localhost:4449/loaddevices:
 - Request type ****[GET]****
 - In the body add:
 ``` json 
@@ -75,7 +75,7 @@ Remind this is a work in progress project.
 ]
 ```
 
-### /toggledevice route 
+### localhost:4449/toggledevice 
 - Request type ****[POST]****
 - In the body add:
 ``` json 
@@ -104,7 +104,7 @@ Remind this is a work in progress project.
 ]
 ```
 
-### /logout route:
+### localhost:4449/logout:
 - Request type ****[GET]****
 
 - In the headers add: 
