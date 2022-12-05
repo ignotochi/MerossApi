@@ -14,8 +14,8 @@ class Manager(IManager):
 
     @classmethod
     def __init__(cls, user: str, passwd: str) -> None:
-        cls.manager: MerossManager
-        cls.client: MerossHttpClient
+        cls.manager: MerossManager = None
+        cls.client: MerossHttpClient = None
         asyncio.run(cls.Start(user, passwd))
 
     @classmethod

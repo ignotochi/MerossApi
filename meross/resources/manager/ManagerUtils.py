@@ -37,8 +37,6 @@ class ManagerUtils:
     @UpdateLoopManager
     async def ToggleDevice(manager: MerossManager, toggledDevice: ToggledDevice) -> str:
         try:
-            deviceId = str()
-
             await manager.async_device_discovery()
             device = manager.find_devices(toggledDevice.deviceId)[0]
             deviceId = device.uuid
