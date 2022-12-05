@@ -75,7 +75,7 @@ Remind this is a work in progress project.
 ]
 ```
 
-![Red text]### localhost:4449/toggledevice 
+### localhost:4449/toggledevice 
 - Request type ****[POST]****
 - In the body add:
 ``` json 
