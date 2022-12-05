@@ -3,7 +3,7 @@
 This application provide REST API using flask to control your meross devices,
 this application integrates the latest meross-iot library.
 
-With this app you can Load and Toggle your devices.
+With this app you can Load and Toggle your devices with multiple accounts at the same time.
 
 The authentication is guaranteed by a token, and the output is a json, so you
 can implement you front-end to manage your devices.
@@ -33,7 +33,7 @@ Remind this is a work in progress project.
 
 ### localhost:4449/loaddevices:
 - Request type ****[GET]****
-- In the body add:
+- In the body add filters:
 ``` json 
 [
     {"model":"mss710"},
@@ -77,7 +77,7 @@ Remind this is a work in progress project.
 
 ### localhost:4449/toggledevice 
 - Request type ****[POST]****
-- In the body add:
+- In the body add filters:
 ``` json 
 [    
     {
