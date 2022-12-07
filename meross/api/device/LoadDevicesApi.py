@@ -20,7 +20,6 @@ def WebLoadDevices() -> Response:
             context = AuthService.RetrieveUserContext(userToken)
 
             filters = DevicesFilter(request.data)
-
             webDevices = LoadDevicesService.Load(filters.devices, context)
             outcome = WebApiOutcome(webDevices)
 

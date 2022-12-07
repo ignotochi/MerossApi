@@ -1,3 +1,5 @@
+from meross_iot.model.exception import CommandTimeoutError
+
 from meross.abstractions.device.DeviceModel import DeviceModel
 from meross.abstractions.device.Device import Device
 from meross.abstractions.device.ToggledDevice import ToggledDevice
@@ -14,16 +16,13 @@ class ManagerUtils:
     async def GetDevices(manager: MerossManager, devices: List[DeviceModel]) -> List[Device]:
         try:
             result: List[Device] = []
-
             await manager.async_device_discovery()
 
             for device in devices:
                 dev: DeviceModel = device
-
                 discoveredDevices = manager.find_devices(device_type=dev.model)
 
                 if discoveredDevices and len(discoveredDevices) > 0:
-
                     for discoveredDevice in discoveredDevices:
                         await discoveredDevice.async_update()
                         result.append(discoveredDevice)
@@ -31,7 +30,11 @@ class ManagerUtils:
             return result
 
         except Exception as exception:
-            raise Exception(exception.args[0])
+
+            if isinstance(exception, CommandTimeoutError):
+                raise Exception("Error: expired session")
+            else:
+                raise Exception(exception.args[0])
 
     @staticmethod
     @UpdateLoopManager
@@ -50,7 +53,10 @@ class ManagerUtils:
             return deviceId
 
         except Exception as exception:
-            raise Exception(exception.args[0])
+            if isinstance(exception, CommandTimeoutError):
+                raise Exception("Error: expired session")
+            else:
+                raise Exception(exception.args[0])
 
     @staticmethod
     async def StopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:

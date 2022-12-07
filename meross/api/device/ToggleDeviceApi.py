@@ -20,7 +20,6 @@ def WebToggleDevice() -> Response:
             context = AuthService.RetrieveUserContext(userToken)
 
             filters = ToggleDeviceFilter(request.data)
-
             webToggleDevice = ToggleDeviceService.Toggle(filters.toggledDevices, context)
             outcome = WebApiOutcome(webToggleDevice)
 
