@@ -12,23 +12,16 @@ class Manager(IManager):
     def client(self, value):
         self.client = value
 
-    @classmethod
-    def __init__(cls, user: str, passwd: str) -> None:
-        cls.manager: MerossManager = None
-        cls.client: MerossHttpClient = None
-        asyncio.run(cls.Start(user, passwd))
+    def __init__(self, user: str, passwd: str) -> None:
+        self.manager: MerossManager
+        self.client: MerossHttpClient
+        asyncio.run(self.Start(user, passwd))
 
     @classmethod
     async def Start(cls, user: str, passwd: str) -> None:
         try:
-            newInstanceNeeded = isinstance(cls.manager, MerossManager) is False and isinstance(cls.client, MerossHttpClient) is False
-
-            if newInstanceNeeded:
-                cls.client = await cls.StartClient(user, passwd)
-                cls.manager = await cls.StartManager(cls.client)
-            else:
-                eventLoop = asyncio.get_event_loop()
-                cls.manager._loop = eventLoop
+            cls.client = await cls.StartClient(user, passwd)
+            cls.manager = await cls.StartManager(cls.client)
 
         except Exception as exception:
             raise Exception({"Manager": exception.args[0]})
