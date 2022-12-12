@@ -19,7 +19,7 @@ Remind this is a work in progress project.
 
 ###  localhost:4449/auth:
 - Request type ****[POST]****
-- in the body add:
+- In the body add:
 ``` json
 {
     "user": "yourRealMerossEmailAccount@xxxx.xxx",
