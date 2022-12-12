@@ -6,7 +6,7 @@ class PyDictionary:
     def __init__(self):
         self.dictionary: Dict = {}
 
-    def Add(self, key: str, value: Any) -> None:
+    def Add(self, key: str, value: any) -> None:
         self.dictionary[key] = value
 
     def Get(self, key) -> Any:

@@ -24,7 +24,7 @@ class AuthService:
     @staticmethod
     def RetrieveUserContext(token: str) -> Union[IContext, None, str]:
         try:
-            context = Singleton.Get(token + '_' + 'Context')
+            context = Singleton.Get(token)['Context']
 
             if context is not None and context.GetToken() == token:
                 return context

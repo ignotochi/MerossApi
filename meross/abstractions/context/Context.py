@@ -95,4 +95,4 @@ class Context(IContext):
             raise Exception(error)
 
     def Reset(self) -> None:
-        Singleton.Clean(self.token + '_' + 'Context')
+        Singleton.Clean(self.token)

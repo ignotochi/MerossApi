@@ -1,6 +1,6 @@
 from meross.tools.PyDictionary import PyDictionary
 from meross.abstractions.context.IContext import IContext
-from typing import TypeVar, List, Callable
+from typing import TypeVar, List, Callable, Dict
 
 T = TypeVar("T")
 
@@ -13,21 +13,24 @@ class SingletonHelper:
         token: str = args[0] if args[0] is not None else None
 
         if token:
-            instanceExist = instances.Exist(token + '_' + instance.__name__)
+            instanceExist = instances.Exist(token)
+
         else:
             instanceExist = False
 
         if instanceExist is False:
             newInstance: IContext = instance(*args)
-            dictionaryKey = newInstance.token + '_' + instance.__name__
-
-            instances.Add(dictionaryKey, newInstance)
+            dictionaryKey: str = newInstance.token
+            dictionaryValue: Dict = {instance.__name__: newInstance}
+            instances.Add(dictionaryKey, dictionaryValue)
 
             if instances.Exist(dictionaryKey):
                 return newInstance
 
         else:
-            return instances.Get(token + '_' + instance.__name__)
+            userProfile = instances.Get(token)
+            userContext = userProfile[instance.__name__]
+            return userContext
 
     @staticmethod
     def InitializeGenericInstance(instances: PyDictionary, instance: T, parameters: List) -> T:
