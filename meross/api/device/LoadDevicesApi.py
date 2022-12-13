@@ -27,7 +27,7 @@ def WebLoadDevices() -> Response:
 
         except Exception as exception:
             error = exception.args[0]
-            return HttpRequest.CustomErrorResponse("Web Load Devices Error: ", error)
+            return HttpRequest.CustomErrorResponse("Web Load Devices Error: ", error) 
 
     else:
         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)
