@@ -1,10 +1,9 @@
-from meross_iot.model.exception import CommandTimeoutError
-
 from meross.abstractions.device.DeviceModel import DeviceModel
 from meross.abstractions.device.Device import Device
 from meross.abstractions.device.ToggledDevice import ToggledDevice
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
+from meross.core.exeptions.customException import CustomException
 from meross.core.wraps import UpdateLoopManager
 from typing import List
 
@@ -13,7 +12,7 @@ class ManagerUtils:
 
     @staticmethod
     @UpdateLoopManager
-    async def GetDevices(manager: MerossManager, devices: List[DeviceModel]) -> List[Device]:
+    async def GetDevices(manager: MerossManager, client: MerossHttpClient, devices: List[DeviceModel]) -> List[Device]:
         try:
             result: List[Device] = []
             await manager.async_device_discovery()
@@ -30,15 +29,12 @@ class ManagerUtils:
             return result
 
         except Exception as exception:
-
-            if isinstance(exception, CommandTimeoutError):
-                raise Exception("Error: expired session")
-            else:
-                raise Exception(exception.args[0])
+            CustomException.TimeOutExceptionOrRaise(exception)
+            await ManagerUtils.StopManagerAndLogOut(manager, client)
 
     @staticmethod
     @UpdateLoopManager
-    async def ToggleDevice(manager: MerossManager, toggledDevice: ToggledDevice) -> str:
+    async def ToggleDevice(manager: MerossManager, client: MerossHttpClient, toggledDevice: ToggledDevice) -> str:
         try:
             await manager.async_device_discovery()
             device = manager.find_devices(toggledDevice.deviceId)[0]
@@ -53,10 +49,8 @@ class ManagerUtils:
             return deviceId
 
         except Exception as exception:
-            if isinstance(exception, CommandTimeoutError):
-                raise Exception("Error: expired session")
-            else:
-                raise Exception(exception.args[0])
+            CustomException.TimeOutExceptionOrRaise(exception)
+            await ManagerUtils.StopManagerAndLogOut(manager, client)
 
     @staticmethod
     async def StopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:

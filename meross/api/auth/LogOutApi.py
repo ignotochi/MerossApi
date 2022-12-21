@@ -13,12 +13,11 @@ def WebLogOut() -> Response:
 
     if HttpRequest.ValidateHttpGetRequest(request):
 
+        userToken = HttpRequest.GetUserApiToken(request)
+        context = AuthService.RetrieveUserContext(userToken)
+
         try:
-            userToken = HttpRequest.GetUserApiToken(request)
-            context = AuthService.RetrieveUserContext(userToken)
-
             outcome = WebApiOutcome(AuthService.LogOut(context))
-
             return outcome
 
         except Exception as exception:

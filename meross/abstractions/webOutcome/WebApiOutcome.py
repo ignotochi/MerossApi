@@ -12,7 +12,6 @@ class WebApiOutcome(IWebApiOutcome):
         response.data = self.ToJson(self, item)
         return response
 
-    @staticmethod
     def ToJson(self, item) -> str:
         try:
             return json.dumps(item, sort_keys=True, indent=4, cls=OutcomeJsonEncoder)

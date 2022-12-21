@@ -12,7 +12,7 @@ class DeviceRepository(IDeviceRepository):
     @staticmethod
     def LoadMerossDevices(context: IContext, devices: List[DeviceModel]) -> list[Device]:
         try:
-            result = ManagerUtils.GetDevices(context.manager, devices)
+            result = ManagerUtils.GetDevices(context.manager, context.client, devices)
             return result
 
         except Exception as exception:
@@ -24,7 +24,7 @@ class DeviceRepository(IDeviceRepository):
             result: List[str] = []
 
             for device in devices:
-                updatedDeviceId = ManagerUtils.ToggleDevice(context.manager, device)
+                updatedDeviceId = ManagerUtils.ToggleDevice(context.manager, context.client, device)
 
                 if updatedDeviceId is not None:
                     result.append(str(updatedDeviceId))

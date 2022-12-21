@@ -15,19 +15,18 @@ def WebLoadDevices() -> Response:
 
     if HttpRequest.ValidateHttpGetRequest(request):
 
-        try:
-            userToken = HttpRequest.GetUserApiToken(request)
-            context = AuthService.RetrieveUserContext(userToken)
+        userToken = HttpRequest.GetUserApiToken(request)
+        context = AuthService.RetrieveUserContext(userToken)
 
+        try:
             filters = DevicesFilter(request.data)
             webDevices = LoadDevicesService.Load(filters.devices, context)
             outcome = WebApiOutcome(webDevices)
-
             return outcome
 
         except Exception as exception:
             error = exception.args[0]
-            return HttpRequest.CustomErrorResponse("Web Load Devices Error: ", error) 
+            return HttpRequest.CustomErrorResponse("Web Load Devices Error: ", error)
 
     else:
         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)

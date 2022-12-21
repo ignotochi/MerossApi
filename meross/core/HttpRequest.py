@@ -1,3 +1,4 @@
+from flask import abort
 from flask.wrappers import Response, Request
 
 from meross.abstractions.webFilters.AuhtFilter import AuthFilter
@@ -29,12 +30,13 @@ class HttpRequest:
         if len(token) > 0:
             return token
         else:
-            return None
+            return str()
 
     @staticmethod
     def CustomResponse(response: str) -> Response:
         return Response(response)
 
     @staticmethod
-    def CustomErrorResponse(message: str, error: str) -> Response:
-        return Response(message + error)
+    def LoginErrorResponse(error: str):
+        abort(500, error)
+

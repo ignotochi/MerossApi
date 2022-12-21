@@ -10,16 +10,16 @@ from typing import Union
 class AuthService:
 
     @staticmethod
-    def CreateContext(auth: AuthFilter) -> str:
+    def CreateContext(auth: AuthFilter) -> object:
         try:
             if len(auth.credentials.user) > 0 and len(auth.credentials.password) > 0:
                 context = Context(None, auth.credentials.user, auth.credentials.password)
-                return context.GetToken()
+                return {"token": context.GetToken()}
             else:
                 return "Credentials are required"
 
         except Exception as exception:
-            return "CreateContextError: " + str(exception.args[0])
+            raise Exception("CreateContextError: " + str(exception.args[0]))
 
     @staticmethod
     def RetrieveUserContext(token: str) -> Union[IContext, None, str]:

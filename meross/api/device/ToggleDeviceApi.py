@@ -15,14 +15,13 @@ def WebToggleDevice() -> Response:
 
     if HttpRequest.ValidateHttpPostRequest(request):
 
-        try:
-            userToken = HttpRequest.GetUserApiToken(request)
-            context = AuthService.RetrieveUserContext(userToken)
+        userToken = HttpRequest.GetUserApiToken(request)
+        context = AuthService.RetrieveUserContext(userToken)
 
+        try:
             filters = ToggleDeviceFilter(request.data)
             webToggleDevice = ToggleDeviceService.Toggle(filters.toggledDevices, context)
             outcome = WebApiOutcome(webToggleDevice)
-
             return outcome
 
         except Exception as exception:

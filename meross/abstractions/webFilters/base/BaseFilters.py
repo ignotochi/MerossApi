@@ -6,7 +6,7 @@ T = TypeVar("T")
 
 
 class BaseFilter:
-    def __init__(self, data: bytes, dataClass: T):
+    def __init__(self, data: bytes, dataClass: Type[T]):
 
         self._parsedData: List[T] = []
 
@@ -17,7 +17,7 @@ class BaseFilter:
 
                 if isArray is True:
                     dataClassObj = fromlist(dataClass, parsedData)
-            
+
                     for dataClass in dataClassObj:
                         self._parsedData.append(dataClass)
 
