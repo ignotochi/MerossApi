@@ -9,3 +9,6 @@ class Device:
     hardwareVersion: str
     deviceUid: str
     status: str
+    ip: str
+    active: bool
+

@@ -7,6 +7,6 @@ T = TypeVar("T")
 class JsonUtils(object):
 
     @staticmethod
-    def ParseData(data: bytes, dataClass: T) -> T:
+    def ParseData(data: str, dataClass: T) -> T:
         parsedData: dataClass = json.loads(data)
         return parsedData

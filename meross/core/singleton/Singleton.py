@@ -44,5 +44,5 @@ class Singleton:
                 cls.instances.Delete(key)
 
         except Exception as exception:
-            raise Exception(f"Error on logout, context not found { exception.args[0] }")
+            raise Exception("Error on session session destruction")
 

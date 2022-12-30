@@ -22,7 +22,7 @@ def WebLogOut() -> Response:
 
         except Exception as exception:
             error = exception.args[0]
-            return HttpRequest.CustomErrorResponse("Web LogOut Error: ", error)
+            return HttpRequest.CustomResponse("Web LogOut Error: ", error)
 
     else:
         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)

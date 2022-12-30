@@ -12,9 +12,9 @@ class ManagerUtils:
 
     @staticmethod
     @UpdateLoopManager
-    async def GetDevices(manager: MerossManager, client: MerossHttpClient, devices: List[DeviceModel]) -> List[Device]:
+    async def GetDevices(manager: MerossManager, client: MerossHttpClient, devices: List[DeviceModel]) -> List[object]:
         try:
-            result: List[Device] = []
+            result: List[object] = []
             await manager.async_device_discovery()
 
             for device in devices:
@@ -34,11 +34,10 @@ class ManagerUtils:
 
     @staticmethod
     @UpdateLoopManager
-    async def ToggleDevice(manager: MerossManager, client: MerossHttpClient, toggledDevice: ToggledDevice) -> str:
+    async def ToggleDevice(manager: MerossManager, client: MerossHttpClient, toggledDevice: ToggledDevice) -> object:
         try:
             await manager.async_device_discovery()
             device = manager.find_devices(toggledDevice.deviceId)[0]
-            deviceId = device.uuid
 
             if toggledDevice.enabled:
                 await device.async_turn_on(channel=0)
@@ -46,7 +45,8 @@ class ManagerUtils:
                 await device.async_turn_off(channel=0)
 
             await device.async_update()
-            return deviceId
+
+            return device
 
         except Exception as exception:
             CustomException.TimeOutExceptionOrRaise(exception)

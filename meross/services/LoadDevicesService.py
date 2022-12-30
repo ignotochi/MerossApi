@@ -9,7 +9,7 @@ from typing import List, Union
 class LoadDevicesService:
 
     @staticmethod
-    def Load(devices: List[DeviceModel], context: IContext) -> Union[List[Device], str]:
+    def Load(devices: List[DeviceModel], context: IContext) -> List[Device]:
         try:
             result: List[Device] = []
             items = DeviceRepository.LoadMerossDevices(context, devices)
@@ -22,4 +22,4 @@ class LoadDevicesService:
             return result
 
         except Exception as exception:
-            return "LoadError: " + str(exception.args[0])
+            raise Exception (str(exception.args[0]))

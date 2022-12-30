@@ -6,7 +6,7 @@ T = TypeVar("T")
 
 
 class BaseFilter:
-    def __init__(self, data: bytes, dataClass: Type[T]):
+    def __init__(self, data: str, dataClass: Type[T]):
 
         self._parsedData: List[T] = []
 

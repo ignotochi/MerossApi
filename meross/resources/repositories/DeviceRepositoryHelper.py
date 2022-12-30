@@ -11,6 +11,8 @@ class LoadDeviceHelper:
             firmwareVersion=item.firmware_version,
             hardwareVersion=item.hardware_version,
             deviceUid=item.uuid,
-            status=item.online_status.name)
+            status=item.online_status.name,
+            ip=item.lan_ip,
+            active=item._channel_togglex_status[0])
 
         return outcome

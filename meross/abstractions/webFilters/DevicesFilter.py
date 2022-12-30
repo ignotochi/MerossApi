@@ -7,7 +7,7 @@ from typing import List
 @dataclass
 class DevicesFilter(BaseFilter):
 
-    def __init__(self, data: bytes):
+    def __init__(self, data: str):
 
         self.devices: List[DeviceModel]
 

@@ -34,9 +34,12 @@ class HttpRequest:
 
     @staticmethod
     def CustomResponse(response: str) -> Response:
-        return Response(response)
+        response = Response(response)
+        response.status_code = 500
+        return response
 
     @staticmethod
     def LoginErrorResponse(error: str):
         abort(500, error)
+
 
