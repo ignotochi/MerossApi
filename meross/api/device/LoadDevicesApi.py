@@ -12,12 +12,9 @@ LoadDevicesRoute = Blueprint("LoadDevicesRoute", __name__)
 
 @LoadDevicesRoute.route("/loaddevices", methods=["GET"])
 async def WebLoadDevices() -> Response:
+    context = await HttpRequest.ValidateHttpGetRequestAndGetContext(request)
 
-    if await HttpRequest.ValidateHttpGetRequest(request):
-
-        userToken = HttpRequest.GetUserApiToken(request)
-        context = await AuthService.RetrieveUserContext(userToken)
-
+    if context:
         try:
             filters = DevicesFilter(request.args.get('DevicesFilter'))
             webDevices = await LoadDevicesService.Load(filters.devices, context)

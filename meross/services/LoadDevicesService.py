@@ -22,4 +22,4 @@ class LoadDevicesService:
             return result
 
         except Exception as exception:
-            raise Exception (str(exception.args[0]))
+            raise Exception(str(exception.args[0]))

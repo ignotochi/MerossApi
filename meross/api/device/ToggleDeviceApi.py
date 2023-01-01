@@ -12,12 +12,9 @@ ToggleDeviceRoute = Blueprint("ToggleDeviceRoute", __name__)
 
 @ToggleDeviceRoute.route("/toggledevice", methods=["POST"])
 async def WebToggleDevice() -> Response:
+    context = await HttpRequest.ValidateHttpPostRequestAndGetContext(request)
 
-    if HttpRequest.ValidateHttpPostRequest(request):
-
-        userToken = HttpRequest.GetUserApiToken(request)
-        context = await AuthService.RetrieveUserContext(userToken)
-
+    if context:
         try:
             filters = ToggleDeviceFilter(request.data)
             webToggleDevice = await ToggleDeviceService.Toggle(filters.toggledDevices, context)

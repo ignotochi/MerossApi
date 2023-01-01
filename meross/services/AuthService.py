@@ -64,7 +64,6 @@ class AuthService:
                 if context is not None and context.GetToken() == token \
                         and await AuthService.ManagerSessionIsActive(context):
                     return context
-
                 else:
                     return None
             else:
@@ -73,22 +72,22 @@ class AuthService:
         except Exception as exception:
             raise Exception("Error trying to retrieve context")
 
-    @staticmethod
-    async def ValidateApiToken(token: str) -> Union[bool, str]:
-        try:
-            context: IContext = await AuthService.RetrieveUserContext(token)
-
-            if context is not None and context.authenticated is True:
-
-                validLocalToken: bool = token == context.GetToken()
-                isValid = context.authenticated is True and validLocalToken is True
-                return isValid
-
-            else:
-                return False
-
-        except Exception as exception:
-            raise Exception("Error on token validation")
+    # @staticmethod
+    # async def ValidateApiToken(token: str) -> Union[bool, str]:
+    #     try:
+    #         context: IContext = await AuthService.RetrieveUserContext(token)
+    #
+    #         if context is not None and context.authenticated is True:
+    #
+    #             validLocalToken: bool = token == context.GetToken()
+    #             isValid = context.authenticated is True and validLocalToken is True
+    #             return isValid
+    #
+    #         else:
+    #             return False
+    #
+    #     except Exception as exception:
+    #         raise Exception("Error on token validation")
 
     @staticmethod
     async def LogOut(context: IContext) -> str:

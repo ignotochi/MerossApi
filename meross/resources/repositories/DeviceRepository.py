@@ -13,8 +13,8 @@ class DeviceRepository(IDeviceRepository):
     @staticmethod
     async def LoadMerossDevices(context: IContext, devices: List[DeviceModel]) -> list[object]:
         try:
-            result = ManagerUtils.GetDevices(context.manager, context.client, devices)
-            return await result
+            result = await ManagerUtils.GetDevices(context.manager, context.client, devices)
+            return result
 
         except Exception as exception:
             raise Exception(exception.args[0])

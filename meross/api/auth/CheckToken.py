@@ -9,7 +9,6 @@ CheckRoute = Blueprint('CheckRoute', __name__)
 
 
 @CheckRoute.route("/check", methods=['POST'])
-# @cross_origin()
 async def WebCheck() -> Response:
     if request.method == 'POST':
 

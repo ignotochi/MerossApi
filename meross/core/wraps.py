@@ -11,7 +11,6 @@ def UpdateLoopManager(func: Callable) -> Any:
             manager = args[0]
             eventLoop = asyncio.get_event_loop()
             manager._loop = eventLoop
-
             return await func(*args)
 
         try:
@@ -23,9 +22,7 @@ def UpdateLoopManager(func: Callable) -> Any:
         if loop and loop.is_running():
             tsk = loop.create_task(wrapped(*args))
             tsk.add_done_callback(lambda t: print(f'Task done with result={t.result()}'))
-
             return tsk
-
         else:
             result = asyncio.run(wrapped(*args))
             return result
