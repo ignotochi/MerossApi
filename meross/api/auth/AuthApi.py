@@ -10,7 +10,7 @@ AuthRoute = Blueprint('AuthRoute', __name__)
 
 
 @AuthRoute.route("/auth", methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def WebAuth() -> Response:
     if request.method == 'POST':
 

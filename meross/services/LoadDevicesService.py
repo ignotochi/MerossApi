@@ -9,10 +9,10 @@ from typing import List, Union
 class LoadDevicesService:
 
     @staticmethod
-    def Load(devices: List[DeviceModel], context: IContext) -> List[Device]:
+    async def Load(devices: List[DeviceModel], context: IContext) -> List[Device]:
         try:
             result: List[Device] = []
-            items = DeviceRepository.LoadMerossDevices(context, devices)
+            items = await DeviceRepository.LoadMerossDevices(context, devices)
 
             if items and len(items) > 0:
                 for item in items:

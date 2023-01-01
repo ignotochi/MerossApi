@@ -9,12 +9,12 @@ CheckRoute = Blueprint('CheckRoute', __name__)
 
 
 @CheckRoute.route("/check", methods=['POST'])
-@cross_origin()
-def WebCheck() -> Response:
+# @cross_origin()
+async def WebCheck() -> Response:
     if request.method == 'POST':
 
         try:
-            outcome = WebApiOutcome(AuthService.CheckContext(HttpRequest.GetUserApiToken(request)))
+            outcome = WebApiOutcome(await AuthService.ValidateUserContext(HttpRequest.GetUserApiToken(request)))
             return outcome
 
         except Exception as exception:

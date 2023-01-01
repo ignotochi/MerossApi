@@ -1,5 +1,4 @@
 from meross.abstractions.device.DeviceModel import DeviceModel
-from meross.abstractions.device.Device import Device
 from meross.abstractions.device.ToggledDevice import ToggledDevice
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient

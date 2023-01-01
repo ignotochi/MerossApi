@@ -1,4 +1,4 @@
-Flask==2.2.2
+flask[async]==2.2.2
 meross-iot==0.4.5.0
 dataclass-wizard==0.22.2
 cryptography==38.0.3

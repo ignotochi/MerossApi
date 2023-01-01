@@ -10,10 +10,10 @@ from meross.resources.repositories.DeviceRepositoryHelper import LoadDeviceHelpe
 class ToggleDeviceService:
 
     @staticmethod
-    def Toggle(devices: List[ToggledDevice], context: IContext) -> List[Device]:
+    async def Toggle(devices: List[ToggledDevice], context: IContext) -> List[Device]:
         try:
             result: List[Device] = []
-            items = DeviceRepository.ToggleMerossDevice(context, devices)
+            items = await DeviceRepository.ToggleMerossDevice(context, devices)
 
             if items and len(items) > 0:
                 for item in items:

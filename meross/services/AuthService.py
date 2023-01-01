@@ -22,26 +22,27 @@ class AuthService:
             raise Exception("Error on context creation: " + str(exception.args[0]))
 
     @staticmethod
-    def CheckSession(context: IContext) -> bool:
-        state = context.client.stats.get_stats()
+    async def ManagerSessionIsActive(context: IContext) -> bool:
+        try:
+            if await context.client.async_list_devices():
+                return True
 
-        if state is not None:
-            return True
-        else:
+        except Exception() as exception:
             return False
 
     @staticmethod
-    def CheckContext(token: str) -> object:
+    async def ValidateUserContext(token: str) -> object:
         try:
             if len(token) > 0:
-                context: IContext = AuthService.RetrieveUserContext(token)
+                context: IContext = await AuthService.RetrieveUserContext(token)
 
-                if context is not None and AuthService.CheckSession(context) and context.GetToken() == token:
+                if context is not None and \
+                        await AuthService.ManagerSessionIsActive(context) and context.GetToken() == token:
                     return {"token": context.GetToken()}
 
                 else:
                     if context is not None:
-                        AuthService.RetrieveUserContext(token).Reset()
+                        context.Reset()
                         return {"token": str()}
 
                     elif context is None:
@@ -53,15 +54,17 @@ class AuthService:
             raise Exception("error checking the context")
 
     @staticmethod
-    def RetrieveUserContext(token: str) -> Union[IContext, None]:
+    async def RetrieveUserContext(token: str) -> Union[IContext, None]:
         try:
             contextToken = Singleton.Get(token)
 
             if contextToken is not None:
                 context: IContext = Singleton.Get(token)['Context']
 
-                if context is not None and context.GetToken() == token and AuthService.CheckSession(context):
+                if context is not None and context.GetToken() == token \
+                        and await AuthService.ManagerSessionIsActive(context):
                     return context
+
                 else:
                     return None
             else:
@@ -71,9 +74,9 @@ class AuthService:
             raise Exception("Error trying to retrieve context")
 
     @staticmethod
-    def ValidateApiToken(token: str) -> Union[bool, str]:
+    async def ValidateApiToken(token: str) -> Union[bool, str]:
         try:
-            context: IContext = AuthService.RetrieveUserContext(token)
+            context: IContext = await AuthService.RetrieveUserContext(token)
 
             if context is not None and context.authenticated is True:
 
@@ -88,10 +91,22 @@ class AuthService:
             raise Exception("Error on token validation")
 
     @staticmethod
-    def LogOut(context: IContext) -> str:
+    async def LogOut(context: IContext) -> str:
         try:
-            closed = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
-            return "disconnected: " + str(closed)
+            try:
+                loop = asyncio.get_running_loop()
+
+            except RuntimeError:
+                loop = None
+
+            if loop and loop.is_running():
+                tsk = loop.create_task(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
+
+                return "disconnected: " + str(await tsk)
+
+            else:
+                result: bool = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
+                return "disconnected: " + str(result)
 
         except Exception as exception:
             raise "Error on logout: " + str(exception.args[0])
