@@ -1,3 +1,4 @@
+from meross.core.logger import MerossLogger
 from meross.resources.repositories.DeviceRepository import DeviceRepository
 from meross.abstractions.device.Device import Device
 from meross.abstractions.device.DeviceModel import DeviceModel
@@ -22,4 +23,5 @@ class LoadDevicesService:
             return result
 
         except Exception as exception:
-            raise Exception(str(exception.args[0]))
+            MerossLogger("LoadDevicesService.Load").WriteErrorLog(exception.args[0])
+            raise Exception(exception.args[0])

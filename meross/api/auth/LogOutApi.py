@@ -1,4 +1,6 @@
 from flask import request, Blueprint
+
+from meross.core.logger import MerossLogger
 from meross.services.AuthService import AuthService
 from meross.abstractions.webOutcome.WebApiOutcome import WebApiOutcome
 from meross.core.HttpRequest import HttpRequest
@@ -18,8 +20,7 @@ async def WebLogOut() -> Response:
             return outcome
 
         except Exception as exception:
-            error = exception.args[0]
-            return HttpRequest.CustomResponse("Web LogOut Error")
+            return HttpRequest.CustomResponse(f"Error on /logout: {exception.args[0]}")
 
     else:
         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)

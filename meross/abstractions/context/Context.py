@@ -1,4 +1,6 @@
+from datetime import datetime
 from cryptography.fernet import Fernet
+from meross.core.logger import MerossLogger
 from meross.resources.manager.Manager import Manager
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
@@ -12,6 +14,12 @@ class Context(IContext):
 
     def manager(self, value):
         self.manager = value
+
+    def sessionStartupTime(self, value):
+        self.sessionStartupTime = value
+
+    def sessionLastCheckTime(self, value):
+        self.sessionStartupTime = value
 
     def authenticated(self, value):
         self.authenticated = value
@@ -53,18 +61,24 @@ class Context(IContext):
 
                 if isinstance(self.manager, MerossManager) and isinstance(self.client, MerossHttpClient):
                     self.authenticated = len(self.manager.cloud_creds.token) > 0
+                    self.sessionStartupTime: datetime = datetime.now()
+                    self.SetLastSessionTimeCheck(self.sessionStartupTime)
 
                     if self.authenticated:
                         self.token = self.Encrypt(user + '|' + passwd)
 
             except Exception as exception:
-                raise Exception("Error on context creation: " + str(exception.args[0]))
+                MerossLogger("Context.init").WriteErrorLog(exception.args[0])
+                raise Exception("Error on context creation")
 
     def GetToken(self) -> str:
         if len(self.token) > 0:
             return str(self.token)
         else:
             return str()
+
+    def SetLastSessionTimeCheck(self, dt: datetime) -> None:
+        self.sessionLastCheckTime = dt
 
     def Encrypt(self, value: str) -> str:
         # then use the Fernet class instance
@@ -91,8 +105,8 @@ class Context(IContext):
                 return str()
 
         except Exception as exception:
-            error = "DecryptLocalTokenError: " + str(exception.args[0])
-            raise Exception(error)
+            MerossLogger("Context.DecryptLocalToken").WriteErrorLog(exception.args[0])
+            raise Exception("Error trying to decrypt token")
 
     def Reset(self) -> None:
         Singleton.Clean(self.token)

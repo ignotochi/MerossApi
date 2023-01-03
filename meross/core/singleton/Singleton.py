@@ -1,5 +1,6 @@
 from typing import TypeVar, Callable
 from meross.abstractions.context.IContext import IContext
+from meross.core.logger import MerossLogger
 from meross.core.singleton.SingletonHelper.SingletonHelper import SingletonHelper
 from meross.tools.PyDictionary import PyDictionary
 
@@ -44,5 +45,6 @@ class Singleton:
                 cls.instances.Delete(key)
 
         except Exception as exception:
-            raise Exception("Error on session session destruction")
+            MerossLogger("Singleton.Clean").WriteErrorLog(exception.args[0])
+            raise Exception("Context cleaning failde")
 

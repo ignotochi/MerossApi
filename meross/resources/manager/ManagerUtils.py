@@ -1,8 +1,10 @@
+from asyncio import AbstractEventLoop
 from meross.abstractions.device.DeviceModel import DeviceModel
 from meross.abstractions.device.ToggledDevice import ToggledDevice
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
 from meross.core.exeptions.customException import CustomException
+from meross.core.logger import MerossLogger
 from meross.core.wraps import UpdateLoopManager
 from typing import List
 
@@ -18,7 +20,11 @@ class ManagerUtils:
 
             for device in devices:
                 dev: DeviceModel = device
-                discoveredDevices = manager.find_devices(device_type=dev.model)
+
+                if len(devices) > 0:
+                    discoveredDevices = manager.find_devices(device_type=dev.model)
+                else:
+                    discoveredDevices = manager.find_devices()
 
                 if discoveredDevices and len(discoveredDevices) > 0:
                     for discoveredDevice in discoveredDevices:
@@ -28,8 +34,27 @@ class ManagerUtils:
             return result
 
         except Exception as exception:
-            CustomException.TimeOutExceptionOrRaise(exception)
+            MerossLogger("ManagerUtils.GetDevices").WriteErrorLog(exception.args[0])
+            CustomException.TimeOutExceptionOrRaise(exception, f"Error trying to get devices: {str(devices)}")
             await ManagerUtils.StopManagerAndLogOut(manager, client)
+
+    @staticmethod
+    @UpdateLoopManager
+    async def TestConnection(manager: MerossManager, client: MerossHttpClient) -> bool:
+        try:
+            discoverDevices = await manager.async_device_discovery()
+            foundedDevices = manager.find_devices()
+
+            if discoverDevices is not None and foundedDevices is not None:
+                for discoverDevice in discoverDevices:
+                    await discoverDevice.async_update()
+
+                return True
+
+        except Exception as exception:
+            MerossLogger("ManagerUtils.TestConnection").WriteErrorLog(exception.args[0])
+            await ManagerUtils.StopManagerAndLogOut(manager, client)
+            return False
 
     @staticmethod
     @UpdateLoopManager
@@ -48,7 +73,8 @@ class ManagerUtils:
             return device
 
         except Exception as exception:
-            CustomException.TimeOutExceptionOrRaise(exception)
+            MerossLogger("ManagerUtils.ToggleDevice").WriteErrorLog(exception.args[0])
+            CustomException.TimeOutExceptionOrRaise(exception, f"Error trying to toggle device: {toggledDevice.deviceId}")
             await ManagerUtils.StopManagerAndLogOut(manager, client)
 
     @staticmethod
@@ -59,4 +85,5 @@ class ManagerUtils:
             return manager.http_client.cloud_credentials is None
 
         except Exception as exception:
-            raise Exception(exception.args[0])
+            MerossLogger("ManagerUtils.ToggleDevice").WriteErrorLog(exception.args[0])
+            raise Exception("Error trying to stop manager and logout")

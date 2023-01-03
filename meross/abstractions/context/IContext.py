@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
+
 from cryptography.fernet import Fernet
 from meross_iot.manager import MerossManager
 from meross_iot.http_api import MerossHttpClient
@@ -31,6 +33,16 @@ class IContext(ABC, object):
     def manager(self, value) -> MerossManager:
         pass
 
+    @property
+    @abstractmethod
+    def sessionStartupTime(self, value) -> datetime:
+        pass
+
+    @property
+    @abstractmethod
+    def sessionLastCheckTime(self, value) -> datetime:
+        pass
+
     @abstractmethod
     def GetToken(self) -> str:
         pass
@@ -45,4 +57,8 @@ class IContext(ABC, object):
 
     @abstractmethod
     def Reset(self) -> None:
+        pass
+
+    @abstractmethod
+    def SetLastSessionTimeCheck(self, value) -> None:
         pass

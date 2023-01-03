@@ -1,4 +1,6 @@
 from flask import request, Blueprint
+
+from meross.core.logger import MerossLogger
 from meross.services.LoadDevicesService import LoadDevicesService
 from meross.services.AuthService import AuthService
 from meross.abstractions.webOutcome.WebApiOutcome import WebApiOutcome
@@ -22,8 +24,7 @@ async def WebLoadDevices() -> Response:
             return outcome
 
         except Exception as exception:
-            error = exception.args[0]
-            return HttpRequest.CustomResponse(f"Error on /loaddevices: {error}")
+            return HttpRequest.CustomResponse(f"Error on /loaddevices: {exception.args[0]}")
 
     else:
         return HttpRequest.CustomResponse(HttpRequest.AUTHENTICATION_REQUIRED)
