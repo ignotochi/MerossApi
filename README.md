@@ -28,7 +28,7 @@ Remind this is a work in progress project.
 ```
 ****Return a token****
 ``` json 
-"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"
+{"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
 
 ### localhost:4449/loaddevices:
