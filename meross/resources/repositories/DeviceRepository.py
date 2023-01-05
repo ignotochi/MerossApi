@@ -2,6 +2,7 @@ from meross.abstractions.device.IDeviceRepository import IDeviceRepository
 from meross.abstractions.device.Device import Device
 from meross.abstractions.device.ToggledDevice import ToggledDevice
 from meross.abstractions.device.DeviceModel import DeviceModel
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 from meross.resources.manager.ManagerUtils import ManagerUtils
 from meross.abstractions.context.IContext import IContext
@@ -18,8 +19,8 @@ class DeviceRepository(IDeviceRepository):
             return result
 
         except Exception as exception:
-            MerossLogger("DeviceRepository.LoadMerossDevices").WriteErrorLog(exception.args[0])
-            raise Exception(exception.args[0])
+            MerossLogger("DeviceRepository.LoadMerossDevices").WriteErrorLog(ExceptionManager.TryToCatch(exception))
+            raise Exception(ExceptionManager.TryToCatch(exception))
 
     @staticmethod
     async def ToggleMerossDevice(context: IContext, devices: List[ToggledDevice]) -> List[object]:
@@ -35,5 +36,5 @@ class DeviceRepository(IDeviceRepository):
             return result
 
         except Exception as exception:
-            MerossLogger("DeviceRepository.ToggleMerossDevice").WriteErrorLog(exception.args[0])
+            MerossLogger("DeviceRepository.ToggleMerossDevice").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             raise Exception(exception.args[0])

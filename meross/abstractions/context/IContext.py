@@ -35,12 +35,7 @@ class IContext(ABC, object):
 
     @property
     @abstractmethod
-    def sessionStartupTime(self, value) -> datetime:
-        pass
-
-    @property
-    @abstractmethod
-    def sessionLastCheckTime(self, value) -> datetime:
+    def sessionActivityLastTime(self, value) -> datetime:
         pass
 
     @abstractmethod
@@ -60,5 +55,5 @@ class IContext(ABC, object):
         pass
 
     @abstractmethod
-    def SetLastSessionTimeCheck(self, value) -> None:
+    def SetSessionActivityLastTimeCheck(self, value) -> None:
         pass

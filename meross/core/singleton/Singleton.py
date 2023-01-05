@@ -1,5 +1,6 @@
 from typing import TypeVar, Callable
 from meross.abstractions.context.IContext import IContext
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 from meross.core.singleton.SingletonHelper.SingletonHelper import SingletonHelper
 from meross.tools.PyDictionary import PyDictionary
@@ -45,6 +46,6 @@ class Singleton:
                 cls.instances.Delete(key)
 
         except Exception as exception:
-            MerossLogger("Singleton.Clean").WriteErrorLog(exception.args[0])
+            MerossLogger("Singleton.Clean").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             raise Exception("Context cleaning failde")
 

@@ -4,6 +4,7 @@ from datetime import datetime
 from meross.abstractions.context.Context import Context
 from meross.abstractions.context.IContext import IContext
 from meross.abstractions.webFilters.AuhtFilter import AuthFilter
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 from meross.resources.manager.ManagerUtils import ManagerUtils
 from meross.core.singleton.Singleton import Singleton
@@ -22,27 +23,26 @@ class AuthService:
                 return {"token": str()}
 
         except Exception as exception:
-            raise Exception(exception.args[0])
+            raise Exception(ExceptionManager.TryToCatch(exception))
 
     @staticmethod
     async def ManagerSessionIsActive(context: IContext) -> bool:
         try:
             dt: datetime = datetime.now()
-            minutesBetweenNowAndStartUp = divmod((dt - context.sessionStartupTime).total_seconds(), 60)[0]
-            minutesBetweenNowAndLastCheck = divmod((dt - context.sessionLastCheckTime).total_seconds(), 60)[0]
+            minutesBetweenNowAndLastCheck = divmod((dt - context.sessionActivityLastTime).total_seconds(), 60)[0]
 
-            if minutesBetweenNowAndStartUp > 30 or minutesBetweenNowAndLastCheck > 30:
+            if minutesBetweenNowAndLastCheck > 30:
                 testExecution = await ManagerUtils.TestConnection(context.manager, context.client)
 
                 if testExecution is True:
-                    context.SetLastSessionTimeCheck(dt)
+                    context.SetSessionActivityLastTimeCheck(dt)
                     return True
             else:
-                context.SetLastSessionTimeCheck(dt)
+                context.SetSessionActivityLastTimeCheck(dt)
                 return True
 
         except Exception as exception:
-            MerossLogger("AuthService.ManagerSessionIsActive").WriteErrorLog(exception.args[0])
+            MerossLogger("AuthService.ManagerSessionIsActive").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             return False
 
     @staticmethod
@@ -66,7 +66,7 @@ class AuthService:
                 return {"token": str()}
 
         except Exception as exception:
-            MerossLogger("AuthService.ValidateUserContext").WriteErrorLog(exception.args[0])
+            MerossLogger("AuthService.ValidateUserContext").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             raise Exception("Error trying to validate user context")
 
     @staticmethod
@@ -86,20 +86,20 @@ class AuthService:
                 return None
 
         except Exception as exception:
-            MerossLogger("AuthService.RetrieveUserContext").WriteErrorLog(exception.args[0])
+            MerossLogger("AuthService.RetrieveUserContext").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             raise Exception("unrecoverable context")
 
     @staticmethod
-    async def LogOut(context: IContext) -> str:
+    async def LogOut(context: IContext) -> object:
         try:
             loop = asyncio.get_running_loop()
 
             if loop and loop.is_running():
                 tsk = loop.create_task(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
-                return "disconnected: " + str(await tsk)
+                return {"logout": await tsk}
             else:
                 result: bool = asyncio.run(ManagerUtils.StopManagerAndLogOut(context.manager, context.client))
-                return "disconnected: " + str(result)
+                return {"logout": result}
 
         except Exception as exception:
             raise Exception(exception.args[0])

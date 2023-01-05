@@ -1,4 +1,5 @@
 from meross.abstractions.device import Device
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 from meross.resources.repositories.DeviceRepository import DeviceRepository
 from meross.abstractions.device.ToggledDevice import ToggledDevice
@@ -24,5 +25,5 @@ class ToggleDeviceService:
             return result
 
         except Exception as exception:
-            MerossLogger("ToggleDeviceService.Toggle").WriteErrorLog(exception.args[0])
-            raise Exception(exception.args[0])
+            MerossLogger("ToggleDeviceService.Toggle").WriteErrorLog(ExceptionManager.TryToCatch(exception))
+            raise Exception(ExceptionManager.TryToCatch(exception))

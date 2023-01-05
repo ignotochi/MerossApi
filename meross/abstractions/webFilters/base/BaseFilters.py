@@ -2,6 +2,7 @@ from meross.core.JsonHelper import JsonUtils
 from dataclass_wizard import fromlist
 from typing import TypeVar, List, Type
 
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 
 T = TypeVar("T")
@@ -28,5 +29,5 @@ class BaseFilter:
                     self._parsedData = dataClassObj[0]
 
         except Exception as exception:
-            MerossLogger("BaseFilter").WriteErrorLog(exception.args[0])
+            MerossLogger("BaseFilter").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             raise Exception("Wrong filter data")

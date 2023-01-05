@@ -1,5 +1,7 @@
 from datetime import datetime
 from cryptography.fernet import Fernet
+
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 from meross.resources.manager.Manager import Manager
 from meross_iot.manager import MerossManager
@@ -15,11 +17,8 @@ class Context(IContext):
     def manager(self, value):
         self.manager = value
 
-    def sessionStartupTime(self, value):
-        self.sessionStartupTime = value
-
-    def sessionLastCheckTime(self, value):
-        self.sessionStartupTime = value
+    def sessionActivityLastTime(self, value):
+        self.sessionActivityLastTime = value
 
     def authenticated(self, value):
         self.authenticated = value
@@ -60,15 +59,14 @@ class Context(IContext):
                 self.client = manager.client
 
                 if isinstance(self.manager, MerossManager) and isinstance(self.client, MerossHttpClient):
-                    self.authenticated = len(self.manager.cloud_creds.token) > 0
-                    self.sessionStartupTime: datetime = datetime.now()
-                    self.SetLastSessionTimeCheck(self.sessionStartupTime)
+                    self.authenticated = len(self.client.cloud_credentials.token) > 0
+                    self.SetSessionActivityLastTimeCheck(datetime.now())
 
                     if self.authenticated:
                         self.token = self.Encrypt(user + '|' + passwd)
 
             except Exception as exception:
-                MerossLogger("Context.init").WriteErrorLog(exception.args[0])
+                MerossLogger("Context.init").WriteErrorLog(ExceptionManager.TryToCatch(exception))
                 raise Exception("Error on context creation")
 
     def GetToken(self) -> str:
@@ -77,8 +75,10 @@ class Context(IContext):
         else:
             return str()
 
-    def SetLastSessionTimeCheck(self, dt: datetime) -> None:
-        self.sessionLastCheckTime = dt
+    def SetSessionActivityLastTimeCheck(self, dt: datetime) -> None:
+
+        if type(dt) == datetime:
+            self.sessionActivityLastTime = dt
 
     def Encrypt(self, value: str) -> str:
         # then use the Fernet class instance
@@ -105,7 +105,7 @@ class Context(IContext):
                 return str()
 
         except Exception as exception:
-            MerossLogger("Context.DecryptLocalToken").WriteErrorLog(exception.args[0])
+            MerossLogger("Context.DecryptLocalToken").WriteErrorLog(ExceptionManager.TryToCatch(exception))
             raise Exception("Error trying to decrypt token")
 
     def Reset(self) -> None:

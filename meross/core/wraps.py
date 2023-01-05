@@ -2,6 +2,7 @@ import asyncio
 from functools import wraps
 from typing import Awaitable, Any, Callable
 
+from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 
 
@@ -27,6 +28,6 @@ def UpdateLoopManager(func: Callable) -> Any:
                 return result
 
         except Exception as exception:
-            MerossLogger("UpdateLoopManager.wrapper").WriteErrorLog(exception.args[0])
+            MerossLogger("UpdateLoopManager.wrapper").WriteErrorLog(ExceptionManager.TryToCatch(exception))
 
     return wrapper
