@@ -96,7 +96,7 @@ Remind this is a work in progress project.
    {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ``` 
 
-****Return a list of enabled/disabled device id:****
+****Return a list of enabled device id:****
 ``` json 
 [
     "20062807349678258h1",
