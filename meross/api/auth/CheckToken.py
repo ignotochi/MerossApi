@@ -1,7 +1,5 @@
 from flask import request, Blueprint
-from flask_cors import cross_origin
 from meross.abstractions.webOutcome.WebApiOutcome import WebApiOutcome
-from meross.core.logger import MerossLogger
 from meross.services.AuthService import AuthService
 from flask.wrappers import Response
 from meross.core.HttpRequest import HttpRequest

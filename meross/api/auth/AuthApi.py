@@ -1,7 +1,6 @@
 from flask import request, Blueprint
 from meross.abstractions.webOutcome.WebApiOutcome import WebApiOutcome
 from meross.abstractions.webFilters.AuhtFilter import AuthFilter
-from meross.core.logger import MerossLogger
 from meross.services.AuthService import AuthService
 from flask.wrappers import Response
 from meross.core.HttpRequest import HttpRequest

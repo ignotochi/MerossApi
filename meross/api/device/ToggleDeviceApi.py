@@ -1,7 +1,4 @@
 from flask import request, Blueprint
-
-from meross.core.logger import MerossLogger
-from meross.services.AuthService import AuthService
 from meross.services.ToggleDeviceService import ToggleDeviceService
 from meross.abstractions.webOutcome.WebApiOutcome import WebApiOutcome
 from meross.core.HttpRequest import HttpRequest
