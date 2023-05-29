@@ -1,6 +1,5 @@
 from datetime import datetime
 from cryptography.fernet import Fernet
-
 from meross.core.exeptions.exceptionManager import ExceptionManager
 from meross.core.logger import MerossLogger
 from meross.resources.manager.Manager import Manager

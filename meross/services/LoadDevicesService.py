@@ -5,7 +5,7 @@ from meross.abstractions.device.Device import Device
 from meross.abstractions.device.DeviceModel import DeviceModel
 from meross.abstractions.context.IContext import IContext
 from meross.resources.repositories.DeviceRepositoryHelper import LoadDeviceHelper
-from typing import List, Union
+from typing import List
 
 
 class LoadDevicesService:

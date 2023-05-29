@@ -47,5 +47,5 @@ class Singleton:
 
         except Exception as exception:
             MerossLogger("Singleton.Clean").WriteErrorLog(ExceptionManager.TryToCatch(exception))
-            raise Exception("Context cleaning failde")
+            raise Exception("Context cleaning failed")
 
