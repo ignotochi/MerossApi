@@ -16,8 +16,8 @@ async def WebLoadDevices() -> Response:
     if context:
         try:
             filters = DevicesFilter(request.args.get('DevicesFilter'))
-            webDevices = await LoadDevicesService.Load(filters.devices, context)
-            outcome = WebApiOutcome(webDevices)
+            devices = await LoadDevicesService.Load(filters.devices, context)
+            outcome = WebApiOutcome(devices)
             return outcome
 
         except Exception as exception:

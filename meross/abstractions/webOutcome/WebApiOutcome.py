@@ -8,10 +8,10 @@ from meross.core.logger import MerossLogger
 
 class WebApiOutcome(IWebApiOutcome):
 
-    def __new__(self, item) -> Response:
+    def __new__(cls, item) -> Response:
         response = Response()
         response.content_type = "'application/json" 
-        response.data = self.ToJson(self, item)
+        response.data = cls.ToJson(cls, item)
         return response
 
     def ToJson(self, item) -> str:
