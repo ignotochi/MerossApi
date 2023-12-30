@@ -50,7 +50,7 @@ Remind this is a work in progress project.
 [
     {
         "deviceName": "Luci Platani",
-        "deviceUid": "20062805773015",
+        "deviceUid": "2006XXXXXXXX",
         "firmwareVersion": "3.1.6",
         "hardwareVersion": "3.0.0",
         "model": "mss710",
@@ -58,7 +58,7 @@ Remind this is a work in progress project.
     },
     {
         "deviceName": "Luce Ufficio Dx",
-        "deviceUid": "20062807349678258",
+        "deviceUid": "2006XXXXXXXX",
         "firmwareVersion": "3.1.6",
         "hardwareVersion": "3.0.0",
         "model": "mss710",
@@ -66,7 +66,7 @@ Remind this is a work in progress project.
     },
     {
         "deviceName": "Luce Ufficio Sx",
-        "deviceUid": "2006284947008625",
+        "deviceUid": "2006XXXXXXXX",
         "firmwareVersion": "3.1.6",
         "hardwareVersion": "3.0.0",
         "model": "mss710",
@@ -81,11 +81,11 @@ Remind this is a work in progress project.
 ``` json 
 [    
     {
-        "deviceId": "20062807XXXX",
+        "deviceId": "2006XXXXXXXX",
         "enabled": false
     },
     {
-        "deviceId": "220062807XXXX",
+        "deviceId": "22006XXXXXXXX",
         "enabled": true
     }
 ]
@@ -99,8 +99,8 @@ Remind this is a work in progress project.
 ****Return a list of enabled device id:****
 ``` json 
 [
-    "20062807349678258h1",
-    "20062849470086258h1"
+    "2006XXXXXXXX",
+    "2006XXXXXXXX"
 ]
 ```
 
