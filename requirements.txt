@@ -1,6 +1,6 @@
-flask[async]==3.0.0
-flask_cors==3.0.10
-Werkzeug==3.0.0
+flask[async]==3.0.1
+flask_cors==4.0.0
+Werkzeug==3.0.1
 meross-iot==0.4.6.0
 dataclass-wizard==0.22.2
 cryptography==41.0.7

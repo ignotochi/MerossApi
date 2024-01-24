@@ -1,15 +1,15 @@
 from flask import Flask
 from flask_cors import CORS
-from meross.api.device import ToggleDeviceApi, LoadDevicesApi
-from meross.api.auth import LogOutApi, AuthApi, CheckToken
+from meross.api.device import webToggleDeviceApi, webLoadDevicesApi
+from meross.api.auth import webLogoutApi, webAuthApi, webCheckApi
 
 app = Flask(__name__)
 
-app.register_blueprint(ToggleDeviceApi.ToggleDeviceRoute)
-app.register_blueprint(LoadDevicesApi.LoadDevicesRoute)
-app.register_blueprint(AuthApi.AuthRoute)
-app.register_blueprint(CheckToken.CheckRoute)
-app.register_blueprint(LogOutApi.LogOutRoute)
+app.register_blueprint(webToggleDeviceApi.ToggleDeviceRoute)
+app.register_blueprint(webLoadDevicesApi.LoadDevicesRoute)
+app.register_blueprint(webAuthApi.AuthRoute)
+app.register_blueprint(webCheckApi.CheckRoute)
+app.register_blueprint(webLogoutApi.LogOutRoute)
 
 
 apiCorsConfig = {

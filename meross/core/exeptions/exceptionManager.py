@@ -4,14 +4,14 @@ from meross_iot.model.exception import CommandTimeoutError
 class ExceptionManager:
 
     @staticmethod
-    def TimeOutExceptionOrRaise(exception: Exception, msg: str) -> None:
+    def timeOutExceptionOrRaise(exception: Exception, msg: str) -> None:
         if isinstance(exception, CommandTimeoutError):
             raise Exception("Error: expired session")
         else:
             raise Exception(msg)
 
     @staticmethod
-    def TryToCatch(exception: Exception) -> str:
+    def catch(exception: Exception) -> str:
         if isinstance(exception, Exception) and hasattr(exception, 'args'):
 
             if len(exception.args) is 1:
