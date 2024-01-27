@@ -28,6 +28,6 @@ def UpdateLoopManager(func: Callable) -> Any:
                 return result
 
         except Exception as exception:
-            MerossLogger("UpdateLoopManager.wrapper").WriteErrorLog(ExceptionManager.TryToCatch(exception))
+            MerossLogger("UpdateLoopManager.wrapper").writeErrorLog(ExceptionManager.catch(exception))
 
     return wrapper

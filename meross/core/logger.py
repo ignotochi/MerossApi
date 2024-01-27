@@ -9,23 +9,23 @@ class MerossLogger:
         self.logger.setLevel(logging.DEBUG)
 
         log_format = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        filename = f"./meross/logs/Meross_{name}.log"
+        filename = f"./logs/Meross_{name}.log"
         log_handler = logging.FileHandler(filename)
         log_handler.setLevel(logging.DEBUG)
         log_handler.setFormatter(log_format)
 
         self.logger.addHandler(log_handler)
 
-    def WriteDebugLog(self, msg):
+    def writeDebugLog(self, msg):
         self.logger.debug(f"{msg}")
 
-    def WriteInfoLog(self, msg):
+    def writeInfoLog(self, msg):
         self.logger.info(f"{msg}")
 
-    def WriteErrorLog(self, msg):
+    def writeErrorLog(self, msg):
         self.logger.error(f"{msg}")
 
-    def WriteWarningLog(self, msg):
+    def writeWarningLog(self, msg):
         self.logger.warning(f"{msg}")
 
 
