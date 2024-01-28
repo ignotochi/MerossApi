@@ -93,7 +93,10 @@ class AuthService:
 
             if loop and loop.is_running():
                 tsk = loop.create_task(Manager.stopManagerAndLogOut(context.manager, context.client))
-                return {"logout": await tsk}
+
+                result = await tsk
+
+                return {"logout": result}
             else:
                 result: bool = asyncio.run(Manager.stopManagerAndLogOut(context.manager, context.client))
                 return {"logout": result}
