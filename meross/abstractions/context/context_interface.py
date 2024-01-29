@@ -6,6 +6,20 @@ from meross_iot.http_api import MerossHttpClient
 
 
 class IContext(ABC, object):
+    @property
+    @abstractmethod
+    def manager(self) -> MerossManager:
+        pass
+
+    @property
+    @abstractmethod
+    def client(self) -> MerossHttpClient:
+        pass
+
+    @property
+    @abstractmethod
+    def sessionActivityLastTimeCheck(self) -> datetime:
+        pass
 
     @abstractmethod
     def getToken(self) -> str:
