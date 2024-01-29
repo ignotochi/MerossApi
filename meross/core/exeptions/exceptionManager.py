@@ -14,7 +14,7 @@ class ExceptionManager:
     def catch(exception: Exception) -> str:
         if isinstance(exception, Exception) and hasattr(exception, 'args'):
 
-            if len(exception.args) is 1:
+            if len(exception.args) == 1:
                 return exception.args[0]
             else:
                 return str(exception)
