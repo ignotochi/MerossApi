@@ -80,7 +80,6 @@ class Manager:
     @staticmethod
     async def stopManagerAndLogOut(manager: MerossManager, client: MerossHttpClient) -> bool:
         try:
-            manager.close()
             await client.async_logout()
             return client.cloud_credentials is None
 

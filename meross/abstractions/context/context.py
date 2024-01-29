@@ -15,13 +15,12 @@ class Context(IContext):
 
     def __init__(self, token: str = None, user: str = None, passwd: str = None):
 
-        self.manager = None
-        self.sessionActivityLastTimeCheck = None
+        self._manager: MerossManager = None
+
+        self._sessionActivityLastTimeCheck = None
         self.fernet: Fernet
         self.token: str
-
         self.authenticated: bool = False
-        self.client: MerossHttpClient
 
         if self.manager is not isinstance(self.manager, MerossManager):
             try:
@@ -37,8 +36,8 @@ class Context(IContext):
 
                 manager: IManager = MerossIotManager(user, passwd)
 
-                self.manager = manager.manager
-                self.client = manager.client
+                self._manager: MerossManager = manager.manager
+                self._client: MerossHttpClient = manager.client
 
                 if isinstance(self.manager, MerossManager) and isinstance(self.client, MerossHttpClient):
                     self.authenticated = len(self.client.cloud_credentials.token) > 0
@@ -51,6 +50,18 @@ class Context(IContext):
                 MerossLogger("Context.init").writeErrorLog(ExceptionManager.catch(exception))
                 raise Exception("Error on context creation")
 
+    @property
+    def manager(self) -> MerossManager:
+        return self._manager
+
+    @property
+    def client(self) -> MerossHttpClient:
+        return self._client
+
+    @property
+    def sessionActivityLastTimeCheck(self) -> datetime:
+        return self._sessionActivityLastTimeCheck
+
     def getToken(self) -> str:
         if len(self.token) > 0:
             return str(self.token)
@@ -60,7 +71,7 @@ class Context(IContext):
     def setSessionActivityLastTimeCheck(self, dt: datetime) -> None:
 
         if type(dt) is datetime:
-            self.sessionActivityLastTimeCheck = dt
+            self._sessionActivityLastTimeCheck = dt
 
     def encrypt(self, value: str) -> str:
         # then use the Fernet class instance

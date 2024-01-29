@@ -89,17 +89,10 @@ class AuthService:
     @staticmethod
     async def logOut(context: IContext) -> object:
         try:
-            loop = asyncio.get_running_loop()
 
-            if loop and loop.is_running():
-                tsk = loop.create_task(Manager.stopManagerAndLogOut(context.manager, context.client))
+            result = await Manager.stopManagerAndLogOut(context.manager, context.client)
 
-                result = await tsk
-
-                return {"logout": result}
-            else:
-                result: bool = asyncio.run(Manager.stopManagerAndLogOut(context.manager, context.client))
-                return {"logout": result}
+            return {"logout": result}
 
         except Exception as exception:
             raise Exception(exception.args[0])
