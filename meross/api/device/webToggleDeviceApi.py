@@ -1,6 +1,6 @@
 from flask import request, Blueprint
 from meross.services.toggleDeviceService import ToggleDeviceService
-from webApiOutcome.webApiOutcome import WebApiOutcome
+from meross.webApiOutcome.webApiOutcome import WebApiOutcome
 from meross.core.httpRequest import HttpRequest
 from meross.abstractions.webFilters.toggleDeviceFilter import ToggleDeviceFilter
 from flask.wrappers import Response

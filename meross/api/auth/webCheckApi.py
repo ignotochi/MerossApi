@@ -1,5 +1,5 @@
 from flask import request, Blueprint
-from webApiOutcome.webApiOutcome import WebApiOutcome
+from meross.webApiOutcome.webApiOutcome import WebApiOutcome
 from meross.services.authService import AuthService
 from flask.wrappers import Response
 from meross.core.httpRequest import HttpRequest
