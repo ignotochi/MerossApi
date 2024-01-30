@@ -1,6 +1,6 @@
 from flask import request, Blueprint
 from meross.services.loadDevicesService import LoadDevicesService
-from meross.abstractions.webOutcome.webApiOutcome import WebApiOutcome
+from webApiOutcome.webApiOutcome import WebApiOutcome
 from meross.core.httpRequest import HttpRequest
 from meross.abstractions.webFilters.deviceFilter import DeviceFilter
 from flask.wrappers import Response

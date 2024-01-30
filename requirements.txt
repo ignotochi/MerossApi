@@ -5,4 +5,4 @@ meross-iot==0.4.6.0
 dataclass-wizard==0.22.2
 cryptography==41.0.7
 setuptools==69.0.3
-waitress
+waitress==2.1.2
