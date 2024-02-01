@@ -47,7 +47,7 @@ Feel free to explore, contribute, and provide feedback! Together, we'll shape th
 
 Feel free to customize this README further to suit your project's specific needs and style!
 
-# Routes usage examples
+## Routes usage examples
 
 ###  localhost:4449/auth:
 - Request type ****[POST]****
@@ -58,7 +58,7 @@ Feel free to customize this README further to suit your project's specific needs
     "password": "YourPassword"
 }
 ```
-****Return a token****
+#### Return a token
 ``` json 
 {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
@@ -77,7 +77,7 @@ Feel free to customize this README further to suit your project's specific needs
 {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
 
-****Return a list of devices:****
+#### Return a list of devices:
 ``` json 
 [
     {
@@ -128,7 +128,7 @@ Feel free to customize this README further to suit your project's specific needs
    {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ``` 
 
-****Return a list of enabled device id:****
+#### Return a list of enabled device id:
 ``` json 
 [
     "2006XXXXXXXX",
