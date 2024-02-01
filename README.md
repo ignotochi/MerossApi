@@ -21,9 +21,8 @@ I have plans to release a front-end, possibly using Vue or React, along with ong
 To get started with MerossApi, follow these steps:
 
 1. **Install python:**
-```bash
+
 see Python Downloads for Windows https://www.python.org/downloads/windows
-```
   
 3. **Clone the Repository:**
  ```bash
