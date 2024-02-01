@@ -21,8 +21,9 @@ I have plans to release a front-end, possibly using Vue or React, along with ong
 To get started with MerossApi, follow these steps:
 
 1. **Install python:**
-
- [see Python Downloads for Windows](https://www.python.org/downloads/windows/)
+```bash
+see Python Downloads for Windows https://www.python.org/downloads/windows
+```
   
 3. **Clone the Repository:**
  ```bash
@@ -42,8 +43,6 @@ To get started with MerossApi, follow these steps:
   ```
    
 This will start the Flask development server, and you'll be ready to interact with your Meross devices through the provided API.
-
-Note: For production use, consider deploying with a production-ready server like Gunicorn or uWSGI.
 
 Feel free to explore, contribute, and provide feedback! Together, we'll shape the future of MerossApi.
 
