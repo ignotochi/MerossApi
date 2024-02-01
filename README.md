@@ -22,7 +22,7 @@ To get started with MerossApi, follow these steps:
 
 1. **Install python:**
 
-  see [see Python Downloads for Windows](https://www.python.org/downloads/windows/)
+ [see Python Downloads for Windows](https://www.python.org/downloads/windows/)
   
 3. **Clone the Repository:**
  ```bash
