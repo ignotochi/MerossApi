@@ -6,11 +6,10 @@ This application seamlessly integrates the latest meross-iot library, providing 
 ## Features
 
 - **Multi-Account Control:** Effortlessly manage your Meross devices with multiple accounts concurrently.
-- 
+  
 - **Token-based Authentication:** Security is paramount. This application ensures authentication through tokens, keeping your devices and data safe.
-- 
+  
 - **JSON Output:** The application outputs data in JSON format, allowing you to implement a custom front-end for a personalized device management experience.
-- 
 
 **Note:** This is my inaugural Python project, so your understanding and mercy are greatly appreciated! 😊 
 I have plans to release a front-end, possibly using Vue or React, along with ongoing improvements to the back-end.
@@ -22,24 +21,19 @@ I have plans to release a front-end, possibly using Vue or React, along with ong
 To get started with MerossApi, follow these steps:
 
 1. **Install python:**
-
-see [see Python Downloads for Windows](https://www.python.org/downloads/windows/)
-
-3. **Clone the Repository:**
-
+  see [see Python Downloads for Windows](https://www.python.org/downloads/windows/)
+  
+2. **Clone the Repository:**
  ```bash
  git clone https://github.com/your-username/MerossApi.git
  cd MerossApi
 
-4. **Install Dependencies:**
-
+3. **Install Dependencies:**
  ```bash 
  pip install -r requirements.txt
 
-5. **Running the Application**
-
+4. **Running the Application**
   Once you've completed the installation, running MerossApi is a breeze:
- 
  ```python
   python main.py
    
