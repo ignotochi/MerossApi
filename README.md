@@ -27,21 +27,21 @@ see [see Python Downloads for Windows](https://www.python.org/downloads/windows/
 
 3. **Clone the Repository:**
 
-```bash
-git clone https://github.com/your-username/MerossApi.git
-cd MerossApi
+ ```bash
+ git clone https://github.com/your-username/MerossApi.git
+ cd MerossApi
 
 4. **Install Dependencies:**
 
-```bash 
-pip install -r requirements.txt
+ ```bash 
+ pip install -r requirements.txt
 
 5. **Running the Application**
 
- Once you've completed the installation, running MerossApi is a breeze:
-
-```python
- python main.py
+  Once you've completed the installation, running MerossApi is a breeze:
+ 
+ ```python
+  python main.py
    
 
 This will start the Flask development server, and you'll be ready to interact with your Meross devices through the provided API.
