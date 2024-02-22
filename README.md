@@ -72,7 +72,7 @@ In the body add filters:
     {"model":"mssXXX"}
 ]
 ```
-- In the headers add: 
+In the headers add: 
 ``` json 
 {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
@@ -123,7 +123,7 @@ In the body add filters:
 ]
 ```
 
-- In the headers add: 
+In the headers add: 
 ``` json 
    {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ``` 
