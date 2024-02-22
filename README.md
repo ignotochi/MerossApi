@@ -50,8 +50,8 @@ Feel free to customize this README further to suit your project's specific needs
 ## Routes usage examples
 
 ###  localhost:4449/auth:
-- Request type ****[POST]****
-- In the body add:
+Request type ****[POST]****
+In the body add:
 ``` json
 {
     "user": "yourRealMerossEmailAccount@xxxx.xxx",
@@ -64,8 +64,8 @@ Feel free to customize this README further to suit your project's specific needs
 ```
 
 ### localhost:4449/loaddevices:
-- Request type ****[GET]****
-- In the body add filters:
+Request type ****[GET]****
+In the body add filters:
 ``` json 
 [
     {"model":"mss710"},
@@ -108,8 +108,8 @@ Feel free to customize this README further to suit your project's specific needs
 ```
 
 ### localhost:4449/toggledevice 
-- Request type ****[POST]****
-- In the body add filters:
+Request type ****[POST]****
+In the body add filters:
 ``` json 
 [    
     {
@@ -137,9 +137,9 @@ Feel free to customize this README further to suit your project's specific needs
 ```
 
 ### localhost:4449/logout:
-- Request type ****[GET]****
+Request type ****[GET]****
 
-- In the headers add: 
+In the headers add: 
 ``` json
    {"token":"k782qW65U6sUyCqHACorMjAIcw-Xt9tAIxCr4VhkuLofmhy80lwfd"}
 ```
