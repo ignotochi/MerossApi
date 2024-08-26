@@ -1,7 +1,7 @@
 flask[async]==3.0.1
 flask_cors==4.0.0
 Werkzeug==3.0.1
-meross-iot==0.4.7.3
+meross_iot==0.4.7.3
 dataclass-wizard==0.22.2
 cryptography==42.0.4
 setuptools==69.0.3
